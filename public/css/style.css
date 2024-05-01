@@ -1,0 +1,136 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Style for the header */
+header.header {
+    background-color: #e9ecee;
+    /* padding: 20px; */
+}
+
+/* Style for the row */
+.row.align-items-center {
+    display: flex;
+    align-items: center;
+}
+
+/* Style for the logo */
+/* .inner-logo {
+    text-align: center;
+} */
+
+.inner-logo img {
+    max-width: 100px;
+    height: auto;
+}
+
+/* Style for the menu */
+.inner-menu ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    /* Căn các mục của danh sách về phía bên phải */
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.inner-menu ul li {
+    margin-left: 20px;
+    font-size: 20px;
+}
+
+.inner-menu ul li:last-child {
+    margin-right: 0;
+}
+
+/* Style for the links */
+.inner-menu ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.inner-menu ul li a:hover {
+    color: #6b6262;
+}
+
+/* Flex grow for menu */
+.col-9 {
+    flex-grow: 1;
+}
+
+/* Style for the footer */
+footer.footer {
+    background-color: #e9ecee;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Style for the copyright text */
+footer.footer p {
+    margin: 0;
+    /* Xóa margin mặc định */
+    font-size: 14px;
+    /* Kích thước chữ */
+    color: #888;
+    /* Màu chữ */
+}
+
+/* Style for the box-head */
+.box-head .inner-title {
+    font-size: 25px;
+    margin: 20px;
+}
+
+/* CSS tùy chỉnh cho phần sản phẩm */
+.proudct-item {
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.proudct-item .inner-image {
+    width: 100%;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+}
+
+.inner-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Canh giữa hình ảnh và thêm khoảng cách dưới */
+}
+
+.inner-content {
+    text-align: center;
+}
+
+.inner-title {
+    font-size: 18px;
+    color: #333;
+}
+
+.inner-price-new {
+    font-size: 16px;
+    color: #00c;
+    /* Màu xanh dương cho giá mới */
+}
+
+.inner-price-old {
+    font-size: 14px;
+    color: #999;
+    /* Màu xám cho giá cũ */
+    text-decoration: line-through;
+    /* Gạch ngang cho giá cũ */
+}
+
+.inner-discount {
+    font-size: 14px;
+    color: #f00;
+    /* Màu đỏ cho phần trăm giảm giá */
+}
