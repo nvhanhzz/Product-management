@@ -1,0 +1,50 @@
+extends ../../layouts/default.pug
+include ../../mixins/filterStatus.pug
+include ../../mixins/searchForm.pug
+
+block main
+    h1 List products 
+
+    .card.mb-3 
+        .card-header Filter and Search 
+        .card-body 
+            .row 
+                .col-6
+                    +filter-status(filterStatus)
+                .col-6 
+                    +search-form(keyword)
+
+    .card.mb-3 
+        .card-header List
+        .card-body 
+            table.table.table-hober.table-sm
+                thead 
+                    tr 
+                        th Order 
+                        th Thumbnail  
+                        th Title 
+                        th Price 
+                        th Status 
+                        th Action 
+
+                tbody 
+                    each item, index in products
+                        tr.item 
+                            td #{index + 1}
+                            td 
+                                img(
+                                    src=item.thumbnail
+                                    alt=item.title
+                                    width="100px"
+                                    height="auto"
+                                )
+                            td #{item.title} 
+                            td #{item.price}$
+                            td 
+                                if(item.status === "active")
+                                    a(href="#" class="badge badge-success") Active 
+                                else 
+                                    a(href="#" class="badge badge-danger") Inactive 
+                            td 
+                                button(class="btn btn-warning btn-sm") Update 
+                                button(class="btn btn-danger btn-sm ml-1") Delete
