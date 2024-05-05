@@ -1,4 +1,4 @@
-module.exports.filterStatus = (req) => {
+module.exports.filterStatus = (query) => {
     var status = "";
 
     const filterStatus = [
@@ -19,13 +19,13 @@ module.exports.filterStatus = (req) => {
         }
     ]
 
-    if (req.query.status === 'active') {
-        status = req.query.status;
+    if (query.status === 'active') {
+        status = query.status;
         filterStatus[0].class = "";
         filterStatus[1].class = "active";
         filterStatus[2].class = "";
-    } else if (req.query.status === 'inactive') {
-        status = req.query.status;
+    } else if (query.status === 'inactive') {
+        status = query.status;
         filterStatus[0].class = "";
         filterStatus[1].class = "";
         filterStatus[2].class = "active";

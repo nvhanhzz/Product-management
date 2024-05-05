@@ -1,5 +1,5 @@
-module.exports.search = (req) => {
-    const keyword = req.query.keyword;
+module.exports.search = (query) => {
+    const keyword = query.keyword;
     const regex = new RegExp(keyword, "i");
 
     const res = {};

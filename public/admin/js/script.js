@@ -32,3 +32,14 @@ if (searchForm) {
         }
     })
 }
+
+// solve pagination
+
+const pageButtons = document.querySelectorAll(".pagination-button");
+for (let btn of pageButtons) {
+    btn.addEventListener("click", () => {
+        const pageNum = btn.getAttribute("pagenum");
+        url.searchParams.set("page", pageNum);
+        window.location.href = url.href;
+    })
+}
