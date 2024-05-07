@@ -73,6 +73,10 @@ td {
     background-color: #f0f0f0;
 }
 
+.badge {
+    border: none;
+}
+
 /* pagination style */
 .pagination {
     display: flex;

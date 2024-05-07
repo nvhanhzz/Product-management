@@ -47,3 +47,20 @@ module.exports.index = async (req, res) => {
         pagination: pagination
     });
 }
+
+// [PATCH] /admin/products/change-status/:status/:_id
+module.exports.changeStatus = async (req, res) => {
+    const status = req.params.status;
+    const itemId = req.params.itemId;
+
+    await Product.updateOne(
+        {
+            _id: itemId
+        },
+        {
+            status: status
+        }
+    );
+
+    res.redirect("back");
+}
