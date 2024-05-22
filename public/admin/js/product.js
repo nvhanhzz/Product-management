@@ -3,7 +3,12 @@ const activeButtons = document.querySelectorAll(".btn-active"); // 3 button filt
 const searchForm = document.querySelector("#form-search"); // form search product
 const pageButtons = document.querySelectorAll(".pagination-button"); // list pagination buttons
 const statusButtons = document.querySelectorAll(".badge"); // list status button
-const changeStatusForm = document.querySelector(".change-status-form");
+const changeStatusForm = document.querySelector(".change-status-form"); // form change status of 1 product
+const checkAll = document.querySelector('input[name="checkall"]'); // input checkbox check all
+const checkItems = document.querySelectorAll('input[name="checkitem"]'); // input checkbox 1 product
+const inputChangeListProduct = document.querySelector('input[name="inputChangeListProduct"]'); // input text change list product
+const formChangeListProduct = document.querySelector('#change-product-form'); // form change list product
+const selectChangeProduct = document.querySelector('.select-change-product'); // select change product
 
 // solve filter
 
@@ -54,10 +59,51 @@ for (let btn of statusButtons) {
         const status = btn.getAttribute("val") === "active" ? "inactive" : "active";
         const itemId = btn.getAttribute("itemId");
         const oldAction = changeStatusForm.getAttribute("action");
-        console.log(oldAction);
+        // console.log(oldAction);
         const changStatusPath = `${oldAction}/${status}/${itemId}?_method=PATCH`;
         changeStatusForm.setAttribute("action", changStatusPath);
         // console.log(changeStatusForm);
         changeStatusForm.submit();
     })
 }
+
+// solve change list product
+
+checkAll.addEventListener("click", () => {
+    if (checkAll.checked) {
+        checkItems.forEach(item => {
+            item.checked = true;
+        })
+    } else {
+        checkItems.forEach(item => {
+            item.checked = false;
+        })
+    }
+});
+
+checkItems.forEach(item => {
+    item.addEventListener("click", () => {
+        const numChange = Array.from(checkItems).reduce((accumulator, currentValue) => {
+            return currentValue.checked ? accumulator + 1 : accumulator;
+        }, 0);
+
+        if (numChange === checkItems.length) {
+            checkAll.checked = true;
+        } else {
+            checkAll.checked = false;
+        }
+    });
+});
+
+formChangeListProduct.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const listIdChange = Array.from(checkItems)
+        .filter(item => item.checked)
+        .map(item => item.getAttribute("val"));
+    inputChangeListProduct.value = listIdChange.join(", ");
+    const changeCase = selectChangeProduct.value.toLowerCase();
+    const formChangeListProductPath = `/admin/products/change-list-product/${changeCase}?_method=PATCH`;
+    formChangeListProduct.setAttribute("action", formChangeListProductPath);
+    // console.log(formChangeListProduct);
+    formChangeListProduct.submit();
+})

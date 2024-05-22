@@ -64,3 +64,38 @@ module.exports.changeStatus = async (req, res) => {
 
     res.redirect("back");
 }
+
+// [PATCH] /admin/products/change-list-product/:changeCase
+module.exports.changeListProduct = async (req, res) => {
+    const changeCase = req.params.changeCase;
+    // console.log(changeCase);
+    // console.log(req.body);
+    const listProductChange = req.body.inputChangeListProduct.split(", ");
+    // console.log(listProductChange);
+    const updateObject = {
+        status: 'active'
+    }
+    switch (changeCase) {
+        case 'active':
+            break;
+
+        case 'inactive':
+            updateObject.status = 'inactive';
+            break;
+
+        default:
+            break;
+    }
+    await Product.updateMany(
+        {
+            _id: { $in: listProductChange },
+        },
+        {
+            $set: updateObject
+        }
+    )
+
+    // console.log(updateObject);
+
+    res.redirect("back");
+}

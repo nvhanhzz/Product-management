@@ -2,6 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/filterStatus.pug
 include ../../mixins/searchForm.pug
 include ../../mixins/pagination.pug
+include ../../mixins/changeProductForm.pug
 
 block main
     h1 List products 
@@ -16,11 +17,14 @@ block main
                     +search-form(keyword)
 
     .card.mb-3 
-        .card-header List
+        .card-header List 
+            +change-product-form()
         .card-body 
             table.table.table-hober.table-sm
                 thead 
                     tr 
+                        th 
+                            input(type="checkbox" name="checkall")
                         th Order 
                         th Thumbnail  
                         th Title 
@@ -31,6 +35,8 @@ block main
                 tbody 
                     each item, index in products
                         tr.item 
+                            td
+                                input(type="checkbox" name="checkitem" val=item._id)
                             td #{(pagination.page - 1) * pagination.limit + index + 1}
                             //- td #{item.position}
                             td 

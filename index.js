@@ -1,6 +1,8 @@
 const express = require('express');
-const methodOverride = require('method-override')
+const methodOverride = require('method-override');
 require("dotenv").config();
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const database = require("./config/database");
 
@@ -13,7 +15,10 @@ database.connect();
 
 const app = express();
 
-app.use(methodOverride('_method'))
+app.use(methodOverride('_method'));
+// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 const port = process.env.PORT;
 

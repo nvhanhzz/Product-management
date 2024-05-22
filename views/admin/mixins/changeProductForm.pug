@@ -1,0 +1,17 @@
+mixin change-product-form()
+    form(id="change-product-form" action="/admin/products/change-list-product" method="POST")
+        input(
+            type="text"
+            style="display: none"
+            name="inputChangeListProduct"
+        )
+        .select-group 
+            select.select-change-product
+                option Active 
+                option Inactive 
+            .input-group-append 
+                button(
+                    name="btn-change-list-product"
+                    class="btn btn-success btn-change-product-form"
+                    type="submit"
+                ) Apply

@@ -77,6 +77,39 @@ td {
     border: none;
 }
 
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#change-product-form .select-group {
+    display: flex;
+    margin-right: 15px;
+}
+
+#change-product-form select {
+    width: 150px;
+    text-align: center;
+    border: 0.5px solid #ddd;
+    border-radius: .25rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#change-product-form select:active {
+    border: 0.5px solid #ddd;
+    border-radius: .25rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#change-product-form .btn-change-product-form {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    width: 73px;
+}
+
 /* pagination style */
 .pagination {
     display: flex;

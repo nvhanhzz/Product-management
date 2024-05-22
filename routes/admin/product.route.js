@@ -7,4 +7,6 @@ route.get("/", controller.index);
 
 route.patch("/change-status/:status/:itemId", controller.changeStatus);
 
+route.patch("/change-list-product/:changeCase", controller.changeListProduct);
+
 module.exports = route;
