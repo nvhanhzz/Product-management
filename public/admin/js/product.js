@@ -9,6 +9,8 @@ const checkItems = document.querySelectorAll('input[name="checkitem"]'); // inpu
 const inputChangeListProduct = document.querySelector('input[name="inputChangeListProduct"]'); // input text change list product
 const formChangeListProduct = document.querySelector('#change-product-form'); // form change list product
 const selectChangeProduct = document.querySelector('.select-change-product'); // select change product
+const deleteButtons = document.querySelectorAll('button[delete-button]'); // delete button
+const deleteProductForm = document.querySelector('.delete-product-form'); // delete form
 
 // solve filter
 
@@ -102,8 +104,27 @@ formChangeListProduct.addEventListener("submit", (event) => {
         .map(item => item.getAttribute("val"));
     inputChangeListProduct.value = listIdChange.join(", ");
     const changeCase = selectChangeProduct.value.toLowerCase();
+    // console.log(changeCase);
+
     const formChangeListProductPath = `/admin/products/change-list-product/${changeCase}?_method=PATCH`;
+
     formChangeListProduct.setAttribute("action", formChangeListProductPath);
-    // console.log(formChangeListProduct);
-    formChangeListProduct.submit();
+    console.log(formChangeListProduct);
+    if (changeCase != "") {
+        formChangeListProduct.submit();
+    }
+})
+
+// solve delete 1 product
+deleteButtons.forEach(item => {
+    item.addEventListener("click", () => {
+        const confirmed = confirm("Are you sure you want to delete the product?");
+        if (confirmed) {
+            const id = item.getAttribute("item_id");
+            const action = `/admin/products/delete-product/${id}?_method=DELETE`;
+            deleteProductForm.setAttribute("action", action);
+            // console.log(deleteProductForm);
+            deleteProductForm.submit();
+        }
+    });
 })

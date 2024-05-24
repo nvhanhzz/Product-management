@@ -9,4 +9,6 @@ route.patch("/change-status/:status/:itemId", controller.changeStatus);
 
 route.patch("/change-list-product/:changeCase", controller.changeListProduct);
 
+route.delete("/delete-product/:id", controller.deleteProduct);
+
 module.exports = route;

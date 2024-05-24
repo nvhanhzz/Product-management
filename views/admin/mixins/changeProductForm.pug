@@ -7,8 +7,10 @@ mixin change-product-form()
         )
         .select-group 
             select.select-change-product
-                option Active 
-                option Inactive 
+                option(value="" disabled selected) --Select an action--
+                option(value="active") Active
+                option(value="inactive") Inactive
+                option(value="delete") Delete
             .input-group-append 
                 button(
                     name="btn-change-list-product"

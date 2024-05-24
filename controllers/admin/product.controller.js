@@ -72,15 +72,18 @@ module.exports.changeListProduct = async (req, res) => {
     // console.log(req.body);
     const listProductChange = req.body.inputChangeListProduct.split(", ");
     // console.log(listProductChange);
-    const updateObject = {
-        status: 'active'
-    }
+    const updateObject = {}
     switch (changeCase) {
         case 'active':
+            updateObject.status = 'active';
             break;
 
         case 'inactive':
             updateObject.status = 'inactive';
+            break;
+
+        case 'delete':
+            updateObject.deleted = true;
             break;
 
         default:
@@ -96,6 +99,22 @@ module.exports.changeListProduct = async (req, res) => {
     )
 
     // console.log(updateObject);
+
+    res.redirect("back");
+}
+
+// [DELETE] /admin/products/delete-product/:id
+module.exports.deleteProduct = async (req, res) => {
+    const id = req.params.id;
+
+    await Product.updateOne(
+        {
+            _id: id
+        },
+        {
+            deleted: true
+        }
+    );
 
     res.redirect("back");
 }
