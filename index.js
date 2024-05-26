@@ -3,6 +3,8 @@ const methodOverride = require('method-override');
 require("dotenv").config();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const flash = require('express-flash');
+const session = require('express-session');
 
 const database = require("./config/database");
 
@@ -18,7 +20,9 @@ const app = express();
 app.use(methodOverride('_method'));
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser('abcxyz'));
+app.use(session({ cookie: { maxAge: 60000 } }));
+app.use(flash());;
 
 const port = process.env.PORT;
 

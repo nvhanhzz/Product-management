@@ -5,12 +5,18 @@ mixin change-product-form()
             style="display: none"
             name="inputChangeListProduct"
         )
+        input(
+            type="text"
+            style="display: none"
+            name="inputProductPosition"
+        )
         .select-group 
             select.select-change-product
                 option(value="" disabled selected) --Select an action--
                 option(value="active") Active
                 option(value="inactive") Inactive
                 option(value="delete") Delete
+                option(value="change position") Change Position
             .input-group-append 
                 button(
                     name="btn-change-list-product"

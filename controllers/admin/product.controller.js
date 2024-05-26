@@ -37,7 +37,7 @@ module.exports.index = async (req, res) => {
     const pagination = paginationHelper.pagination(query, limit, total);
     //endpagination
 
-    const products = await Product.find(find).skip(pagination.skip).limit(pagination.limit);
+    const products = await Product.find(find).skip(pagination.skip).limit(pagination.limit).sort({ position: "desc" });
 
     res.render("admin/pages/product/index", {
         pageTitle: "Product",
@@ -53,14 +53,19 @@ module.exports.changeStatus = async (req, res) => {
     const status = req.params.status;
     const itemId = req.params.itemId;
 
-    await Product.updateOne(
-        {
-            _id: itemId
-        },
-        {
-            status: status
-        }
-    );
+    try {
+        await Product.updateOne(
+            {
+                _id: itemId
+            },
+            {
+                status: status
+            }
+        );
+        req.flash('success', 'Update status success');
+    } catch (error) {
+        console.log(error);
+    }
 
     res.redirect("back");
 }
@@ -86,17 +91,57 @@ module.exports.changeListProduct = async (req, res) => {
             updateObject.deleted = true;
             break;
 
+        case 'change_position':
+            const listPosition = req.body.inputProductPosition.split(", ");
+            let check = true;
+            for (let i = 0; i < listProductChange.length; ++i) {
+                try {
+                    const result = await Product.updateOne(
+                        { _id: listProductChange[i] },
+                        { position: parseInt(listPosition[i]) }
+                    );
+                    // console.log(`Updated product ${listProductChange[i]} to position ${listPosition[i]}`);
+                } catch (error) {
+                    check = false;
+                    console.error(`Error updating product ${listProductChange[i]}:`, error);
+                }
+                if (check) {
+                    req.flash('success', `Change position of ${listProductChange.length} item success`);
+                }
+            }
+
         default:
             break;
     }
-    await Product.updateMany(
-        {
-            _id: { $in: listProductChange },
-        },
-        {
-            $set: updateObject
+
+    if (changeCase !== "change_position") {
+        try {
+            await Product.updateMany(
+                {
+                    _id: { $in: listProductChange },
+                },
+                {
+                    $set: updateObject
+                }
+            )
+            switch (changeCase) {
+                case 'active':
+                    req.flash('success', `Change ${listProductChange.length} items to active success`);
+                    break;
+
+                case 'inactive':
+                    req.flash('success', `Change ${listProductChange.length} items to inactive success`);
+                    break;
+
+                case 'delete':
+                    req.flash('success', `Deleted ${listProductChange.length} item success`);
+                    break;
+            }
+
+        } catch (error) {
+            console.error(error);
         }
-    )
+    }
 
     // console.log(updateObject);
 
@@ -116,5 +161,6 @@ module.exports.deleteProduct = async (req, res) => {
         }
     );
 
+    req.flash('success', 'Deleted Item success');
     res.redirect("back");
 }

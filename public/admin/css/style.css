@@ -73,6 +73,11 @@ td {
     background-color: #f0f0f0;
 }
 
+.item .position-product {
+    width: 60px;
+    text-align: center;
+}
+
 .badge {
     border: none;
 }
@@ -81,6 +86,19 @@ td {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+#successAlert {
+    display: flex;
+    justify-content: space-between;
+    font-size: 17px;
+    align-items: center;
+}
+
+.close-alert-btn {
+    border: none;
+    font-size: 25px;
+    background-color: transparent;
 }
 
 #change-product-form .select-group {

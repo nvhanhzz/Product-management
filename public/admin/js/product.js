@@ -11,6 +11,8 @@ const formChangeListProduct = document.querySelector('#change-product-form'); //
 const selectChangeProduct = document.querySelector('.select-change-product'); // select change product
 const deleteButtons = document.querySelectorAll('button[delete-button]'); // delete button
 const deleteProductForm = document.querySelector('.delete-product-form'); // delete form
+const positionInput = document.querySelector('input[name="inputProductPosition"]'); // input position of product
+const positionProducts = document.querySelectorAll('.position-product'); // list poition
 
 // solve filter
 
@@ -103,17 +105,29 @@ formChangeListProduct.addEventListener("submit", (event) => {
         .filter(item => item.checked)
         .map(item => item.getAttribute("val"));
     inputChangeListProduct.value = listIdChange.join(", ");
-    const changeCase = selectChangeProduct.value.toLowerCase();
+    const changeCase = selectChangeProduct.value.toLowerCase().replace(/\s/g, '_');;
     // console.log(changeCase);
+
+    if (changeCase === 'change_position') {
+        const listPosition = Array.from(checkItems)
+            .filter(item => item.checked)
+            .map(item => item.parentNode.parentNode.querySelector('.position-product').value)
+
+        positionInput.value = listPosition.join(', ');
+        // console.log(positionInput.value);
+    }
 
     const formChangeListProductPath = `/admin/products/change-list-product/${changeCase}?_method=PATCH`;
 
     formChangeListProduct.setAttribute("action", formChangeListProductPath);
-    console.log(formChangeListProduct);
+    // console.log(formChangeListProduct);
     if (changeCase != "") {
-        formChangeListProduct.submit();
+        const confirmed = confirm("Are you sure you want to change products?");
+        if (confirmed) {
+            formChangeListProduct.submit();
+        }
     }
-})
+});
 
 // solve delete 1 product
 deleteButtons.forEach(item => {
@@ -127,4 +141,21 @@ deleteButtons.forEach(item => {
             deleteProductForm.submit();
         }
     });
-})
+});
+
+// solve alert notification
+document.addEventListener('DOMContentLoaded', function () {
+    const alert = document.getElementById('successAlert');
+    if (alert) {
+        setTimeout(function () {
+            alert.style.display = 'none';
+        }, 3000);
+
+        const closeAlertBtn = document.querySelector('.close-alert-btn');
+        if (closeAlertBtn) {
+            closeAlertBtn.addEventListener('click', function () {
+                alert.style.display = 'none';
+            });
+        }
+    }
+});

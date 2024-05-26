@@ -5,6 +5,11 @@ include ../../mixins/pagination.pug
 include ../../mixins/changeProductForm.pug
 
 block main
+    - if (messages.success)
+        div.alert.alert-success(role="alert", id="successAlert")
+            span= messages.success
+            button.close-alert-btn(type='button')
+                i.fa-solid.fa-xmark
     h1 List products 
 
     .card.mb-3 
@@ -29,6 +34,7 @@ block main
                         th Thumbnail  
                         th Title 
                         th Price 
+                        th Position
                         th Status 
                         th Action 
 
@@ -48,6 +54,8 @@ block main
                                 )
                             td #{item.title} 
                             td #{item.price}$
+                            td 
+                                input(type="number" value=item.position class="position-product")
                             td 
                                 if(item.status === "active")
                                     button(class="badge badge-success" itemId=item._id val="active") Active 
