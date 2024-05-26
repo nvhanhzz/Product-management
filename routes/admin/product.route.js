@@ -11,4 +11,8 @@ route.patch("/change-list-product/:changeCase", controller.changeListProduct);
 
 route.delete("/delete-product/:id", controller.deleteProduct);
 
+route.get("/create-product", controller.viewFormCreateProduct);
+
+route.post("/create-product", controller.createProduct);
+
 module.exports = route;

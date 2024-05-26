@@ -29,10 +29,10 @@ const port = process.env.PORT;
 app.set("views", "./views");
 app.set("view engine", "pug");
 
+app.use(express.static("public"));
+
 // app local variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
-
-app.use(express.static("public"));
 
 routeAdmin(app);
 route(app);

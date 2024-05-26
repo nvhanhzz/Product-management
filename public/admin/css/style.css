@@ -8,6 +8,11 @@ td {
     text-align: center;
 }
 
+body {
+    margin-top: 70px;
+    /* Khoảng trống có chiều cao bằng với chiều cao của header */
+}
+
 /* Header styles */
 
 .container-fluid {
@@ -20,6 +25,11 @@ td {
 }
 
 .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
     height: 70px;
     display: flex;
     align-items: center;
@@ -27,6 +37,7 @@ td {
     color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 
 .inner-logo a {
     color: #fff;
@@ -36,9 +47,17 @@ td {
 /* Body styles */
 
 .sider {
+    position: fixed;
+    /* Làm cho phần sider cố định trên màn hình */
+    top: 70px;
+    /* Đặt vị trí top cho sider sao cho nó không bị chồng lấn với header */
+    left: 0;
     background-color: #343134;
     padding: 0px;
     min-height: calc(100vh - 70px);
+    /* Đặt chiều cao tối thiểu cho sider để không bị tràn qua phần footer */
+    overflow-y: auto;
+    /* Cho phép cuộn nếu chiều cao nội dung vượt quá chiều cao của sider */
 }
 
 .sider ul {
@@ -63,6 +82,10 @@ td {
 
 .sider ul li a:hover {
     text-decoration: none;
+}
+
+.main {
+    margin-left: calc(100vw / 6);
 }
 
 .item td {

@@ -2,9 +2,11 @@ const Product = require("../../models/product.model");
 const filterHelper = require("../../helper/filterStatus");
 const searchHelper = require("../../helper/search");
 const paginationHelper = require("../../helper/pagination");
+const prefixAdmin = require("../../config/system").prefixAdmin;
 
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
+    // console.log(prefixAdmin);
     const query = req.query;
 
     // filter
@@ -39,7 +41,7 @@ module.exports.index = async (req, res) => {
 
     const products = await Product.find(find).skip(pagination.skip).limit(pagination.limit).sort({ position: "desc" });
 
-    res.render("admin/pages/product/index", {
+    res.render(`admin/pages/product/index`, {
         pageTitle: "Product",
         products: products,
         filterStatus: filterStatus,
@@ -88,6 +90,7 @@ module.exports.changeListProduct = async (req, res) => {
             break;
 
         case 'delete':
+            updateObject.deletedAt = Date.now();
             updateObject.deleted = true;
             break;
 
@@ -157,10 +160,54 @@ module.exports.deleteProduct = async (req, res) => {
             _id: id
         },
         {
+            deletedAt: Date.now(),
             deleted: true
         }
     );
 
     req.flash('success', 'Deleted Item success');
     res.redirect("back");
+}
+
+// [GET] /admin/products/create-product
+module.exports.viewFormCreateProduct = async (req, res) => {
+    const positionDefault = await Product.countDocuments({}) + 1;
+    res.render(`admin/pages/product/createProduct`, {
+        pageTitle: "Create product",
+        positionDefault: positionDefault
+    });
+}
+
+// [POST] /admin/products/create-product
+module.exports.createProduct = async (req, res) => {
+    // console.log("1", req.body);
+
+    const title = req.body.title;
+    const description = req.body.description;
+    const price = parseFloat(req.body.price);
+    const discountPercentage = parseFloat(req.body.discountPercentage);
+    const stock = parseInt(req.body.stock);
+    const thumbnail = req.body.thumbnail;
+    const status = req.body.status;
+    const position = req.body.position;
+
+    const product = new Product({
+        title: title,
+        description: description,
+        price: price,
+        discountPercentage: discountPercentage,
+        stock: stock,
+        thumbnail: thumbnail,
+        status: status,
+        position: position
+    });
+
+    try {
+        product.save();
+        req.flash('success', 'Create product success');
+    } catch (error) {
+        console.error(error);
+    }
+
+    res.redirect("/admin/products");
 }
