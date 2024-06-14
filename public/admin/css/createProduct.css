@@ -73,3 +73,9 @@ textarea.form-control {
     background-color: #0056b3;
     border-color: #004085;
 }
+
+#thumbnail {
+    border: none;
+    padding: 0px;
+    width: 300px;
+}

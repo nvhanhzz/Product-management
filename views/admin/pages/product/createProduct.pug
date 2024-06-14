@@ -4,7 +4,7 @@ block addCss
     link(rel="stylesheet", href="/admin/css/createProduct.css")
 
 block main
-    form(action=`${prefixAdmin}/products/create-product`, method="POST")
+    form(action=`${prefixAdmin}/products/create-product`, enctype="multipart/form-data", method="POST")
         div.form-group
             label(for="title") Title:
             input#title.form-control(type="text", name="title", placeholder="Enter the product title", required)
@@ -22,7 +22,7 @@ block main
             input#stock.form-control(type="number", name="stock", placeholder="Enter the stock quantity", required)
         div.form-group
             label(for="thumbnail") Thumbnail:
-            input#thumbnail.form-control(type="text", name="thumbnail", placeholder="Enter the thumbnail URL", required)
+            input#thumbnail.form-control(type="file", accept="image/*", name="thumbnail", placeholder="Enter the thumbnail URL", required)
         div.form-group
             label(for="position") Position:
             input#position.form-control(type="number", name="position", value=positionDefault, placeholder="Enter the product position", required)

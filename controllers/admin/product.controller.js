@@ -187,7 +187,7 @@ module.exports.createProduct = async (req, res) => {
     const price = parseFloat(req.body.price);
     const discountPercentage = parseFloat(req.body.discountPercentage);
     const stock = parseInt(req.body.stock);
-    const thumbnail = req.body.thumbnail;
+    const thumbnail = "upload/" + req.file.filename;
     const status = req.body.status;
     const position = req.body.position;
 
