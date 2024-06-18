@@ -189,7 +189,7 @@ module.exports.createProduct = async (req, res) => {
     const stock = parseInt(req.body.stock);
     let thumbnail;
     if (req.file && req.file.filename) {
-        thumbnail = "upload/" + req.file.filename;
+        thumbnail = "upload/" + req.file.filename; // sau phai sua
     } else {
         thumbnail = 'https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=6&m=1216251206&s=612x612&w=0&h=G8kmMKxZlh7WyeYtlIHJDxP5XRGm9ZXyLprtVJKxd-o=';
     }
@@ -215,4 +215,40 @@ module.exports.createProduct = async (req, res) => {
     }
 
     res.redirect("/admin/products");
+}
+
+// [GET] //admin/products/update-product/:id
+module.exports.viewFormUpdateProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const product = await Product.findById(productId);
+        res.render(`admin/pages/product/updateProduct`, {
+            pageTitle: "Update product",
+            product: product
+        });
+    } catch (e) {
+        res.redirect("back");
+    }
+}
+
+// [PATCH] /admin/products/update-product/:id
+module.exports.updateProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        if (req.file && req.file.filename) {
+            req.body.thumbnail = "upload/" + req.file.filename; // sau phai sua
+        }
+        const update = await Product.findByIdAndUpdate(productId, req.body, { new: true });
+
+        if (update) {
+            req.flash('success', `Update product ${req.body.title} successfully !`);
+            res.redirect("back");
+        } else {
+            req.flash('fail', `Update failled !`);
+            res.redirect("back");
+        }
+    } catch (e) {
+        req.flash('fail', `Update failled !`);
+        res.redirect("back");
+    }
 }

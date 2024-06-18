@@ -9,10 +9,11 @@ const checkItems = document.querySelectorAll('input[name="checkitem"]'); // inpu
 const inputChangeListProduct = document.querySelector('input[name="inputChangeListProduct"]'); // input text change list product
 const formChangeListProduct = document.querySelector('#change-product-form'); // form change list product
 const selectChangeProduct = document.querySelector('.select-change-product'); // select change product
-const deleteButtons = document.querySelectorAll('button[delete-button]'); // delete button
+const deleteButtons = document.querySelectorAll('button[delete-button]'); // list delete button
 const deleteProductForm = document.querySelector('.delete-product-form'); // delete form
 const positionInput = document.querySelector('input[name="inputProductPosition"]'); // input position of product
 const positionProducts = document.querySelectorAll('.position-product'); // list poition
+const updateButtons = document.querySelectorAll('button[update-button]'); // list update button
 
 // solve filter
 
@@ -142,3 +143,11 @@ deleteButtons.forEach(item => {
         }
     });
 });
+
+// solve update 1 product
+updateButtons.forEach(item => {
+    item.addEventListener("click", () => {
+        const productId = item.getAttribute("item_id");
+        window.location.href = `/admin/products/update-product/${productId}`;
+    })
+})

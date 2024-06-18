@@ -19,4 +19,8 @@ route.get("/create-product", controller.viewFormCreateProduct);
 
 route.post("/create-product", upload.single('thumbnail'), validate.validateProductForm, controller.createProduct);
 
+route.get("/update-product/:id", controller.viewFormUpdateProduct);
+
+route.patch("/update-product/:id", upload.single('thumbnail'), validate.validateProductForm, controller.updateProduct);
+
 module.exports = route;
