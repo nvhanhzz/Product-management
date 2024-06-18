@@ -187,7 +187,12 @@ module.exports.createProduct = async (req, res) => {
     const price = parseFloat(req.body.price);
     const discountPercentage = parseFloat(req.body.discountPercentage);
     const stock = parseInt(req.body.stock);
-    const thumbnail = "upload/" + req.file.filename;
+    let thumbnail;
+    if (req.file && req.file.filename) {
+        thumbnail = "upload/" + req.file.filename;
+    } else {
+        thumbnail = 'https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=6&m=1216251206&s=612x612&w=0&h=G8kmMKxZlh7WyeYtlIHJDxP5XRGm9ZXyLprtVJKxd-o=';
+    }
     const status = req.body.status;
     const position = req.body.position;
 

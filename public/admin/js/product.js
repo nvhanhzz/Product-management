@@ -142,20 +142,3 @@ deleteButtons.forEach(item => {
         }
     });
 });
-
-// solve alert notification
-document.addEventListener('DOMContentLoaded', function () {
-    const alert = document.getElementById('successAlert');
-    if (alert) {
-        setTimeout(function () {
-            alert.style.display = 'none';
-        }, 3000);
-
-        const closeAlertBtn = document.querySelector('.close-alert-btn');
-        if (closeAlertBtn) {
-            closeAlertBtn.addEventListener('click', function () {
-                alert.style.display = 'none';
-            });
-        }
-    }
-});

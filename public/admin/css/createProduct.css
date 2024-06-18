@@ -79,3 +79,9 @@ textarea.form-control {
     padding: 0px;
     width: 300px;
 }
+
+#blah {
+    width: 20%;
+    height: auto;
+    display: none;
+}

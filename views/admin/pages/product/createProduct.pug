@@ -1,38 +1,44 @@
 extends ../../layouts/default.pug
+include ../../mixins/notification.pug
 
 block addCss 
     link(rel="stylesheet", href="/admin/css/createProduct.css")
 
 block main
+    - if (messages.fail)
+        +notf-fail()
+
     form(action=`${prefixAdmin}/products/create-product`, enctype="multipart/form-data", method="POST")
         div.form-group
             label(for="title") Title:
             input#title.form-control(type="text", name="title", placeholder="Enter the product title", required)
         div.form-group
             label(for="description") Description:
-            textarea#description.form-control(name="description", rows="4", placeholder="Enter the product description", required)
+            textarea#description.form-control(name="description", rows="4", placeholder="Enter the product description")
         div.form-group
             label(for="price") Price:
-            input#price.form-control(type="number", name="price", step="0.01", placeholder="Enter the product price", required)
+            input#price.form-control(type="number", name="price", value="0", step="0.01", placeholder="Enter the product price")
         div.form-group
             label(for="discountPercentage") Discount Percentage:
-            input#discountPercentage.form-control(type="number", name="discountPercentage", step="0.01", placeholder="Enter the discount percentage", required)
+            input#discountPercentage.form-control(type="number", name="discountPercentage", value="0", step="0.01", placeholder="Enter the discount percentage")
         div.form-group
             label(for="stock") Stock:
-            input#stock.form-control(type="number", name="stock", placeholder="Enter the stock quantity", required)
+            input#stock.form-control(type="number", name="stock", value="0", placeholder="Enter the stock quantity")
         div.form-group
             label(for="thumbnail") Thumbnail:
-            input#thumbnail.form-control(type="file", accept="image/*", name="thumbnail", placeholder="Enter the thumbnail URL", required)
+            input#thumbnail.form-control.imp-inp(type="file", accept="image/*", name="thumbnail", placeholder="Enter the thumbnail URL")
+            <img id="blah" src="#" alt="your image" />
         div.form-group
             label(for="position") Position:
-            input#position.form-control(type="number", name="position", value=positionDefault, placeholder="Enter the product position", required)
+            input#position.form-control(type="number", name="position", value=positionDefault, placeholder="Enter the product position")
         div.form-group
             label Status:
             div
-                input#status-active(type="radio", name="status", value="active", checked)
+                input#status-active(type="radio", name="status", value="active")
                 label(for="status-active") Active
             div
-                input#status-inactive(type="radio", name="status", value="inactive")
+                input#status-inactive(type="radio", name="status", value="inactive", checked)
                 label(for="status-inactive") Inactive
         div.form-group
             button.btn.btn-primary(type="submit") Submit
+    script(src="../js/script.js")

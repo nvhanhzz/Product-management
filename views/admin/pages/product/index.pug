@@ -3,13 +3,11 @@ include ../../mixins/filterStatus.pug
 include ../../mixins/searchForm.pug
 include ../../mixins/pagination.pug
 include ../../mixins/changeProductForm.pug
+include ../../mixins/notification.pug
 
 block main
     - if (messages.success)
-        div.alert.alert-success(role="alert", id="successAlert")
-            span= messages.success
-            button.close-alert-btn(type='button')
-                i.fa-solid.fa-xmark
+        +notf-success()
     h1 List products 
 
     .card.mb-3 
@@ -22,7 +20,8 @@ block main
                     +search-form(keyword)
 
     .card.mb-3 
-        .card-header List
+        .card-header
+            a(href=`${prefixAdmin}/products/create-product` class="create-product") Create product
             +change-product-form()
         .card-body 
             table.table.table-hober.table-sm
