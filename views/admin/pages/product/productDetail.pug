@@ -1,0 +1,44 @@
+extends ../../layouts/default.pug
+
+block addCss 
+    link(rel="stylesheet", href="/admin/css/productDetail.css")
+
+block main
+    h2.margin= product.title 
+
+    if product.thumbnail
+        div.margin.outer-thumbnail
+            img(src=product.thumbnail, alt=product.title)
+
+    if product.description
+        div.margin.product-attribute
+            span Description:
+            span= ' ' + product.description
+
+    if product.price
+        div.margin.product-attribute
+            span Price:
+            span= ' $' + product.price
+
+    if product.discountPercentage
+        div.margin.product-attribute
+            span Discount percentage:
+            span= ' ' + product.discountPercentage + '%'
+
+    if product.stock
+        div.margin.product-attribute
+            span Stock:
+            span= ' ' + product.stock
+
+    if product.position
+        div.margin.product-attribute
+            span Position:
+            span= ' ' + product.position
+
+    if product.status
+        div.margin.product-attribute
+            span Status:
+            span= ' ' + product.status
+
+    div.margin.product-attribute
+        a(href=`${prefixAdmin}/products/update-product/${product.id}`, class="margin update-button") Update

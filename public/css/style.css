@@ -5,6 +5,14 @@
     box-sizing: border-box;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+
 /* Style for the header */
 header.header {
     background-color: #e9ecee;
@@ -67,6 +75,9 @@ footer.footer {
     background-color: #e9ecee;
     padding: 20px;
     text-align: center;
+    position: relative;
+    width: 100%;
+    bottom: 0;
 }
 
 /* Style for the copyright text */
@@ -85,15 +96,20 @@ footer.footer p {
     margin: 20px;
 }
 
+/* CSS cho luôn cao full màn */
+.content-box {
+    min-height: calc(100vh - 100px - 64px);
+}
+
 /* CSS tùy chỉnh cho phần sản phẩm */
-.proudct-item {
+.product-item {
     border: 1px solid #ccc;
     padding: 15px;
     border-radius: 5px;
     background-color: #fff;
 }
 
-.proudct-item .inner-image {
+.product-item .inner-image {
     width: 100%;
     aspect-ratio: 4/3;
     overflow: hidden;
@@ -133,4 +149,73 @@ footer.footer p {
     font-size: 14px;
     color: #f00;
     /* Màu đỏ cho phần trăm giảm giá */
+}
+
+
+/* pagination style */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination ul {
+    display: flex;
+    list-style-type: none;
+    position: relative;
+}
+
+.pagination li {
+    display: flex;
+    align-items: center;
+}
+
+.pagination .pagination-button {
+    width: 25px;
+    height: 25px;
+    border: none;
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.pagination .active {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 1px;
+}
+
+.pagination .etc {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.pagination .arrow1,
+.pagination .arrow2 {
+    position: absolute;
+    top: -12px;
+    width: 50px;
+    height: 50px;
+    font-size: 25px;
+    font-family: 'Roboto Light', sans-serif;
+    /* Sử dụng Roboto Light thay vì Roboto */
+}
+
+.pagination .arrow1 {
+    left: -50px;
+}
+
+.pagination .arrow2 {
+    right: -60px;
+}
+
+.pagination .arrow-inactive {
+    text-align: center;
+    vertical-align: middle;
+    top: -6px;
+    width: 50px;
+    height: 50px;
+    font-size: 25px;
+    font-family: 'Roboto Light', sans-serif;
+    opacity: 0.5;
 }

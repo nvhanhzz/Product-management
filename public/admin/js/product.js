@@ -14,6 +14,7 @@ const deleteProductForm = document.querySelector('.delete-product-form'); // del
 const positionInput = document.querySelector('input[name="inputProductPosition"]'); // input position of product
 const positionProducts = document.querySelectorAll('.position-product'); // list poition
 const updateButtons = document.querySelectorAll('button[update-button]'); // list update button
+const detailButtons = document.querySelectorAll('button[detail-button]'); // list detail button
 
 // solve filter
 
@@ -149,5 +150,13 @@ updateButtons.forEach(item => {
     item.addEventListener("click", () => {
         const productId = item.getAttribute("item_id");
         window.location.href = `/admin/products/update-product/${productId}`;
+    })
+})
+
+// solve see product detail
+detailButtons.forEach(item => {
+    item.addEventListener("click", () => {
+        const productId = item.getAttribute("item_id");
+        window.location.href = `/admin/products/${productId}`;
     })
 })

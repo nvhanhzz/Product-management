@@ -63,7 +63,8 @@ block main
                                 else 
                                     button(class="badge badge-danger" itemId=item._id val="inactive") Inactive 
                             td 
-                                button(class="btn btn-warning btn-sm" update-button item_id=item._id) Update 
+                                button(class="btn  btn-secondary btn-sm" detail-button item_id=item._id) Detail
+                                button(class="btn btn-warning btn-sm ml-1" update-button item_id=item._id) Update 
                                 button(class="btn btn-danger btn-sm ml-1" delete-button item_id=item._id) Delete
                     
     .pagination
@@ -77,4 +78,4 @@ block main
     class="delete-product-form"
     method="POST")
 
-    script(src="js/product.js")
+    script(src="/admin/js/product.js")

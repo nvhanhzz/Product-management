@@ -252,3 +252,20 @@ module.exports.updateProduct = async (req, res) => {
         res.redirect("back");
     }
 }
+
+// [GET] /admin/products/:id
+module.exports.productDetail = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const product = await Product.find({
+            _id: productId,
+            deleted: false
+        });
+        res.render('admin/pages/product/productDetail', {
+            pageTitle: product[0].title,
+            product: product[0]
+        });
+    } catch (e) {
+        res.redirect("back");
+    }
+}

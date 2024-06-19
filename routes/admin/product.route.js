@@ -23,4 +23,6 @@ route.get("/update-product/:id", controller.viewFormUpdateProduct);
 
 route.patch("/update-product/:id", upload.single('thumbnail'), validate.validateProductForm, controller.updateProduct);
 
+route.get("/:id", controller.productDetail);
+
 module.exports = route;
