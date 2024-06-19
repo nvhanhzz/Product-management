@@ -188,8 +188,8 @@ module.exports.createProduct = async (req, res) => {
     const discountPercentage = parseFloat(req.body.discountPercentage);
     const stock = parseInt(req.body.stock);
     let thumbnail;
-    if (req.file && req.file.filename) {
-        thumbnail = "upload/" + req.file.filename; // sau phai sua
+    if (req.file && req.file.path) {
+        thumbnail = req.file.path;
     } else {
         thumbnail = 'https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=6&m=1216251206&s=612x612&w=0&h=G8kmMKxZlh7WyeYtlIHJDxP5XRGm9ZXyLprtVJKxd-o=';
     }
@@ -235,8 +235,8 @@ module.exports.viewFormUpdateProduct = async (req, res) => {
 module.exports.updateProduct = async (req, res) => {
     try {
         const productId = req.params.id;
-        if (req.file && req.file.filename) {
-            req.body.thumbnail = "upload/" + req.file.filename; // sau phai sua
+        if (req.file && req.file.path) {
+            req.body.thumbnail = req.file.path;
         }
         const update = await Product.findByIdAndUpdate(productId, req.body, { new: true });
 

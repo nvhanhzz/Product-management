@@ -1,8 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const multer = require('multer');
-const storage = require('../../helper/multerDiskStorage');
-const upload = multer({ storage: storage.storage });
+const upload = require('../../config/UploadPhoto');
 
 const controller = require("../../controllers/admin/product.controller");
 const validate = require("../../validate/createPorduct.validate");
