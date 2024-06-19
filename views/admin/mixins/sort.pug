@@ -1,0 +1,10 @@
+mixin sort(sortString)
+    select.sort-product
+        option(value="position-desc" selected=sortString === "position-desc") Position desc
+        option(value="position-asc" selected=sortString === "position-asc") Position asc
+        option(value="title-desc" selected=sortString === "title-desc") Title Z - A
+        option(value="title-asc" selected=sortString === "title-asc") Title A - Z
+        option(value="price-desc" selected=sortString === "price-desc") Price desc
+        option(value="price-asc" selected=sortString === "price-asc") Price asc
+
+    button(clear class="clear-button") Clear 

@@ -1,6 +1,7 @@
 extends ../../layouts/default.pug
 include ../../mixins/filterStatus.pug
 include ../../mixins/searchForm.pug
+include ../../mixins/sort.pug
 include ../../mixins/pagination.pug
 include ../../mixins/changeProductForm.pug
 include ../../mixins/notification.pug
@@ -23,6 +24,10 @@ block main
         .card-header
             a(href=`${prefixAdmin}/products/create-product` class="create-product") + Create product
             +change-product-form()
+        
+        h4.sort-title Sort
+        .card-sort
+            +sort(sortString)
         .card-body 
             table.table.table-hober.table-sm
                 thead 

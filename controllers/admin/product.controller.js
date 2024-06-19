@@ -1,6 +1,7 @@
 const Product = require("../../models/product.model");
 const filterHelper = require("../../helper/filterStatus");
 const searchHelper = require("../../helper/search");
+const sortHelper = require("../../helper/sort");
 const paginationHelper = require("../../helper/pagination");
 const prefixAdmin = require("../../config/system").prefixAdmin;
 
@@ -21,6 +22,12 @@ module.exports.index = async (req, res) => {
     const keyword = search.keyword;
     //end search
 
+    //sort
+    const sortObject = sortHelper.sort(query);
+    const [sortKey, sortValue] = Object.entries(sortObject)[0];
+    const sortString = `${sortKey}-${sortValue}`;
+    //end sort
+
     //create find object
     const find = {
         deleted: false
@@ -39,14 +46,15 @@ module.exports.index = async (req, res) => {
     const pagination = paginationHelper.pagination(query, limit, total);
     //endpagination
 
-    const products = await Product.find(find).skip(pagination.skip).limit(pagination.limit).sort({ position: "desc" });
+    const products = await Product.find(find).skip(pagination.skip).limit(pagination.limit).sort(sortObject);
 
     res.render(`admin/pages/product/index`, {
         pageTitle: "Product",
         products: products,
         filterStatus: filterStatus,
         keyword: keyword,
-        pagination: pagination
+        pagination: pagination,
+        sortString: sortString
     });
 }
 

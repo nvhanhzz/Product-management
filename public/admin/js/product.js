@@ -15,6 +15,8 @@ const positionInput = document.querySelector('input[name="inputProductPosition"]
 const positionProducts = document.querySelectorAll('.position-product'); // list poition
 const updateButtons = document.querySelectorAll('button[update-button]'); // list update button
 const detailButtons = document.querySelectorAll('button[detail-button]'); // list detail button
+const sortSelect = document.querySelector('.sort-product'); // sort product select
+const clearSortButton = document.querySelector('button[clear]'); // clear button
 
 // solve filter
 
@@ -159,4 +161,20 @@ detailButtons.forEach(item => {
         const productId = item.getAttribute("item_id");
         window.location.href = `/admin/products/${productId}`;
     })
+})
+
+// solve sort
+sortSelect.addEventListener("change", (e) => {
+    const [sortKey, sortValue] = e.target.value.split("-");
+    if (sortKey && sortValue) {
+        url.searchParams.set("sortKey", sortKey);
+        url.searchParams.set("sortValue", sortValue);
+        window.location.href = url.href;
+    }
+})
+
+clearSortButton.addEventListener("click", () => {
+    url.searchParams.delete("sortKey");
+    url.searchParams.delete("sortValue");
+    window.location.href = url.href;
 })
