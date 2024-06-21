@@ -1,5 +1,5 @@
-mixin change-product-form()
-    form(id="change-product-form" action="/admin/products/change-list-product" method="POST")
+mixin change-product-form(action)
+    form(id="change-product-form" action=action method="POST")
         input(
             type="text"
             style="display: none"

@@ -3,11 +3,9 @@ const filterHelper = require("../../helper/filterStatus");
 const searchHelper = require("../../helper/search");
 const sortHelper = require("../../helper/sort");
 const paginationHelper = require("../../helper/pagination");
-const prefixAdmin = require("../../config/system").prefixAdmin;
 
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
-    // console.log(prefixAdmin);
     const query = req.query;
 
     // filter
@@ -216,7 +214,7 @@ module.exports.createProduct = async (req, res) => {
     });
 
     try {
-        product.save();
+        await product.save();
         req.flash('success', 'Create product success');
     } catch (error) {
         console.error(error);

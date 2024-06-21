@@ -1,7 +1,7 @@
 extends ../../layouts/default.pug
 include ../../mixins/filterStatus.pug
 include ../../mixins/searchForm.pug
-include ../../mixins/sort.pug
+include ../../mixins/sortCategory.pug
 include ../../mixins/pagination.pug
 include ../../mixins/changeProductForm.pug
 include ../../mixins/notification.pug
@@ -9,7 +9,7 @@ include ../../mixins/notification.pug
 block main
     - if (messages.success)
         +notf-success()
-    h1 List products 
+    h1 List product categories
 
     .card.mb-3 
         .card-header Filter and Search 
@@ -22,12 +22,12 @@ block main
 
     .card.mb-3 
         .card-header
-            a(href=`${prefixAdmin}/products/create-product` class="create-product") + Create product
-            +change-product-form(`${prefixAdmin}/products/change-list-product`)
+            a(href=`${prefixAdmin}/product-categories/create-product-category` class="create-product") + Create product category
+            +change-product-form(`${prefixAdmin}/product-categories/change-list-product-category`)
         
         h4.sort-title Sort
         .card-sort
-            +sort(sortString)
+            +sortCategory(sortString)
         .card-body 
             table.table.table-hober.table-sm
                 thead 
@@ -37,13 +37,12 @@ block main
                         th Order 
                         th Thumbnail  
                         th Title 
-                        th Price 
                         th Position
                         th Status 
                         th Action 
 
                 tbody 
-                    each item, index in products
+                    each item, index in productCategories
                         tr.item 
                             //- td 
                             //-     input(type=text, value=item.slug)
@@ -59,7 +58,6 @@ block main
                                     height="auto"
                                 )
                             td #{item.title} 
-                            td #{item.price}$
                             td 
                                 input(type="number" value=item.position class="position-product")
                             td 
@@ -75,11 +73,11 @@ block main
     .pagination
         +pagination(pagination)
 
-    form(action=`${prefixAdmin}/products/change-status` 
+    form(action=`${prefixAdmin}/product-categories/change-status` 
     class="change-status-form"
     method="POST")
 
-    form(action=`${prefixAdmin}/products/delete-product` 
+    form(action=`${prefixAdmin}/product-categories/delete-product-category` 
     class="delete-product-form"
     method="POST")
 

@@ -118,13 +118,13 @@ formChangeListProduct.addEventListener("submit", (event) => {
             .map(item => item.parentNode.parentNode.querySelector('.position-product').value)
 
         positionInput.value = listPosition.join(', ');
-        // console.log(positionInput.value);
+        console.log(positionInput.value);
     }
 
-    const formChangeListProductPath = `/admin/products/change-list-product/${changeCase}?_method=PATCH`;
+    const oldAction = formChangeListProduct.getAttribute("action");
+    const formChangeListProductPath = `${oldAction}/${changeCase}?_method=PATCH`;
 
     formChangeListProduct.setAttribute("action", formChangeListProductPath);
-    // console.log(formChangeListProduct);
     if (changeCase != "") {
         const confirmed = confirm("Are you sure you want to change products?");
         if (confirmed) {
@@ -136,10 +136,11 @@ formChangeListProduct.addEventListener("submit", (event) => {
 // solve delete 1 product
 deleteButtons.forEach(item => {
     item.addEventListener("click", () => {
-        const confirmed = confirm("Are you sure you want to delete the product?");
+        const confirmed = confirm("Are you sure you want to delete ?");
         if (confirmed) {
+            const oldAction = deleteProductForm.getAttribute("action");
             const id = item.getAttribute("item_id");
-            const action = `/admin/products/delete-product/${id}?_method=DELETE`;
+            const action = `${oldAction}/${id}?_method=DELETE`;
             deleteProductForm.setAttribute("action", action);
             // console.log(deleteProductForm);
             deleteProductForm.submit();
