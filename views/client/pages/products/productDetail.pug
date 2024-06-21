@@ -15,7 +15,7 @@ block main
 
                 if product.description
                     .margin.product-attribute
-                        span.product-description= ' ' + product.description
+                        span.product-description!= product.description
 
                 if product.price
                     .margin.product-attribute.price

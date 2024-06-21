@@ -17,7 +17,7 @@ block main
             input#title.form-control(type="text", name="parentId", placeholder="Enter the product title")
         div.form-group
             label(for="description") Description:
-            textarea#description.form-control(name="description", rows="4", placeholder="Enter the product description")
+            textarea#my-expressjs-tinymce-app.form-control(name="description", rows="4", placeholder="Enter the product description")
         div.form-group
             label(for="thumbnail") Thumbnail:
             input#thumbnail.form-control.imp-inp(type="file", accept="image/*", name="thumbnail", placeholder="Enter the thumbnail URL")
@@ -35,3 +35,6 @@ block main
                 label(for="status-inactive") Inactive
         div.form-group
             button.btn.btn-primary(type="submit") Submit
+        
+    script(type="application/javascript" src= "/tinymce/tinymce.min.js")
+    script(type="application/javascript" src= "/admin/js/tinymce-config.js") 

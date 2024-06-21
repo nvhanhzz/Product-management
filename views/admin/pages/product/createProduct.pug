@@ -14,7 +14,7 @@ block main
             input#title.form-control(type="text", name="title", placeholder="Enter the product title", required)
         div.form-group
             label(for="description") Description:
-            textarea#description.form-control(name="description", rows="4", placeholder="Enter the product description")
+            textarea#my-expressjs-tinymce-app.form-control(name="description", rows="4", placeholder="Enter the product description")
         div.form-group
             label(for="price") Price:
             input#price.form-control(type="number", name="price", value="0", step="0.01", placeholder="Enter the product price")
@@ -41,3 +41,6 @@ block main
                 label(for="status-inactive") Inactive
         div.form-group
             button.btn.btn-primary(type="submit") Submit
+    
+    script(type="application/javascript" src= "/tinymce/tinymce.min.js")
+    script(type="application/javascript" src= "/admin/js/tinymce-config.js") 

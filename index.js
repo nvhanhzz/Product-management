@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const flash = require('express-flash');
 const session = require('express-session');
+const path = require('path');
 
 const database = require("./config/database");
 
@@ -30,6 +31,8 @@ app.set("views", "./views");
 app.set("view engine", "pug");
 
 app.use(express.static("public"));
+
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 // app local variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;

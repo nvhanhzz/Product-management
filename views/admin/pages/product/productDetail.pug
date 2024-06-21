@@ -13,7 +13,7 @@ block main
     if product.description
         div.margin.product-attribute
             span Description:
-            span= ' ' + product.description
+            div!= product.description
 
     if product.price
         div.margin.product-attribute
