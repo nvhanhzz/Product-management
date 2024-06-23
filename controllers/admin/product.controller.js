@@ -223,11 +223,14 @@ module.exports.createProduct = async (req, res) => {
     res.redirect("/admin/products");
 }
 
-// [GET] //admin/products/update-product/:id
+// [GET] /admin/products/update-product/:id
 module.exports.viewFormUpdateProduct = async (req, res) => {
     try {
         const productId = req.params.id;
-        const product = await Product.findById(productId);
+        const product = await Product.findOne({
+            _id: productId,
+            deleted: false
+        });
         res.render(`admin/pages/product/updateProduct`, {
             pageTitle: "Update product",
             product: product

@@ -151,16 +151,14 @@ deleteButtons.forEach(item => {
 // solve update 1 product
 updateButtons.forEach(item => {
     item.addEventListener("click", () => {
-        const productId = item.getAttribute("item_id");
-        window.location.href = `/admin/products/update-product/${productId}`;
+        window.location.href = item.getAttribute("linkTo");
     })
 })
 
 // solve see product detail
 detailButtons.forEach(item => {
     item.addEventListener("click", () => {
-        const productId = item.getAttribute("item_id");
-        window.location.href = `/admin/products/${productId}`;
+        window.location.href = item.getAttribute("linkTo");
     })
 })
 

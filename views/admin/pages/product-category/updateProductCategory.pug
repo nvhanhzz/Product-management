@@ -6,41 +6,43 @@ block addCss
     link(rel="stylesheet", href="/admin/css/createProduct.css")
 
 block main
+    - if (messages.success)
+        +notf-success()
     - if (messages.fail)
         +notf-fail()
+    
+    h2 Update product category
 
-    h2 Create product category
-
-    form(action=`${prefixAdmin}/product-categories/create-product-category`, enctype="multipart/form-data", method="POST")
+    form(action=`${prefixAdmin}/product-categories/update-product-category/${category._id}?_method=PATCH`, enctype="multipart/form-data", method="POST")
         div.form-group
             label(for="title") Title:
-            input#title.form-control(type="text", name="title", placeholder="Enter the product title", required)
+            input#title.form-control(type="text", name="title", placeholder="Enter the product title", value=category.title, required)
         div.form-group
             label(for="title") Parent category:
             br
             select.select-parent-category(name="parentId")
                 option(value="" selected) No parent
-                +selectParentCategory(categoryTree, 0, '')
+                +selectParentCategory(categoryTree, 0, category.parentId)
         div.form-group
             label(for="description") Description:
-            textarea#my-expressjs-tinymce-app.form-control(name="description", rows="4", placeholder="Enter the product description")
+            textarea#my-expressjs-tinymce-app.form-control(name="description", rows="4", placeholder="Enter the product description")=category.description
         div.form-group
             label(for="thumbnail") Thumbnail:
             input#thumbnail.form-control.imp-inp(type="file", accept="image/*", name="thumbnail", placeholder="Enter the thumbnail URL")
-            <img id="blah" src="#" alt="your image" />
+            img(id="blah" src=category.thumbnail alt="your image")
         div.form-group
             label(for="position") Position:
-            input#position.form-control(type="number", name="position", value=positionDefault, placeholder="Enter the product position")
+            input#position.form-control(type="number", name="position", value=category.position, placeholder="Enter the product position")
         div.form-group
             label Status:
             div
-                input#status-active(type="radio", name="status", value="active")
+                input#status-active(type="radio", name="status", value="active", checked=category.status === 'active')
                 label(for="status-active") Active
             div
-                input#status-inactive(type="radio", name="status", value="inactive", checked)
+                input#status-inactive(type="radio", name="status", value="inactive", checked=category.status === 'inactive')
                 label(for="status-inactive") Inactive
         div.form-group
             button.btn.btn-primary(type="submit") Submit
-        
+    
     script(type="application/javascript" src= "/tinymce/tinymce.min.js")
     script(type="application/javascript" src= "/admin/js/tinymce-config.js") 

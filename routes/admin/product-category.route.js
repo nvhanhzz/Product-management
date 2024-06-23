@@ -18,4 +18,10 @@ route.delete("/delete-product-category/:id", controller.deleteProductCategory);
 
 route.patch("/change-list-product-category/:changeCase", controller.updateListProductCategory);
 
+route.get("/update-product-category/:id", controller.viewFormUpdateCategory);
+
+route.patch("/update-product-category/:id", upload.single('thumbnail'), validate.validateProductCategoryForm, controller.updateCategory);
+
+route.get("/:id", controller.viewDetail);
+
 module.exports = route;

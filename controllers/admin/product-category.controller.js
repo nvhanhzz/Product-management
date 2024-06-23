@@ -63,7 +63,7 @@ module.exports.index = async (req, res) => {
         }
         return 0;
     });
-    console.log(categoryTree);
+    // console.log(categoryTree);
 
     //pagination tree
     const paginationTree = paginationTreeHelper.paginationTree(query, categoryTree.length);
@@ -237,4 +237,77 @@ module.exports.updateListProductCategory = async (req, res) => {
     // console.log(updateObject);
 
     res.redirect("back");
+}
+
+// [GET] /admin/product-categories/:id
+module.exports.viewDetail = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const category = await ProductCategory.findOne({
+            _id: id,
+            deleted: false
+        });
+
+        if (category && category.parentId !== '') {
+            const parent = await ProductCategory.findOne({
+                _id: category.parentId,
+                deleted: false
+            });
+            if (parent) {
+                category.par = parent.title;
+            } else {
+                category.par = null; // or any default value
+            }
+        }
+
+        res.render('admin/pages/product-category/productCategoryDetail', {
+            pageTitle: category.title,
+            category: category
+        });
+    } catch (error) {
+        console.error('Error fetching category details:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+// [GET] /admin/product-categories/update-product-category/:id
+module.exports.viewFormUpdateCategory = async (req, res) => {
+    try {
+        const listCategory = await ProductCategory.find();
+        const tree = treeHelper.tree(listCategory);
+        const id = req.params.id;
+        const category = await ProductCategory.findOne({
+            _id: id,
+            deleted: false
+        });
+        res.render(`admin/pages/product-category/updateProductCategory`, {
+            pageTitle: "Update product category",
+            category: category,
+            categoryTree: tree
+        });
+    } catch (e) {
+        res.redirect("back");
+    }
+}
+
+// [PATCH] /admin/product-categories/update-product-category/:id
+module.exports.updateCategory = async (req, res) => {
+    try {
+        const id = req.params.id;
+        if (req.file && req.file.path) {
+            req.body.thumbnail = req.file.path;
+        }
+        const update = await ProductCategory.findByIdAndUpdate(id, req.body, { new: true });
+
+        if (update) {
+            req.flash('success', `Update product category ${req.body.title} successfully !`);
+            res.redirect("back");
+        } else {
+            req.flash('fail', `Update failled !`);
+            res.redirect("back");
+        }
+    } catch (e) {
+        req.flash('fail', `Update failled !`);
+        res.redirect("back");
+    }
 }

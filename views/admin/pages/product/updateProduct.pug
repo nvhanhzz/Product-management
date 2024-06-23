@@ -10,6 +10,8 @@ block main
     - if (messages.fail)
         +notf-fail()
 
+    h2 Update product
+    
     form(action=`${prefixAdmin}/products/update-product/${product._id}?_method=PATCH`, enctype="multipart/form-data", method="POST")
         div.form-group
             label(for="title") Title:
