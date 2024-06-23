@@ -1,0 +1,29 @@
+mixin productCategoryTree(productCategories, level, orderObj)
+    - const prefix = Array(level + 1).join('-- ')
+    each item, index in productCategories
+        tr.item 
+            td
+                input(type="checkbox" name="checkitem" val=item._id)
+            td #{orderObj.order}
+            td 
+                img(
+                    src=item.thumbnail
+                    alt=item.title
+                    width="100px"
+                    height="auto"
+                )
+            td=`${prefix} ${item.title}`
+            td 
+                input(type="number" value=item.position class="position-product")
+            td 
+                if(item.status === "active")
+                    button(class="badge badge-success" itemId=item._id val="active") Active 
+                else 
+                    button(class="badge badge-danger" itemId=item._id val="inactive") Inactive 
+            td 
+                button(class="btn  btn-secondary btn-sm" detail-button item_id=item._id) Detail
+                button(class="btn btn-warning btn-sm ml-1" update-button item_id=item._id) Update 
+                button(class="btn btn-danger btn-sm ml-1" delete-button item_id=item._id) Delete
+        - orderObj.order++
+        if item.child.length > 0
+            +productCategoryTree(item.child, level + 1, orderObj)

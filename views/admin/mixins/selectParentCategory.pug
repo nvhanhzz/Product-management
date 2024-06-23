@@ -1,0 +1,6 @@
+mixin selectParentCategory(categoryTree, level)
+  each item in categoryTree
+    - const prefix = Array(level + 1).join('-- ')
+    option(value=item.id)= `${prefix} ${item.title}`
+    if item.child.length > 0
+      +selectParentCategory(item.child, level + 1)

@@ -1,4 +1,5 @@
 extends ../../layouts/default.pug
+include ../../mixins/productCategoryTree.pug
 include ../../mixins/filterStatus.pug
 include ../../mixins/searchForm.pug
 include ../../mixins/sortCategory.pug
@@ -25,9 +26,11 @@ block main
             a(href=`${prefixAdmin}/product-categories/create-product-category` class="create-product") + Create product category
             +change-product-form(`${prefixAdmin}/product-categories/change-list-product-category`)
         
-        h4.sort-title Sort
-        .card-sort
-            +sortCategory(sortString)
+        //- h4.sort-title Sort
+        //- .card-sort
+        //-     +sortCategory(sortString)
+
+        h4.sort-title= productCategories[0].title
         .card-body 
             table.table.table-hober.table-sm
                 thead 
@@ -42,33 +45,9 @@ block main
                         th Action 
 
                 tbody 
-                    each item, index in productCategories
-                        tr.item 
-                            //- td 
-                            //-     input(type=text, value=item.slug)
-                            td
-                                input(type="checkbox" name="checkitem" val=item._id)
-                            td #{(pagination.page - 1) * pagination.limit + index + 1}
-                            //- td #{item.position}
-                            td 
-                                img(
-                                    src=item.thumbnail
-                                    alt=item.title
-                                    width="100px"
-                                    height="auto"
-                                )
-                            td #{item.title} 
-                            td 
-                                input(type="number" value=item.position class="position-product")
-                            td 
-                                if(item.status === "active")
-                                    button(class="badge badge-success" itemId=item._id val="active") Active 
-                                else 
-                                    button(class="badge badge-danger" itemId=item._id val="inactive") Inactive 
-                            td 
-                                button(class="btn  btn-secondary btn-sm" detail-button item_id=item._id) Detail
-                                button(class="btn btn-warning btn-sm ml-1" update-button item_id=item._id) Update 
-                                button(class="btn btn-danger btn-sm ml-1" delete-button item_id=item._id) Delete
+                    - let orderObj = { order: 1 }
+                    +productCategoryTree(productCategories, 0, orderObj)
+
                     
     .pagination
         +pagination(pagination)

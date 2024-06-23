@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/notification.pug
+include ../../mixins/selectParentCategory.pug
 
 block addCss 
     link(rel="stylesheet", href="/admin/css/createProduct.css")
@@ -13,8 +14,11 @@ block main
             label(for="title") Title:
             input#title.form-control(type="text", name="title", placeholder="Enter the product title", required)
         div.form-group
-            label(for="title") Parent ID:
-            input#title.form-control(type="text", name="parentId", placeholder="Enter the product title")
+            label(for="title") Parent category:
+            br
+            select.select-parent-category(name="parentId")
+                option(value="" selected) No parent
+                +selectParentCategory(categoryTree, 0)
         div.form-group
             label(for="description") Description:
             textarea#my-expressjs-tinymce-app.form-control(name="description", rows="4", placeholder="Enter the product description")

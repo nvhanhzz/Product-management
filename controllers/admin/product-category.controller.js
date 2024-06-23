@@ -3,6 +3,8 @@ const filterHelper = require("../../helper/filterStatus");
 const searchHelper = require("../../helper/search");
 const sortHelper = require("../../helper/sort");
 const paginationHelper = require("../../helper/pagination");
+const treeHelper = require("../../helper/categoryTree");
+const paginationTreeHelper = require("../../helper/paginationTree");
 
 // [GET] /admin/product-categories
 module.exports.index = async (req, res) => {
@@ -40,36 +42,61 @@ module.exports.index = async (req, res) => {
     //end create find object
 
     //pagination
-    const limit = 5;
-    const total = await ProductCategory.countDocuments(find);
-    const pagination = paginationHelper.pagination(query, limit, total);
-    //endpagination
+    // const limit = 5;
+    // const total = await ProductCategory.countDocuments(find);
+    // const pagination = paginationHelper.pagination(query, limit, total);
+    //end pagination
 
-    const productCategories = await ProductCategory.find(find).skip(pagination.skip).limit(pagination.limit).sort(sortObject);
+    // const productCategories = await ProductCategory.find(find).skip(pagination.skip).limit(pagination.limit).sort(sortObject);
+
+    const listCategory = await ProductCategory.find({
+        deleted: false
+    });
+    const categoryTree = treeHelper.tree(listCategory).sort((a, b) => {
+        const titleA = a.slug.toLowerCase();
+        const titleB = b.slug.toLowerCase();
+        if (titleA < titleB) {
+            return -1;
+        }
+        if (titleA > titleB) {
+            return 1;
+        }
+        return 0;
+    });
+    console.log(categoryTree);
+
+    //pagination tree
+    const paginationTree = paginationTreeHelper.paginationTree(query, categoryTree.length);
+    //pagination tree
+    const resultTree = categoryTree.slice(paginationTree.page - 1, paginationTree.page);
 
     res.render(`admin/pages/product-category/index`, {
         pageTitle: "Product categories",
-        productCategories: productCategories,
+        // productCategories: productCategories,
+        productCategories: resultTree,
         filterStatus: filterStatus,
         keyword: keyword,
-        pagination: pagination,
+        pagination: paginationTree,
         sortString: sortString
     });
 }
 
 // [GET] /admin/product-categories/create-product-category
 module.exports.viewFormCreateProductCategory = async (req, res) => {
+    const listCategory = await ProductCategory.find();
+    const tree = treeHelper.tree(listCategory);
+    // console.log("tree, ", tree);
+
     const positionDefault = await ProductCategory.countDocuments({}) + 1;
     res.render(`admin/pages/product-category/createProductCategory`, {
         pageTitle: "Create product category",
-        positionDefault: positionDefault
+        positionDefault: positionDefault,
+        categoryTree: tree
     });
 }
 
 // [POST] /admin/product-categories/create-product-category
 module.exports.createProductCategory = async (req, res) => {
-    // console.log("1", req.body);
-
     const title = req.body.title;
     const description = req.body.description;
     const parentId = req.body.parentId;
