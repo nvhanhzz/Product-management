@@ -14,7 +14,7 @@ block main
     form(action=`${prefixAdmin}/product-categories/create-product-category`, enctype="multipart/form-data", method="POST")
         div.form-group
             label(for="title") Title:
-            input#title.form-control(type="text", name="title", placeholder="Enter the product title", required)
+            input#title.form-control(type="text", name="title", placeholder="Enter the product category title", required)
         div.form-group
             label(for="title") Parent category:
             br
@@ -23,14 +23,14 @@ block main
                 +selectParentCategory(categoryTree, 0, '')
         div.form-group
             label(for="description") Description:
-            textarea#my-expressjs-tinymce-app.form-control(name="description", rows="4", placeholder="Enter the product description")
+            textarea#my-expressjs-tinymce-app.form-control(name="description", rows="4", placeholder="Enter the product category description")
         div.form-group
             label(for="thumbnail") Thumbnail:
             input#thumbnail.form-control.imp-inp(type="file", accept="image/*", name="thumbnail", placeholder="Enter the thumbnail URL")
             <img id="blah" src="#" alt="your image" />
         div.form-group
             label(for="position") Position:
-            input#position.form-control(type="number", name="position", value=positionDefault, placeholder="Enter the product position")
+            input#position.form-control(type="number", name="position", value=positionDefault, placeholder="Enter the product category position")
         div.form-group
             label Status:
             div

@@ -77,61 +77,68 @@ for (let btn of statusButtons) {
 
 // solve change list product
 
-checkAll.addEventListener("click", () => {
-    if (checkAll.checked) {
-        checkItems.forEach(item => {
-            item.checked = true;
-        })
-    } else {
-        checkItems.forEach(item => {
-            item.checked = false;
-        })
-    }
-});
-
-checkItems.forEach(item => {
-    item.addEventListener("click", () => {
-        const numChange = Array.from(checkItems).reduce((accumulator, currentValue) => {
-            return currentValue.checked ? accumulator + 1 : accumulator;
-        }, 0);
-
-        if (numChange === checkItems.length) {
-            checkAll.checked = true;
+if (checkAll) {
+    checkAll.addEventListener("click", () => {
+        if (checkAll.checked) {
+            checkItems.forEach(item => {
+                item.checked = true;
+            })
         } else {
-            checkAll.checked = false;
+            checkItems.forEach(item => {
+                item.checked = false;
+            })
         }
     });
-});
+}
 
-formChangeListProduct.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const listIdChange = Array.from(checkItems)
-        .filter(item => item.checked)
-        .map(item => item.getAttribute("val"));
-    inputChangeListProduct.value = listIdChange.join(", ");
-    const changeCase = selectChangeProduct.value.toLowerCase().replace(/\s/g, '_');;
-    // console.log(changeCase);
+if (checkItems) {
+    checkItems.forEach(item => {
+        item.addEventListener("click", () => {
+            const numChange = Array.from(checkItems).reduce((accumulator, currentValue) => {
+                return currentValue.checked ? accumulator + 1 : accumulator;
+            }, 0);
 
-    if (changeCase === 'change_position') {
-        const listPosition = Array.from(checkItems)
+            if (numChange === checkItems.length) {
+                checkAll.checked = true;
+            } else {
+                checkAll.checked = false;
+            }
+        });
+    });
+
+}
+
+if (formChangeListProduct) {
+    formChangeListProduct.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const listIdChange = Array.from(checkItems)
             .filter(item => item.checked)
-            .map(item => item.parentNode.parentNode.querySelector('.position-product').value)
+            .map(item => item.getAttribute("val"));
+        inputChangeListProduct.value = listIdChange.join(", ");
+        const changeCase = selectChangeProduct.value.toLowerCase().replace(/\s/g, '_');;
+        // console.log(changeCase);
 
-        positionInput.value = listPosition.join(', ');
-        console.log(positionInput.value);
-    }
+        if (changeCase === 'change_position') {
+            const listPosition = Array.from(checkItems)
+                .filter(item => item.checked)
+                .map(item => item.parentNode.parentNode.querySelector('.position-product').value)
 
-    const oldAction = formChangeListProduct.getAttribute("action");
-    const formChangeListProductPath = `${oldAction}/${changeCase}?_method=PATCH`;
-
-    formChangeListProduct.setAttribute("action", formChangeListProductPath);
-    if (changeCase != "") {
-        const confirmed = confirm("Are you sure you want to change products?");
-        if (confirmed) {
-            formChangeListProduct.submit();
+            positionInput.value = listPosition.join(', ');
+            console.log(positionInput.value);
         }
-    }
-});
+
+        const oldAction = formChangeListProduct.getAttribute("action");
+        const formChangeListProductPath = `${oldAction}/${changeCase}?_method=PATCH`;
+
+        formChangeListProduct.setAttribute("action", formChangeListProductPath);
+        if (changeCase != "") {
+            const confirmed = confirm("Are you sure you want to change products?");
+            if (confirmed) {
+                formChangeListProduct.submit();
+            }
+        }
+    });
+}
 
 // solve delete 1 product
 deleteButtons.forEach(item => {
@@ -142,7 +149,6 @@ deleteButtons.forEach(item => {
             const id = item.getAttribute("item_id");
             const action = `${oldAction}/${id}?_method=DELETE`;
             deleteProductForm.setAttribute("action", action);
-            // console.log(deleteProductForm);
             deleteProductForm.submit();
         }
     });
@@ -163,17 +169,21 @@ detailButtons.forEach(item => {
 })
 
 // solve sort
-sortSelect.addEventListener("change", (e) => {
-    const [sortKey, sortValue] = e.target.value.split("-");
-    if (sortKey && sortValue) {
-        url.searchParams.set("sortKey", sortKey);
-        url.searchParams.set("sortValue", sortValue);
-        window.location.href = url.href;
-    }
-})
+if (sortSelect) {
+    sortSelect.addEventListener("change", (e) => {
+        const [sortKey, sortValue] = e.target.value.split("-");
+        if (sortKey && sortValue) {
+            url.searchParams.set("sortKey", sortKey);
+            url.searchParams.set("sortValue", sortValue);
+            window.location.href = url.href;
+        }
+    })
+}
 
-clearSortButton.addEventListener("click", () => {
-    url.searchParams.delete("sortKey");
-    url.searchParams.delete("sortValue");
-    window.location.href = url.href;
-})
+if (clearSortButton) {
+    clearSortButton.addEventListener("click", () => {
+        url.searchParams.delete("sortKey");
+        url.searchParams.delete("sortValue");
+        window.location.href = url.href;
+    })
+}

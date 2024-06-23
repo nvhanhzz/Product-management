@@ -1,0 +1,9 @@
+module.exports.validateCreateRoleForm = (req, res, next) => {
+    if (req.body.title === '') {
+        req.flash('fail', 'Please fill in the title field');
+        res.redirect("back");
+    }
+    else {
+        next();
+    }
+}

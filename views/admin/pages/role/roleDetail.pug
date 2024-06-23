@@ -1,0 +1,17 @@
+extends ../../layouts/default.pug
+
+block addCss 
+    link(rel="stylesheet", href="/admin/css/productDetail.css")
+
+block main
+    h2.margin Role
+    div.margin.product-attribute
+        span Role:
+        div= role.title
+    if role.description
+        div.margin.product-attribute
+            span Description:
+            div= role.description
+
+    div.margin.product-attribute
+        a(href=`${prefixAdmin}/roles/update-role/${role.id}`, class="margin update-button") Update
