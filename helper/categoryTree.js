@@ -9,13 +9,13 @@ const createTree = (listCategory, check, currentCategoryIndex) => {
     }
 }
 
-module.exports.tree = (listCategory) => {
+module.exports.tree = (listCategory, rootCategoryIds) => {
     let check = [...Array(listCategory.length)].map(() => false);
 
     let resultTree = [];
 
     for (let i = 0; i < listCategory.length; ++i) {
-        if (!check[i]) {
+        if (rootCategoryIds.includes(listCategory[i]._id.toString()) && !check[i]) {
             createTree(listCategory, check, i);
             resultTree.push(listCategory[i]);
         }

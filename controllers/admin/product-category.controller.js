@@ -5,6 +5,7 @@ const sortHelper = require("../../helper/sort");
 const paginationHelper = require("../../helper/pagination");
 const treeHelper = require("../../helper/categoryTree");
 const paginationTreeHelper = require("../../helper/paginationTree");
+const rootCategoryHelper = require("../../helper/getRootCategoryIds");
 
 // [GET] /admin/product-categories
 module.exports.index = async (req, res) => {
@@ -41,18 +42,13 @@ module.exports.index = async (req, res) => {
     }
     //end create find object
 
-    //pagination
-    // const limit = 5;
-    // const total = await ProductCategory.countDocuments(find);
-    // const pagination = paginationHelper.pagination(query, limit, total);
-    //end pagination
-
-    // const productCategories = await ProductCategory.find(find).skip(pagination.skip).limit(pagination.limit).sort(sortObject);
-
     const listCategory = await ProductCategory.find({
         deleted: false
     });
-    const categoryTree = treeHelper.tree(listCategory).sort((a, b) => {
+
+    const rootCategoryIds = await rootCategoryHelper.rootCategoryIds();
+
+    const categoryTree = treeHelper.tree(listCategory, rootCategoryIds).sort((a, b) => {
         const titleA = a.slug.toLowerCase();
         const titleB = b.slug.toLowerCase();
         if (titleA < titleB) {
@@ -63,7 +59,6 @@ module.exports.index = async (req, res) => {
         }
         return 0;
     });
-    // console.log(categoryTree);
 
     //pagination tree
     const paginationTree = paginationTreeHelper.paginationTree(query, categoryTree.length);
@@ -83,8 +78,9 @@ module.exports.index = async (req, res) => {
 
 // [GET] /admin/product-categories/create-product-category
 module.exports.viewFormCreateProductCategory = async (req, res) => {
+    const rootCategoryIds = await rootCategoryHelper.rootCategoryIds();
     const listCategory = await ProductCategory.find();
-    const tree = treeHelper.tree(listCategory);
+    const tree = treeHelper.tree(listCategory, rootCategoryIds);
     // console.log("tree, ", tree);
 
     const positionDefault = await ProductCategory.countDocuments({}) + 1;
@@ -273,8 +269,9 @@ module.exports.viewDetail = async (req, res) => {
 // [GET] /admin/product-categories/update-product-category/:id
 module.exports.viewFormUpdateCategory = async (req, res) => {
     try {
+        const rootCategoryIds = await rootCategoryHelper.rootCategoryIds();
         const listCategory = await ProductCategory.find();
-        const tree = treeHelper.tree(listCategory);
+        const tree = treeHelper.tree(listCategory, rootCategoryIds);
         const id = req.params.id;
         const category = await ProductCategory.findOne({
             _id: id,
