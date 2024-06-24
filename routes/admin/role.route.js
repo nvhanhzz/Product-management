@@ -3,7 +3,7 @@ const route = express.Router();
 
 const controller = require("../../controllers/admin/role.controller");
 
-const validate = require("../../validate/createRole.validate");
+const validate = require("../../validate/admin/role.validate");
 
 route.get("/create-role", controller.getCreateRole);
 

@@ -7,6 +7,7 @@ imgInputs.forEach(item => {
         const [file] = e.target.files;
         if (file) {
             blah.src = URL.createObjectURL(file);
+            blah.style.display = "block";
         }
     })
 });

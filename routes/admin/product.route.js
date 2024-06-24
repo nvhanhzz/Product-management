@@ -1,10 +1,9 @@
 const express = require("express");
 const route = express.Router();
-const multer = require('multer');
 const upload = require('../../config/UploadPhoto');
 
 const controller = require("../../controllers/admin/product.controller");
-const validate = require("../../validate/createPorduct.validate");
+const validate = require("../../validate/admin/porduct.validate");
 
 route.get("/", controller.index);
 
@@ -16,11 +15,11 @@ route.delete("/delete-product/:id", controller.deleteProduct);
 
 route.get("/create-product", controller.viewFormCreateProduct);
 
-route.post("/create-product", upload.single('thumbnail'), validate.validateProductForm, controller.createProduct);
+route.post("/create-product", validate.validateProductForm, upload.single('thumbnail'), controller.createProduct);
 
 route.get("/update-product/:id", controller.viewFormUpdateProduct);
 
-route.patch("/update-product/:id", upload.single('thumbnail'), validate.validateProductForm, controller.updateProduct);
+route.patch("/update-product/:id", validate.validateProductForm, upload.single('thumbnail'), controller.updateProduct);
 
 route.get("/:id", controller.productDetail);
 

@@ -1,0 +1,40 @@
+extends ../../layouts/default.pug
+include ../../mixins/notification.pug
+
+block main
+    - if (messages.success)
+        +notf-success()
+    h1 List account
+
+    .card.mb-3 
+
+    .card.mb-3 
+        .card-header
+            a(href=`${prefixAdmin}/accounts/create-account` class="create-product") + Create account
+            
+        .card-body 
+            table.table.table-hober.table-sm
+                thead 
+                    tr 
+                        th Order 
+                        th Role 
+                        th Short description
+                        th Action 
+
+                tbody 
+                    //- each item, index in roles
+                    //-     tr.item 
+                    //-         td= index+1
+                    //-         td #{item.title} 
+                    //-         td #{item.description} 
+                                
+                    //-         td 
+                    //-             button(class="btn  btn-secondary btn-sm" detail-button linkTo=`${prefixAdmin}/roles/${item.id}`) Detail
+                    //-             button(class="btn btn-warning btn-sm ml-1" update-button linkTo=`${prefixAdmin}/roles/update-role/${item.id}`) Update 
+                    //-             button(class="btn btn-danger btn-sm ml-1" delete-button item_id=item._id) Delete
+
+    form(action=`${prefixAdmin}/roles/delete-role` 
+    class="delete-product-form"
+    method="POST")
+
+    script(src="/admin/js/product.js")
