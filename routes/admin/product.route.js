@@ -15,11 +15,11 @@ route.delete("/delete-product/:id", controller.deleteProduct);
 
 route.get("/create-product", controller.viewFormCreateProduct);
 
-route.post("/create-product", validate.validateProductForm, upload.single('thumbnail'), controller.createProduct);
+route.post("/create-product", upload.single('thumbnail'), validate.validateProductForm, controller.createProduct);
 
 route.get("/update-product/:id", controller.viewFormUpdateProduct);
 
-route.patch("/update-product/:id", validate.validateProductForm, upload.single('thumbnail'), controller.updateProduct);
+route.patch("/update-product/:id", upload.single('thumbnail'), validate.validateProductForm, controller.updateProduct);
 
 route.get("/:id", controller.productDetail);
 

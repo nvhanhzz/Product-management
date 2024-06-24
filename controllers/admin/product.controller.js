@@ -64,7 +64,8 @@ module.exports.changeStatus = async (req, res) => {
     try {
         await Product.updateOne(
             {
-                _id: itemId
+                _id: itemId,
+                deleted: false
             },
             {
                 status: status

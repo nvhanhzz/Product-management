@@ -5,8 +5,19 @@ const hashPassword = require("../../helper/hashPassword");
 
 // [GET] /admin/accounts
 module.exports.index = async (req, res) => {
+    const accounts = await Account.find({ deleted: false });
+    for (let item of accounts) {
+        const role = await Role.findOne({
+            _id: item.roleId,
+            deleted: false
+        });
+
+        item.role = role ? role.title : null;
+    }
+
     res.render("admin/pages/account/index", {
-        pageTitle: "Accounts"
+        pageTitle: "Accounts",
+        accounts: accounts
     });
 }
 
@@ -19,7 +30,7 @@ module.exports.getCreate = async (req, res) => {
     });
 }
 
-// [GET] /admin/accounts/create-account
+// [POST] /admin/accounts/create-account
 module.exports.postCreate = async (req, res) => {
     if (req.file && req.file.path) {
         req.body.avatar = req.file.path;
@@ -39,4 +50,122 @@ module.exports.postCreate = async (req, res) => {
     }
 
     res.redirect(`${PATH_ADMIN}/accounts`);
+}
+
+// [PATCH] /admin/accounts/change-status/:status/:id
+module.exports.patchChangStatus = async (req, res) => {
+    const status = req.params.status;
+    const id = req.params.id;
+
+    try {
+        await Account.updateOne(
+            {
+                _id: id,
+                deleted: false
+            },
+            {
+                status: status
+            }
+        );
+        req.flash('success', 'Update status success');
+    } catch (error) {
+        console.log(error);
+    }
+
+    res.redirect("back");
+}
+
+// [DELETE] /admin/accounts/delete-accounts/:id
+module.exports.deleteAccount = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        await Account.updateOne(
+            {
+                _id: id,
+                deleted: false
+            },
+            {
+                deleted: true
+            }
+        );
+        req.flash('success', 'Delete account success');
+    } catch (error) {
+        console.log(error);
+    }
+
+    res.redirect("back");
+}
+
+// [GET] /admin/accounts/:id
+module.exports.getDetail = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const account = await Account.findOne({
+            _id: id,
+            deleted: false
+        }).select("-password");
+
+        const role = await Role.findOne({
+            _id: account.roleId,
+            deleted: false
+        });
+
+        account.role = role ? role.title : null;
+
+        res.render("admin/pages/account/accountDetail", {
+            pageTitle: account.fullName,
+            account: account
+        })
+    } catch (e) {
+        res.redirect("back");
+    }
+}
+
+// [GET] /admin/accounts/update-account/:id
+module.exports.getUpdateAccount = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const account = await Account.findOne({
+            _id: id,
+            deleted: false
+        }).select("-password");
+
+        const roles = await Role.find({ deleted: false });
+
+        res.render("admin/pages/account/updateAccount", {
+            pageTitle: account.fullName,
+            account: account,
+            roles: roles
+        })
+    } catch (e) {
+        res.redirect("back");
+    }
+}
+
+// [PATCH] /admin/accounts/update-account/:id
+module.exports.patchUpdateAccount = async (req, res) => {
+    try {
+        const id = req.params.id;
+        if (req.file && req.file.path) {
+            req.body.avatar = req.file.path;
+        }
+
+        if (req.body.password) {
+            req.body.password = await hashPassword.hashPassword(req.body.password);
+        }
+
+        const update = await Account.findByIdAndUpdate(id, req.body, { new: true });
+
+        if (update) {
+            req.flash('success', `Update account of ${req.body.fullName} successfully !`);
+            res.redirect("back");
+        } else {
+            req.flash('fail', `Update failled !`);
+            res.redirect("back");
+        }
+    } catch (e) {
+        req.flash('fail', `Update failled !`);
+        res.redirect("back");
+    }
 }

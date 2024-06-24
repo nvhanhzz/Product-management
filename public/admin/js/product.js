@@ -70,7 +70,7 @@ for (let btn of statusButtons) {
         // console.log(oldAction);
         const changStatusPath = `${oldAction}/${status}/${itemId}?_method=PATCH`;
         changeStatusForm.setAttribute("action", changStatusPath);
-        // console.log(changeStatusForm);
+        console.log(changeStatusForm);
         changeStatusForm.submit();
     })
 }

@@ -28,10 +28,10 @@ block main
         div.form-group
             label(for="role") Role:
             br
-            select.select-parent-category(name="role", required)
+            select.select-parent-category(name="roleId", required)
                 option(value="" disabled selected) --Select a role--
                 each role in roles
-                    option(value= role.title) #{role.title}
+                    option(value= role.id) #{role.title}
 
         div.form-group
             label(for="avatar") Avatar:

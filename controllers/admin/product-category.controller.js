@@ -291,6 +291,13 @@ module.exports.viewFormUpdateCategory = async (req, res) => {
 module.exports.updateCategory = async (req, res) => {
     try {
         const id = req.params.id;
+
+        if (req.body.parentId === id) {
+            req.flash('fail', `Update failled, it cannot be selected as a parent category !`);
+            res.redirect("back");
+            return;
+        }
+
         if (req.file && req.file.path) {
             req.body.thumbnail = req.file.path;
         }
