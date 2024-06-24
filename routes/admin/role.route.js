@@ -9,13 +9,17 @@ route.get("/create-role", controller.getCreateRole);
 
 route.post("/create-role", validate.validateCreateRoleForm, controller.createRole);
 
-route.get("/:id", controller.roleDetail);
-
 route.delete("/delete-role/:id", controller.deleteRole);
 
 route.get("/update-role/:id", controller.getUpdateRoleForm);
 
 route.patch("/update-role/:id", controller.updateRole);
+
+route.get("/permissions", controller.getPermission);
+
+route.patch("/update-permission", controller.updatePermission);
+
+route.get("/:id", controller.roleDetail);
 
 route.get("/", controller.index);
 

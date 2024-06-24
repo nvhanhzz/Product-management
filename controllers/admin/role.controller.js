@@ -101,3 +101,31 @@ module.exports.updateRole = async (req, res) => {
         res.redirect("back");
     }
 }
+
+// [GET] /admin/roles/permissions
+module.exports.getPermission = async (req, res) => {
+    const roles = await Role.find({ deleted: false });
+    res.render("admin/pages/permission/index", {
+        roles: roles,
+        pageTitle: "Permission"
+    });
+}
+
+// [GET] /admin/roles/update-permission
+module.exports.updatePermission = async (req, res) => {
+    try {
+        const permissions = JSON.parse(req.body.permissions);
+        for (const item of permissions) {
+            await Role.updateOne({
+                _id: item.id,
+                deleted: false
+            }, {
+                permission: item.listPermission
+            });
+        }
+        req.flash("success", "Update permission success");
+        res.redirect("back");
+    } catch (error) {
+        req.flash("fail", "Error in server");
+    }
+}

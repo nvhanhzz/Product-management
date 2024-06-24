@@ -1,0 +1,111 @@
+extends ../../layouts/default.pug
+include ../../mixins/notification.pug
+
+block addCss 
+    link(rel="stylesheet", href="/admin/css/permission.css")
+
+block main
+    - if (messages.success)
+        +notf-success()
+    h1 Permissions
+
+    .card.mb-3 
+
+    .card.mb-3 
+        .card-header
+            button(class="update-permission-button") Update
+
+        .card-body 
+            table.table.table-hober.table-sm
+                thead 
+                    tr 
+                        th Feature 
+                        each item, index in roles   
+                            th #{item.title}
+                    tr(class="d_none") 
+                        th Id 
+                        each item, index in roles   
+                            th 
+                                input(class="role-id" value=item.id)
+
+                tbody 
+                    tr 
+                        th Product category
+                    tr 
+                        td View 
+                        each item, index in roles 
+                            td 
+                                input(type="checkbox" name="view-product-category" value=index check-box-permission checked= item.permission.includes("view-product-category"))
+                    tr
+                        td Create new 
+                        each item, index in roles 
+                            td 
+                                input(type="checkbox" name="create-product-category" value=index check-box-permission checked= item.permission.includes("create-product-category"))
+                    tr
+                        td Update 
+                        each item, index in roles 
+                            td 
+                                input(type="checkbox" name="update-product-category" value=index check-box-permission checked= item.permission.includes("update-product-category"))
+                    tr
+                        td Delete 
+                        each item, index in roles 
+                            td 
+                                input(type="checkbox" name="delete-product-category" value=index check-box-permission checked= item.permission.includes("delete-product-category"))
+                    
+                    tr 
+                        th Product
+                    tr 
+                        td View 
+                        each item, index in roles 
+                            td 
+                                input(type="checkbox" name="view-product" value=index check-box-permission checked= item.permission.includes("view-product"))
+                    tr
+                        td Create new 
+                        each item, index in roles 
+                            td 
+                                input(type="checkbox" name="create-product" value=index check-box-permission checked= item.permission.includes("create-product"))
+                    tr
+                        td Update 
+                        each item, index in roles 
+                            td 
+                                input(type="checkbox" name="update-product" value=index check-box-permission checked= item.permission.includes("update-product"))
+                    tr
+                        td Delete 
+                        each item, index in roles 
+                            td 
+                                input(type="checkbox" name="delete-product" value=index check-box-permission checked= item.permission.includes("delete-product"))
+
+                    tr 
+                        th Role
+                    tr 
+                        td View 
+                        each item, index in roles 
+                            td 
+                                input(type="checkbox" name="view-role" value=index check-box-permission checked= item.permission.includes("view-role"))
+                    tr
+                        td Create new 
+                        each item, index in roles 
+                            td 
+                                input(type="checkbox" name="create-role" value=index check-box-permission checked= item.permission.includes("create-role"))
+                    tr
+                        td Update 
+                        each item, index in roles 
+                            td 
+                                input(type="checkbox" name="update-role" value=index check-box-permission checked= item.permission.includes("update-role"))
+                    tr
+                        td Delete 
+                        each item, index in roles 
+                            td 
+                                input(type="checkbox" name="delete-role" value=index check-box-permission checked= item.permission.includes("delete-role"))
+                    tr
+                        td Permission 
+                        each item, index in roles 
+                            td 
+                                input(type="checkbox" name="permission" value=index check-box-permission checked= item.permission.includes("permission"))
+
+    
+    form(action=`${prefixAdmin}/roles/update-permission?_method=PATCH` 
+    class="update-permission-form d_none"
+    method="POST")
+        input(type="text" permissions name="permissions")
+    script(src="/admin/js/permission.js")
