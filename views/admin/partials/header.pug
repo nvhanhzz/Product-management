@@ -5,4 +5,8 @@ header.header
                 .inner-logo 
                     a(href="/admin/dashboard") ADMIN 
 
-            .col-10
+            .col-9
+
+            .col-1
+                form(class="logout-form" action=`${prefixAdmin}/auth/logout` method="POST")
+                    button(type="submit" class="logout-button") Logout

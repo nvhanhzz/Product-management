@@ -44,6 +44,13 @@ body {
     text-decoration: none;
 }
 
+.logout-button {
+    background-color: #212023;
+    border: 1px solid #6b6666;
+    color: #c7b1b1;
+    font-weight: 600;
+}
+
 /* Body styles */
 
 .sider {

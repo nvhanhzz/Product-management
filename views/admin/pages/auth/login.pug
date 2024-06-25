@@ -1,0 +1,18 @@
+extends ../../layouts/auth.pug
+include ../../mixins/notification.pug
+
+block addCss 
+    link(rel="stylesheet", href="/admin/css/auth.css")
+
+block main
+    - if (messages.success)
+        +notf-success()
+    - if (messages.fail)
+        +notf-fail()
+    form(class="login-form" action=`${prefixAdmin}/auth/login` method="POST")
+        h1(class="login-title") Login
+        label(for="email") Email:
+        input(id="email" type="text" name="email" class="login-input" required)
+        label(for="password") Password:
+        input(id="password" type="password" name="password" class="login-input" required)
+        button(type="submit" class="login-button") Login
