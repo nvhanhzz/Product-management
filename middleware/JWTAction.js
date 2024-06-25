@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const PATH_ADMIN = require("../config/system").prefixAdmin;
+const Account = require("../models/account.model");
+const Role = require("../models/role.model");
 
 const verifyToken = (token) => {
     const key = process.env.jwt_signature;
@@ -13,22 +15,25 @@ const verifyToken = (token) => {
     return decoded;
 }
 
-const checkUserJwt = (req, res, next) => {
+const checkUserJwt = async (req, res, next) => {
     const cookies = req.cookies;
-    // console.log(1);
 
     if (cookies && cookies.token) {
         const token = cookies.token;
         const decoded = verifyToken(token);
         if (decoded) {
-            req.decodedJWT = decoded;
-            // console.log(decoded);
-            next();
+            const user = await Account.findById(decoded.id).select("-password");
+            const role = await Role.findById(user.roleId);
+            user.role = role;
+            res.locals.currentUser = user;
+            // console.log(res.locals.currentUser);
+            return next();
         } else {
-            res.redirect(`${PATH_ADMIN}/auth/login`);
+            res.clearCookie("token");
+            return res.redirect(`${PATH_ADMIN}/auth/login`);
         }
     } else {
-        res.redirect(`${PATH_ADMIN}/auth/login`);
+        return res.redirect(`${PATH_ADMIN}/auth/login`);
     }
 }
 

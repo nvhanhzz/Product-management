@@ -8,56 +8,62 @@ include ../../mixins/changeProductForm.pug
 include ../../mixins/notification.pug
 
 block main
-    - if (messages.success)
-        +notf-success()
-    h1 List product categories
+    if currentUser.role.permission.includes("view-product-category")
+        - if (messages.success)
+            +notf-success()
+        h1 List product categories
 
-    //- .card.mb-3 
-    //-     .card-header Filter and Search 
-    //-     .card-body 
-    //-         .row 
-    //-             .col-6
-    //-                 +filter-status(filterStatus)
-    //-             .col-6 
-    //-                 +search-form(keyword)
+        //- .card.mb-3 
+        //-     .card-header Filter and Search 
+        //-     .card-body 
+        //-         .row 
+        //-             .col-6
+        //-                 +filter-status(filterStatus)
+        //-             .col-6 
+        //-                 +search-form(keyword)
 
-    .card.mb-3 
-        .card-header
-            a(href=`${prefixAdmin}/product-categories/create-product-category` class="create-product") + Create product category
-            +change-product-form(`${prefixAdmin}/product-categories/change-list-product-category`)
-        
-        //- h4.sort-title Sort
-        //- .card-sort
-        //-     +sortCategory(sortString)
+        .card.mb-3 
+            .card-header
+                if currentUser.role.permission.includes("create-product-category")
+                    a(href=`${prefixAdmin}/product-categories/create-product-category` class="create-product") + Create product category
+                if currentUser.role.permission.includes("update-product-category")
+                    +change-product-form(`${prefixAdmin}/product-categories/change-list-product-category`)
+            
+            //- h4.sort-title Sort
+            //- .card-sort
+            //-     +sortCategory(sortString)
 
-        //- h4.sort-title= productCategories[0].title
-        .card-body 
-            table.table.table-hober.table-sm
-                thead 
-                    tr 
-                        th 
-                            input(type="checkbox" name="checkall")
-                        th Order 
-                        th Thumbnail  
-                        th Title 
-                        th Position
-                        th Status 
-                        th Action 
+            //- h4.sort-title= productCategories[0].title
+            .card-body 
+                table.table.table-hober.table-sm
+                    thead 
+                        tr 
+                            if currentUser.role.permission.includes("update-product-category")
+                                th 
+                                    input(type="checkbox" name="checkall")
+                            th Order 
+                            th Thumbnail  
+                            th Title 
+                            th Position
+                            th Status 
+                            th Action 
 
-                tbody 
-                    - let orderObj = { order: 1 }
-                    +productCategoryTree(productCategories, 0, orderObj)
+                    tbody 
+                        - let orderObj = { order: 1 }
+                        +productCategoryTree(productCategories, 0, orderObj)
 
-                    
-    .pagination
-        +pagination(pagination)
+                        
+        .pagination
+            +pagination(pagination)
 
-    form(action=`${prefixAdmin}/product-categories/change-status` 
-    class="change-status-form"
-    method="POST")
+        form(action=`${prefixAdmin}/product-categories/change-status` 
+        class="change-status-form"
+        method="POST")
 
-    form(action=`${prefixAdmin}/product-categories/delete-product-category` 
-    class="delete-product-form"
-    method="POST")
+        form(action=`${prefixAdmin}/product-categories/delete-product-category` 
+        class="delete-product-form"
+        method="POST")
 
-    script(src="/admin/js/product.js")
+        script(src="/admin/js/product.js")
+    else 
+        h1 No permission

@@ -45,10 +45,12 @@ body {
 }
 
 .logout-button {
-    background-color: #212023;
+    background-color: hsl(0, 68%, 44%);
     border: 1px solid #6b6666;
+    border-radius: 5px;
     color: #c7b1b1;
     font-weight: 600;
+    font-size: 17px;
 }
 
 /* Body styles */

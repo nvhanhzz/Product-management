@@ -5,20 +5,23 @@ block addCss
     link(rel="stylesheet", href="/admin/css/createProduct.css")
 
 block main
-    - if (messages.success)
-        +notf-success()
-    - if (messages.fail)
-        +notf-fail()
-    h1 Create role
+    if currentUser.role.permission.includes("create-role")
+        - if (messages.success)
+            +notf-success()
+        - if (messages.fail)
+            +notf-fail()
+        h1 Create role
 
-    form(action=`${prefixAdmin}/roles/create-role`, method="POST")
-        div.form-group
-            label(for="title") Title:
-            input#title.form-control(type="text", name="title", placeholder="Enter the role title", required)
-        
-        div.form-group
-            label(for="title") Short description:
-            input#title.form-control(type="text", name="description", placeholder="Enter the role description")
-        
-        div.form-group
-            button.btn.btn-primary(type="submit") Submit
+        form(action=`${prefixAdmin}/roles/create-role`, method="POST")
+            div.form-group
+                label(for="title") Title:
+                input#title.form-control(type="text", name="title", placeholder="Enter the role title", required)
+            
+            div.form-group
+                label(for="title") Short description:
+                input#title.form-control(type="text", name="description", placeholder="Enter the role description")
+            
+            div.form-group
+                button.btn.btn-primary(type="submit") Submit
+    else 
+        h1 No permission

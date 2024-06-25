@@ -24,7 +24,7 @@
 
 /* Đặt form các margin và padding cho các phần tử trong form */
 form {
-    background: #fff;
+    /* background: #fff; */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

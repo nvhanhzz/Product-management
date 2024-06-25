@@ -2,7 +2,7 @@ const url = new URL(window.location.href);
 const activeButtons = document.querySelectorAll(".btn-active"); // 3 button filter what product active?
 const searchForm = document.querySelector("#form-search"); // form search product
 const pageButtons = document.querySelectorAll(".pagination-button"); // list pagination buttons
-const statusButtons = document.querySelectorAll(".badge"); // list status button
+const statusButtons = document.querySelectorAll("button[update-status]"); // list status button
 const changeStatusForm = document.querySelector(".change-status-form"); // form change status of 1 product
 const checkAll = document.querySelector('input[name="checkall"]'); // input checkbox check all
 const checkItems = document.querySelectorAll('input[name="checkitem"]'); // input checkbox 1 product

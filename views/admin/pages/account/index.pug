@@ -2,58 +2,70 @@ extends ../../layouts/default.pug
 include ../../mixins/notification.pug
 
 block main
-    - if (messages.success)
-        +notf-success()
-    h1 List account
+    if currentUser.role.permission.includes("view-account")
+        - if (messages.success)
+            +notf-success()
+        h1 List account
 
-    .card.mb-3 
+        .card.mb-3 
 
-    .card.mb-3 
-        .card-header
-            a(href=`${prefixAdmin}/accounts/create-account` class="create-product") + Create account
-            
-        .card-body 
-            table.table.table-hober.table-sm
-                thead 
-                    tr 
-                        th Order 
-                        th Avatar 
-                        th Full name
-                        th Role 
-                        th Email 
-                        th Status 
-                        th Action 
+        .card.mb-3 
+            .card-header
+                if currentUser.role.permission.includes("create-account")
+                    a(href=`${prefixAdmin}/accounts/create-account` class="create-product") + Create account
+                
+            .card-body 
+                table.table.table-hober.table-sm
+                    thead 
+                        tr 
+                            th Order 
+                            th Avatar 
+                            th Full name
+                            th Role 
+                            th Email 
+                            th Status 
+                            th Action 
 
-                tbody 
-                    each item, index in accounts
-                        tr.item 
-                            td= index+1
-                            td 
-                                img(
-                                    src=item.avatar
-                                    alt=item.title
-                                    width="100px"
-                                    height="auto"
-                                )
-                            td #{item.fullName} 
-                            td #{item.role} 
-                            td #{item.email} 
-                            td 
-                                if(item.status === "active")
-                                    button(class="badge badge-success" itemId=item._id val="active") Active 
-                                else 
-                                    button(class="badge badge-danger" itemId=item._id val="inactive") Inactive 
-                            td 
-                                button(class="btn  btn-secondary btn-sm" detail-button linkTo=`${prefixAdmin}/accounts/${item.id}`) Detail
-                                button(class="btn btn-warning btn-sm ml-1" update-button linkTo=`${prefixAdmin}/accounts/update-account/${item.id}`) Update 
-                                button(class="btn btn-danger btn-sm ml-1" delete-button item_id=item._id) Delete
+                    tbody 
+                        each item, index in accounts
+                            tr.item 
+                                td= index+1
+                                td 
+                                    img(
+                                        src=item.avatar
+                                        alt=item.title
+                                        width="100px"
+                                        height="auto"
+                                    )
+                                td #{item.fullName} 
+                                td #{item.role} 
+                                td #{item.email} 
+                                td 
+                                    if currentUser.role.permission.includes("update-account")
+                                        if(item.status === "active")
+                                            button(class="badge badge-success" itemId=item._id val="active" update-status) Active 
+                                        else 
+                                            button(class="badge badge-danger" itemId=item._id val="inactive" update-status) Inactive 
+                                    else
+                                        if(item.status === "active")
+                                            span(class="badge badge-success" itemId=item._id val="active") Active 
+                                        else 
+                                            span(class="badge badge-danger" itemId=item._id val="inactive") Inactive 
+                                td 
+                                    button(class="btn  btn-secondary btn-sm" detail-button linkTo=`${prefixAdmin}/accounts/${item.id}`) Detail
+                                    if currentUser.role.permission.includes("update-account")
+                                        button(class="btn btn-warning btn-sm ml-1" update-button linkTo=`${prefixAdmin}/accounts/update-account/${item.id}`) Update 
+                                    if currentUser.role.permission.includes("delete-account")
+                                        button(class="btn btn-danger btn-sm ml-1" delete-button item_id=item._id) Delete
 
-    form(action=`${prefixAdmin}/accounts/change-status` 
-    class="change-status-form"
-    method="POST")
+        form(action=`${prefixAdmin}/accounts/change-status` 
+        class="change-status-form"
+        method="POST")
 
-    form(action=`${prefixAdmin}/accounts/delete-accounts` 
-    class="delete-product-form"
-    method="POST")
+        form(action=`${prefixAdmin}/accounts/delete-accounts` 
+        class="delete-product-form"
+        method="POST")
 
-    script(src="/admin/js/product.js")
+        script(src="/admin/js/product.js")
+    else 
+        h1 No permission

@@ -5,44 +5,47 @@ block addCss
     link(rel="stylesheet", href="/admin/css/createProduct.css")
 
 block main
-    - if (messages.fail)
-        +notf-fail()
+    if currentUser.role.permission.includes("create-product")
+        - if (messages.fail)
+            +notf-fail()
 
-    h2 Create product
+        h2 Create product
 
-    form(action=`${prefixAdmin}/products/create-product`, enctype="multipart/form-data", method="POST")
-        div.form-group
-            label(for="title") Title:
-            input#title.form-control(type="text", name="title", placeholder="Enter the product title", required)
-        div.form-group
-            label(for="description") Description:
-            textarea#my-expressjs-tinymce-app.form-control(name="description", rows="4", placeholder="Enter the product description")
-        div.form-group
-            label(for="price") Price:
-            input#price.form-control(type="number", name="price", value="0", step="0.01", placeholder="Enter the product price")
-        div.form-group
-            label(for="discountPercentage") Discount Percentage:
-            input#discountPercentage.form-control(type="number", name="discountPercentage", value="0", step="0.01", placeholder="Enter the discount percentage")
-        div.form-group
-            label(for="stock") Stock:
-            input#stock.form-control(type="number", name="stock", value="0", placeholder="Enter the stock quantity")
-        div.form-group
-            label(for="thumbnail") Thumbnail:
-            input#thumbnail.form-control.imp-inp(type="file", accept="image/*", name="thumbnail", placeholder="Enter the thumbnail URL")
-            <img id="blah" src="#" alt="your image" />
-        div.form-group
-            label(for="position") Position:
-            input#position.form-control(type="number", name="position", value=positionDefault, placeholder="Enter the product position")
-        div.form-group
-            label Status:
-            div
-                input#status-active(type="radio", name="status", value="active")
-                label(for="status-active") Active
-            div
-                input#status-inactive(type="radio", name="status", value="inactive", checked)
-                label(for="status-inactive") Inactive
-        div.form-group
-            button.btn.btn-primary(type="submit") Submit
-    
-    script(type="application/javascript" src= "/tinymce/tinymce.min.js")
-    script(type="application/javascript" src= "/admin/js/tinymce-config.js") 
+        form(action=`${prefixAdmin}/products/create-product`, enctype="multipart/form-data", method="POST")
+            div.form-group
+                label(for="title") Title:
+                input#title.form-control(type="text", name="title", placeholder="Enter the product title", required)
+            div.form-group
+                label(for="description") Description:
+                textarea#my-expressjs-tinymce-app.form-control(name="description", rows="4", placeholder="Enter the product description")
+            div.form-group
+                label(for="price") Price:
+                input#price.form-control(type="number", name="price", value="0", step="0.01", placeholder="Enter the product price")
+            div.form-group
+                label(for="discountPercentage") Discount Percentage:
+                input#discountPercentage.form-control(type="number", name="discountPercentage", value="0", step="0.01", placeholder="Enter the discount percentage")
+            div.form-group
+                label(for="stock") Stock:
+                input#stock.form-control(type="number", name="stock", value="0", placeholder="Enter the stock quantity")
+            div.form-group
+                label(for="thumbnail") Thumbnail:
+                input#thumbnail.form-control.imp-inp(type="file", accept="image/*", name="thumbnail", placeholder="Enter the thumbnail URL")
+                <img id="blah" src="#" alt="your image" />
+            div.form-group
+                label(for="position") Position:
+                input#position.form-control(type="number", name="position", value=positionDefault, placeholder="Enter the product position")
+            div.form-group
+                label Status:
+                div
+                    input#status-active(type="radio", name="status", value="active")
+                    label(for="status-active") Active
+                div
+                    input#status-inactive(type="radio", name="status", value="inactive", checked)
+                    label(for="status-inactive") Inactive
+            div.form-group
+                button.btn.btn-primary(type="submit") Submit
+        
+        script(type="application/javascript" src= "/tinymce/tinymce.min.js")
+        script(type="application/javascript" src= "/admin/js/tinymce-config.js") 
+    else
+        h1 No permission

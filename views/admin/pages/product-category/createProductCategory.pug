@@ -6,41 +6,44 @@ block addCss
     link(rel="stylesheet", href="/admin/css/createProduct.css")
 
 block main
-    - if (messages.fail)
-        +notf-fail()
+    if currentUser.role.permission.includes("create-product-category")
+        - if (messages.fail)
+            +notf-fail()
 
-    h2 Create product category
+        h2 Create product category
 
-    form(action=`${prefixAdmin}/product-categories/create-product-category`, enctype="multipart/form-data", method="POST")
-        div.form-group
-            label(for="title") Title:
-            input#title.form-control(type="text", name="title", placeholder="Enter the product category title", required)
-        div.form-group
-            label(for="title") Parent category:
-            br
-            select.select-parent-category(name="parentId")
-                option(value="" selected) No parent
-                +selectParentCategory(categoryTree, 0, '')
-        div.form-group
-            label(for="description") Description:
-            textarea#my-expressjs-tinymce-app.form-control(name="description", rows="4", placeholder="Enter the product category description")
-        div.form-group
-            label(for="thumbnail") Thumbnail:
-            input#thumbnail.form-control.imp-inp(type="file", accept="image/*", name="thumbnail", placeholder="Enter the thumbnail URL")
-            <img id="blah" src="#" alt="your image" />
-        div.form-group
-            label(for="position") Position:
-            input#position.form-control(type="number", name="position", value=positionDefault, placeholder="Enter the product category position")
-        div.form-group
-            label Status:
-            div
-                input#status-active(type="radio", name="status", value="active")
-                label(for="status-active") Active
-            div
-                input#status-inactive(type="radio", name="status", value="inactive", checked)
-                label(for="status-inactive") Inactive
-        div.form-group
-            button.btn.btn-primary(type="submit") Submit
-        
-    script(type="application/javascript" src= "/tinymce/tinymce.min.js")
-    script(type="application/javascript" src= "/admin/js/tinymce-config.js") 
+        form(action=`${prefixAdmin}/product-categories/create-product-category`, enctype="multipart/form-data", method="POST")
+            div.form-group
+                label(for="title") Title:
+                input#title.form-control(type="text", name="title", placeholder="Enter the product category title", required)
+            div.form-group
+                label(for="title") Parent category:
+                br
+                select.select-parent-category(name="parentId")
+                    option(value="" selected) No parent
+                    +selectParentCategory(categoryTree, 0, '')
+            div.form-group
+                label(for="description") Description:
+                textarea#my-expressjs-tinymce-app.form-control(name="description", rows="4", placeholder="Enter the product category description")
+            div.form-group
+                label(for="thumbnail") Thumbnail:
+                input#thumbnail.form-control.imp-inp(type="file", accept="image/*", name="thumbnail", placeholder="Enter the thumbnail URL")
+                <img id="blah" src="#" alt="your image" />
+            div.form-group
+                label(for="position") Position:
+                input#position.form-control(type="number", name="position", value=positionDefault, placeholder="Enter the product category position")
+            div.form-group
+                label Status:
+                div
+                    input#status-active(type="radio", name="status", value="active")
+                    label(for="status-active") Active
+                div
+                    input#status-inactive(type="radio", name="status", value="inactive", checked)
+                    label(for="status-inactive") Inactive
+            div.form-group
+                button.btn.btn-primary(type="submit") Submit
+            
+        script(type="application/javascript" src= "/tinymce/tinymce.min.js")
+        script(type="application/javascript" src= "/admin/js/tinymce-config.js") 
+    else 
+        h1 No permission

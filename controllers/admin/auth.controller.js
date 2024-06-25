@@ -5,6 +5,11 @@ const jwt = require('jsonwebtoken');
 
 // [GET] /admin/auth/login
 module.exports.getLogin = async (req, res) => {
+    const cookies = req.cookies;
+    if (cookies && cookies.token) {
+        return res.redirect(`${PATH_ADMIN}/dashboard`); // Use return to prevent further execution
+    }
+
     res.render("admin/pages/auth/login", {
         pageTitle: "Login"
     });
@@ -16,15 +21,19 @@ module.exports.postLogin = async (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
 
-        const account = await Account.findOne({ email: email });
+        const account = await Account.findOne({
+            email: email,
+            deleted: false,
+            status: "active"
+        });
 
         if (!account) {
             req.flash("fail", "Login fail !");
             res.redirect("back");
             return;
         }
-        const isMatch = await hashPassword.comparePassword(password, account.password);
 
+        const isMatch = await hashPassword.comparePassword(password, account.password);
         if (!isMatch) {
             req.flash("fail", "Login fail !");
             res.redirect("back");
