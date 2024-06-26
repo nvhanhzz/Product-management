@@ -5,6 +5,7 @@ const searchHelper = require("../../helper/search");
 const sortHelper = require("../../helper/sort");
 const paginationHelper = require("../../helper/pagination");
 const logSupportHelper = require("../../helper/logSupport");
+const PATH_ADMIN = require("../../config/system").prefixAdmin;
 
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
@@ -275,12 +276,17 @@ module.exports.viewFormUpdateProduct = async (req, res) => {
                 _id: productId,
                 deleted: false
             });
-            res.render(`admin/pages/product/updateProduct`, {
-                pageTitle: "Update product",
-                product: product
-            });
+
+            if (product) {
+                res.render(`admin/pages/product/updateProduct`, {
+                    pageTitle: "Update product",
+                    product: product
+                });
+            } else {
+                res.redirect(`${PATH_ADMIN}/dashboard`);
+            }
         } catch (e) {
-            res.redirect("back");
+            res.redirect(`${PATH_ADMIN}/dashboard`);
         }
     } else {
         res.send("No permission");
@@ -324,14 +330,20 @@ module.exports.productDetail = async (req, res) => {
                 _id: productId,
                 deleted: false
             });
-            await logSupportHelper.createdBy(product);
 
-            res.render('admin/pages/product/productDetail', {
-                pageTitle: product.title,
-                product: product
-            });
+            if (product) {
+                await logSupportHelper.createdBy(product);
+
+                res.render('admin/pages/product/productDetail', {
+                    pageTitle: product.title,
+                    product: product
+                });
+            } else {
+                res.redirect(`${PATH_ADMIN}/dashboard`);
+            }
+
         } catch (e) {
-            res.redirect("back");
+            res.redirect(`${PATH_ADMIN}/dashboard`);
         }
     } else {
         res.send("No permission");

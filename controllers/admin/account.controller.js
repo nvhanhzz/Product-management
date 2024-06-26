@@ -145,14 +145,19 @@ module.exports.getDetail = async (req, res) => {
             });
             account.role = role ? role.title : null;
 
-            await logSupportHelper.createdBy(account);
+            if (account) {
+                await logSupportHelper.createdBy(account);
 
-            res.render("admin/pages/account/accountDetail", {
-                pageTitle: account.fullName,
-                account: account
-            })
+                res.render("admin/pages/account/accountDetail", {
+                    pageTitle: account.fullName,
+                    account: account
+                })
+            } else {
+                res.redirect(`${PATH_ADMIN}/dashboard`);
+            }
+
         } catch (e) {
-            res.redirect("back");
+            res.redirect(`${PATH_ADMIN}/dashboard`);
         }
     } else {
         res.send("No permission");
@@ -172,13 +177,17 @@ module.exports.getUpdateAccount = async (req, res) => {
 
             const roles = await Role.find({ deleted: false });
 
-            res.render("admin/pages/account/updateAccount", {
-                pageTitle: account.fullName,
-                account: account,
-                roles: roles
-            })
+            if (account) {
+                res.render("admin/pages/account/updateAccount", {
+                    pageTitle: account.fullName,
+                    account: account,
+                    roles: roles
+                })
+            } else {
+                res.redirect(`${PATH_ADMIN}/dashboard`);
+            }
         } catch (e) {
-            res.redirect("back");
+            res.redirect(`${PATH_ADMIN}/dashboard`);
         }
     } else {
         res.send("No permission");

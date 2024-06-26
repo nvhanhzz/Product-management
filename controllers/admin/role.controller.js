@@ -1,5 +1,6 @@
 const Role = require("../../models/role.model");
 const logSupportHelper = require("../../helper/logSupport");
+const PATH_ADMIN = require("../../config/system").prefixAdmin;
 
 // [GET] /admin/roles
 module.exports.index = async (req, res) => {
@@ -69,11 +70,10 @@ module.exports.roleDetail = async (req, res) => {
                     role: role
                 });
             } else {
-                res.redirect("/admin/dashboard");
+                res.redirect(`${PATH_ADMIN}/dashboard`);
             }
         } catch (e) {
-            console.log(e);
-            res.redirect("back");
+            res.redirect(`${PATH_ADMIN}/dashboard`);
         }
     } else {
         res.send("No permission");
@@ -122,10 +122,10 @@ module.exports.getUpdateRoleForm = async (req, res) => {
                     role: role
                 });
             } else {
-                res.redirect("/admin/dashboard");
+                res.redirect(`${PATH_ADMIN}/dashboard`);
             }
         } catch (e) {
-            res.redirect("back");
+            res.redirect(`${PATH_ADMIN}/dashboard`);
         }
     } else {
         res.send("No permission");

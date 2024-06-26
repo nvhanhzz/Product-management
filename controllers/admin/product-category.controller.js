@@ -7,6 +7,7 @@ const treeHelper = require("../../helper/categoryTree");
 const paginationTreeHelper = require("../../helper/paginationTree");
 const rootCategoryHelper = require("../../helper/getRootCategoryIds");
 const logSupportHelper = require("../../helper/logSupport");
+const PATH_ADMIN = require("../../config/system").prefixAdmin;
 
 // [GET] /admin/product-categories
 module.exports.index = async (req, res) => {
@@ -289,27 +290,30 @@ module.exports.viewDetail = async (req, res) => {
                 deleted: false
             });
 
-            await logSupportHelper.createdBy(category);
+            if (category) {
+                await logSupportHelper.createdBy(category);
 
-            if (category && category.parentId !== '') {
-                const parent = await ProductCategory.findOne({
-                    _id: category.parentId,
-                    deleted: false
-                });
-                if (parent) {
-                    category.par = parent.title;
-                } else {
-                    category.par = null; // or any default value
+                if (category && category.parentId !== '') {
+                    const parent = await ProductCategory.findOne({
+                        _id: category.parentId,
+                        deleted: false
+                    });
+                    if (parent) {
+                        category.par = parent.title;
+                    } else {
+                        category.par = null; // or any default value
+                    }
                 }
-            }
 
-            res.render('admin/pages/product-category/productCategoryDetail', {
-                pageTitle: category.title,
-                category: category
-            });
+                res.render('admin/pages/product-category/productCategoryDetail', {
+                    pageTitle: category.title,
+                    category: category
+                });
+            } else {
+                res.redirect(`${PATH_ADMIN}/dashboard`);
+            }
         } catch (error) {
-            console.error('Error fetching category details:', error);
-            res.status(500).send('Internal Server Error');
+            res.redirect(`${PATH_ADMIN}/dashboard`);
         }
     } else {
         res.send("No permission");
@@ -329,13 +333,18 @@ module.exports.viewFormUpdateCategory = async (req, res) => {
                 _id: id,
                 deleted: false
             });
-            res.render(`admin/pages/product-category/updateProductCategory`, {
-                pageTitle: "Update product category",
-                category: category,
-                categoryTree: tree
-            });
+
+            if (category) {
+                res.render(`admin/pages/product-category/updateProductCategory`, {
+                    pageTitle: "Update product category",
+                    category: category,
+                    categoryTree: tree
+                });
+            } else {
+                res.redirect(`${PATH_ADMIN}/dashboard`);
+            }
         } catch (e) {
-            res.redirect("back");
+            res.redirect(`${PATH_ADMIN}/dashboard`);
         }
     } else {
         res.send("No permission");
