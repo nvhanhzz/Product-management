@@ -154,15 +154,34 @@ module.exports.changeStatus = async (req, res) => {
         try {
             const status = req.params.status;
             const id = req.params.id;
+            const accountId = res.locals.currentUser._id; // Assuming the current user's ID is stored in res.locals.currentUser._id
 
-            const result = await ProductCategory.findByIdAndUpdate(id, { status: status });
+            // Update the product category and add updatedBy information
+            const result = await ProductCategory.findByIdAndUpdate(
+                id,
+                {
+                    status: status,
+                    $push: {
+                        updatedBy: {
+                            accountId: accountId,
+                            updatedAt: new Date()
+                        }
+                    }
+                },
+                { new: true }
+            );
 
             if (result) {
                 req.flash('success', "Change status success");
-                res.redirect("back");
+            } else {
+                req.flash('error', 'Product category not found');
             }
-        } catch (e) {
-            console.log(e);
+
+            res.redirect("back");
+        } catch (error) {
+            console.error(error);
+            req.flash('error', 'An error occurred while changing status');
+            res.redirect("back");
         }
     } else {
         res.send("No permission");
@@ -200,11 +219,11 @@ module.exports.deleteProductCategory = async (req, res) => {
 module.exports.updateListProductCategory = async (req, res) => {
     const permission = res.locals.currentUser.role.permission;
     if (permission.includes('update-product-category')) {
-
         const changeCase = req.params.changeCase;
         const listProductCategoryChange = req.body.inputChangeListProduct.split(", ");
+        const accountId = res.locals.currentUser._id; // Assuming the current user's ID is stored in res.locals.currentUser._id
 
-        const updateObject = {}
+        const updateObject = {};
         switch (changeCase) {
             case 'active':
                 updateObject.status = 'active';
@@ -226,17 +245,26 @@ module.exports.updateListProductCategory = async (req, res) => {
                     try {
                         const result = await ProductCategory.updateOne(
                             { _id: listProductCategoryChange[i] },
-                            { position: parseInt(listPosition[i]) }
+                            {
+                                position: parseInt(listPosition[i]),
+                                $push: {
+                                    updatedBy: {
+                                        accountId: accountId,
+                                        updatedAt: new Date()
+                                    }
+                                }
+                            }
                         );
-                        // console.log(`Updated product ${listProductCategoryChange[i]} to position ${listPosition[i]}`);
                     } catch (error) {
                         check = false;
                         console.error(`Error updating product category ${listProductCategoryChange[i]}:`, error);
                     }
-                    if (check) {
-                        req.flash('success', `Change position of ${listProductCategoryChange.length} item success`);
-                    }
                 }
+                if (check) {
+                    req.flash('success', `Change position of ${listProductCategoryChange.length} item(s) success`);
+                }
+                res.redirect("back");
+                return;
 
             default:
                 break;
@@ -249,35 +277,41 @@ module.exports.updateListProductCategory = async (req, res) => {
                         _id: { $in: listProductCategoryChange },
                     },
                     {
-                        $set: updateObject
+                        $set: updateObject,
+                        $push: {
+                            updatedBy: {
+                                accountId: accountId,
+                                updatedAt: new Date()
+                            }
+                        }
                     }
-                )
+                );
+
                 switch (changeCase) {
                     case 'active':
-                        req.flash('success', `Change ${listProductCategoryChange.length} items to active success`);
+                        req.flash('success', `Changed ${listProductCategoryChange.length} item(s) to active successfully`);
                         break;
 
                     case 'inactive':
-                        req.flash('success', `Change ${listProductCategoryChange.length} items to inactive success`);
+                        req.flash('success', `Changed ${listProductCategoryChange.length} item(s) to inactive successfully`);
                         break;
 
                     case 'delete':
-                        req.flash('success', `Deleted ${listProductCategoryChange.length} item success`);
+                        req.flash('success', `Deleted ${listProductCategoryChange.length} item(s) successfully`);
                         break;
                 }
 
             } catch (error) {
                 console.error(error);
+                req.flash('error', 'An error occurred while updating product categories');
             }
         }
-
-        // console.log(updateObject);
 
         res.redirect("back");
     } else {
         res.send("No permission");
     }
-}
+};
 
 // [GET] /admin/product-categories/:id
 module.exports.viewDetail = async (req, res) => {
@@ -357,9 +391,10 @@ module.exports.updateCategory = async (req, res) => {
     if (permission.includes('update-product-category')) {
         try {
             const id = req.params.id;
+            const accountId = res.locals.currentUser._id; // Assuming the current user's ID is stored in res.locals.currentUser._id
 
             if (req.body.parentId === id) {
-                req.flash('fail', `Update failled, it cannot be selected as a parent category !`);
+                req.flash('fail', `Update failed, it cannot be selected as a parent category!`);
                 res.redirect("back");
                 return;
             }
@@ -367,20 +402,35 @@ module.exports.updateCategory = async (req, res) => {
             if (req.file && req.file.path) {
                 req.body.thumbnail = req.file.path;
             }
-            const update = await ProductCategory.findByIdAndUpdate(id, req.body, { new: true });
+
+            // Update the product category and add updatedBy information
+            const update = await ProductCategory.findByIdAndUpdate(
+                id,
+                {
+                    ...req.body,
+                    $push: {
+                        updatedBy: {
+                            accountId: accountId,
+                            updatedAt: new Date()
+                        }
+                    }
+                },
+                { new: true }
+            );
 
             if (update) {
-                req.flash('success', `Update product category ${req.body.title} successfully !`);
-                res.redirect("back");
+                req.flash('success', `Update product category ${req.body.title} successfully!`);
             } else {
-                req.flash('fail', `Update failled !`);
-                res.redirect("back");
+                req.flash('fail', `Update failed!`);
             }
-        } catch (e) {
-            req.flash('fail', `Update failled !`);
+
+            res.redirect("back");
+        } catch (error) {
+            console.error(error);
+            req.flash('fail', `Update failed!`);
             res.redirect("back");
         }
     } else {
         res.send("No permission");
     }
-}
+};

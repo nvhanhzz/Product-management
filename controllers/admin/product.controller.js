@@ -82,7 +82,15 @@ module.exports.changeStatus = async (req, res) => {
                     deleted: false
                 },
                 {
-                    status: status
+                    $set: {
+                        status: status
+                    },
+                    $push: {
+                        updatedBy: {
+                            accountId: res.locals.currentUser.id,
+                            updatedAt: new Date()
+                        }
+                    }
                 }
             );
             req.flash('success', 'Update status success');
@@ -101,11 +109,10 @@ module.exports.changeListProduct = async (req, res) => {
     const permission = res.locals.currentUser.role.permission;
     if (permission.includes('update-product')) {
         const changeCase = req.params.changeCase;
-        // console.log(changeCase);
-        // console.log(req.body);
         const listProductChange = req.body.inputChangeListProduct.split(", ");
-        // console.log(listProductChange);
-        const updateObject = {}
+        const accountId = res.locals.currentUser._id; // Assuming the current user's ID is stored in res.locals.currentUser._id
+
+        const updateObject = {};
         switch (changeCase) {
             case 'active':
                 updateObject.status = 'active';
@@ -127,17 +134,26 @@ module.exports.changeListProduct = async (req, res) => {
                     try {
                         const result = await Product.updateOne(
                             { _id: listProductChange[i] },
-                            { position: parseInt(listPosition[i]) }
+                            {
+                                $set: { position: parseInt(listPosition[i]) },
+                                $push: {
+                                    updatedBy: {
+                                        accountId: accountId,
+                                        updatedAt: new Date()
+                                    }
+                                }
+                            }
                         );
-                        // console.log(`Updated product ${listProductChange[i]} to position ${listPosition[i]}`);
                     } catch (error) {
                         check = false;
                         console.error(`Error updating product ${listProductChange[i]}:`, error);
                     }
-                    if (check) {
-                        req.flash('success', `Change position of ${listProductChange.length} item success`);
-                    }
                 }
+                if (check) {
+                    req.flash('success', `Change position of ${listProductChange.length} item(s) success`);
+                }
+                res.redirect("back");
+                return;
 
             default:
                 break;
@@ -150,29 +166,35 @@ module.exports.changeListProduct = async (req, res) => {
                         _id: { $in: listProductChange },
                     },
                     {
-                        $set: updateObject
+                        $set: updateObject,
+                        $push: {
+                            updatedBy: {
+                                accountId: accountId,
+                                updatedAt: new Date()
+                            }
+                        }
                     }
-                )
+                );
+
                 switch (changeCase) {
                     case 'active':
-                        req.flash('success', `Change ${listProductChange.length} items to active success`);
+                        req.flash('success', `Changed ${listProductChange.length} item(s) to active successfully`);
                         break;
 
                     case 'inactive':
-                        req.flash('success', `Change ${listProductChange.length} items to inactive success`);
+                        req.flash('success', `Changed ${listProductChange.length} item(s) to inactive successfully`);
                         break;
 
                     case 'delete':
-                        req.flash('success', `Deleted ${listProductChange.length} item success`);
+                        req.flash('success', `Deleted ${listProductChange.length} item(s) successfully`);
                         break;
                 }
 
             } catch (error) {
                 console.error(error);
+                req.flash('error', 'An error occurred while updating products');
             }
         }
-
-        // console.log(updateObject);
 
         res.redirect("back");
     } else {
@@ -302,7 +324,20 @@ module.exports.updateProduct = async (req, res) => {
             if (req.file && req.file.path) {
                 req.body.thumbnail = req.file.path;
             }
-            const update = await Product.findByIdAndUpdate(productId, req.body, { new: true });
+
+            const update = await Product.findByIdAndUpdate(
+                productId,
+                {
+                    ...req.body,
+                    $push: {
+                        updatedBy: {
+                            accountId: res.locals.currentUser._id,
+                            updatedAt: new Date()
+                        }
+                    }
+                },
+                { new: true }
+            );
 
             if (update) {
                 req.flash('success', `Update product ${req.body.title} successfully !`);

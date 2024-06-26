@@ -6,7 +6,9 @@ block addCss
 
 block main
     if currentUser.role.permission.includes("view-product")
-        h2.margin= product.title 
+        .title
+            h2.margin= product.title 
+            a(href=`${prefixAdmin}/products/edit-history/${product.id}`, class="btn btn-secondary") Edit history
 
         if product.thumbnail
             div.margin.outer-thumbnail

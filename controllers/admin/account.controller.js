@@ -78,26 +78,40 @@ module.exports.patchChangStatus = async (req, res) => {
     if (permission.includes('update-account')) {
         const status = req.params.status;
         const id = req.params.id;
+        const accountId = res.locals.currentUser._id; // Assuming the current user's ID is stored in res.locals.currentUser._id
 
         try {
-            await Account.updateOne(
+            // Update the account status and add updatedBy information
+            const result = await Account.updateOne(
                 {
                     _id: id,
                     deleted: false
                 },
                 {
-                    status: status
+                    status: status,
+                    $push: {
+                        updatedBy: {
+                            accountId: accountId,
+                            updatedAt: new Date()
+                        }
+                    }
                 }
             );
-            req.flash('success', 'Update status success');
+
+            if (result.nModified > 0) {
+                req.flash('success', 'Update status success');
+            } else {
+                req.flash('fail', 'Account not found or status not updated');
+            }
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            req.flash('fail', 'Failed to update status');
         }
         res.redirect("back");
     } else {
         res.send("No permission");
     }
-}
+};
 
 // [DELETE] /admin/accounts/delete-accounts/:id
 module.exports.deleteAccount = async (req, res) => {
@@ -200,6 +214,8 @@ module.exports.patchUpdateAccount = async (req, res) => {
     if (permission.includes('update-account')) {
         try {
             const id = req.params.id;
+            const accountId = res.locals.currentUser._id; // Assuming the current user's ID is stored in res.locals.currentUser._id
+
             if (req.file && req.file.path) {
                 req.body.avatar = req.file.path;
             }
@@ -208,20 +224,34 @@ module.exports.patchUpdateAccount = async (req, res) => {
                 req.body.password = await hashPassword.hashPassword(req.body.password);
             }
 
-            const update = await Account.findByIdAndUpdate(id, req.body, { new: true });
+            // Update the account and add updatedBy information
+            const update = await Account.findByIdAndUpdate(
+                id,
+                {
+                    ...req.body,
+                    $push: {
+                        updatedBy: {
+                            accountId: accountId,
+                            updatedAt: new Date()
+                        }
+                    }
+                },
+                { new: true }
+            );
 
             if (update) {
-                req.flash('success', `Update account of ${req.body.fullName} successfully !`);
-                res.redirect("back");
+                req.flash('success', `Update account of ${req.body.fullName} successfully!`);
             } else {
-                req.flash('fail', `Update failled !`);
-                res.redirect("back");
+                req.flash('fail', `Update failed!`);
             }
-        } catch (e) {
-            req.flash('fail', `Update failled !`);
+
+            res.redirect("back");
+        } catch (error) {
+            console.error(error);
+            req.flash('fail', `Update failed!`);
             res.redirect("back");
         }
     } else {
         res.send("No permission");
     }
-}
+};

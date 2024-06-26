@@ -22,7 +22,15 @@ const roleSchema = new mongoose.Schema(
         "deletedBy": {
             "accountId": String,
             "deletedAt": Date
-        }
+        },
+        "updatedBy": [
+            {
+                "accountId": String,
+                "updatedAt": {
+                    type: Date
+                }
+            }
+        ]
     }
 );
 

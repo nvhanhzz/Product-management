@@ -5,8 +5,10 @@ header.header
                 .inner-logo 
                     a(href="/admin/dashboard") ADMIN 
 
-            .col-9
+            .col-8
 
-            .col-1
+            .col-2.auth-button
+                form(class="logout-form" action=`${prefixAdmin}/my-profile` method="POST")
+                    button(type="submit" class="btn btn-primary" my-profile) My Profile
                 form(class="logout-form" action=`${prefixAdmin}/auth/logout` method="POST")
-                    button(type="submit" class="logout-button") Logout
+                    button(type="submit" class="logout-button btn btn-danger") Logout

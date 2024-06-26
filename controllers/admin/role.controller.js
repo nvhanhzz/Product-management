@@ -138,23 +138,39 @@ module.exports.updateRole = async (req, res) => {
     if (permission.includes('update-role')) {
         try {
             const id = req.params.id;
-            const update = await Role.findByIdAndUpdate(id, req.body);
+            const accountId = res.locals.currentUser._id; // Assuming the current user's ID is stored in res.locals.currentUser._id
+
+            // Update the role and add updatedBy information
+            const update = await Role.findByIdAndUpdate(
+                id,
+                {
+                    ...req.body,
+                    $push: {
+                        updatedBy: {
+                            accountId: accountId,
+                            updatedAt: new Date()
+                        }
+                    }
+                },
+                { new: true }
+            );
 
             if (update) {
-                req.flash('success', `Update role ${req.body.title} successfully !`);
-                res.redirect("back");
+                req.flash('success', `Update role ${req.body.title} successfully!`);
             } else {
-                req.flash('fail', `Update failled !`);
-                res.redirect("back");
+                req.flash('fail', `Update failed!`);
             }
-        } catch (e) {
-            req.flash('fail', `Update failled !`);
+
+            res.redirect("back");
+        } catch (error) {
+            console.error(error);
+            req.flash('fail', `Update failed!`);
             res.redirect("back");
         }
     } else {
         res.send("No permission");
     }
-}
+};
 
 // [GET] /admin/roles/permissions
 module.exports.getPermission = async (req, res) => {
