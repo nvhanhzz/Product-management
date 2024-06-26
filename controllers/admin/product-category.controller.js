@@ -6,6 +6,7 @@ const paginationHelper = require("../../helper/pagination");
 const treeHelper = require("../../helper/categoryTree");
 const paginationTreeHelper = require("../../helper/paginationTree");
 const rootCategoryHelper = require("../../helper/getRootCategoryIds");
+const logSupportHelper = require("../../helper/logSupport");
 
 // [GET] /admin/product-categories
 module.exports.index = async (req, res) => {
@@ -47,6 +48,9 @@ module.exports.index = async (req, res) => {
         const listCategory = await ProductCategory.find({
             deleted: false
         });
+        for (const category of listCategory) {
+            await logSupportHelper.createdBy(category);
+        }
 
         const rootCategoryIds = await rootCategoryHelper.rootCategoryIds();
 
@@ -123,7 +127,10 @@ module.exports.createProductCategory = async (req, res) => {
             parentId: parentId,
             thumbnail: thumbnail,
             status: status,
-            position: position
+            position: position,
+            createdBy: {
+                accountId: res.locals.currentUser.id
+            }
         });
 
         try {
@@ -168,7 +175,13 @@ module.exports.deleteProductCategory = async (req, res) => {
         try {
             const id = req.params.id;
 
-            const result = await ProductCategory.findByIdAndUpdate(id, { deleted: true });
+            const result = await ProductCategory.findByIdAndUpdate(id, {
+                deleted: true,
+                deletedBy: {
+                    "accountId": res.locals.currentUser.id,
+                    "deletedAt": Date.now()
+                }
+            });
 
             if (result) {
                 req.flash('success', "Delete category success");
@@ -275,6 +288,8 @@ module.exports.viewDetail = async (req, res) => {
                 _id: id,
                 deleted: false
             });
+
+            await logSupportHelper.createdBy(category);
 
             if (category && category.parentId !== '') {
                 const parent = await ProductCategory.findOne({

@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/notification.pug
+include ../../mixins/time.pug
 
 block main
     if currentUser.role.permission.includes("view-account")
@@ -23,6 +24,7 @@ block main
                             th Full name
                             th Role 
                             th Email 
+                            th Created by
                             th Status 
                             th Action 
 
@@ -40,6 +42,9 @@ block main
                                 td #{item.fullName} 
                                 td #{item.role} 
                                 td #{item.email} 
+                                td 
+                                    div #{item.creatorName}
+                                    +date(item.createdBy.createdAt)
                                 td 
                                     if currentUser.role.permission.includes("update-account")
                                         if(item.status === "active")

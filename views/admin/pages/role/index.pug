@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/notification.pug
+include ../../mixins/time.pug
 
 block main
     if currentUser.role.permission.includes("view-role")
@@ -21,6 +22,7 @@ block main
                             th Order 
                             th Role 
                             th Short description
+                            th Created by
                             th Action 
 
                     tbody 
@@ -29,6 +31,9 @@ block main
                                 td= index+1
                                 td #{item.title} 
                                 td #{item.description} 
+                                td 
+                                    div #{item.creatorName}
+                                    +date(item.createdBy.createdAt)
                                     
                                 td 
                                     button(class="btn  btn-secondary btn-sm" detail-button linkTo=`${prefixAdmin}/roles/${item.id}`) Detail

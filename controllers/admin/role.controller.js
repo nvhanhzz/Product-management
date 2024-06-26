@@ -1,10 +1,14 @@
 const Role = require("../../models/role.model");
+const logSupportHelper = require("../../helper/logSupport");
 
 // [GET] /admin/roles
 module.exports.index = async (req, res) => {
     const permission = res.locals.currentUser.role.permission;
     if (permission.includes('view-role')) {
         const roles = await Role.find({ deleted: false });
+        for (const role of roles) {
+            await logSupportHelper.createdBy(role);
+        }
 
         res.render("admin/pages/role/index", {
             pageTitle: "Role",
@@ -32,6 +36,9 @@ module.exports.createRole = async (req, res) => {
     const permission = res.locals.currentUser.role.permission;
     if (permission.includes('create-role')) {
         try {
+            req.body.createdBy = {
+                accountId: res.locals.currentUser.id
+            };
             const role = new Role(req.body);
             await role.save();
             req.flash("success", `Create role ${req.body.title} success`);
@@ -55,13 +62,18 @@ module.exports.roleDetail = async (req, res) => {
                 _id: id,
                 deleted: false
             });
-            res.render("admin/pages/role/roleDetail", {
-                pageTitle: "Role",
-                role: role
-            });
+            if (role) {
+                await logSupportHelper.createdBy(role);
+                res.render("admin/pages/role/roleDetail", {
+                    pageTitle: "Role",
+                    role: role
+                });
+            } else {
+                res.redirect("/admin/dashboard");
+            }
         } catch (e) {
             console.log(e);
-            req.redirect("back");
+            res.redirect("back");
         }
     } else {
         res.send("No permission");
@@ -79,7 +91,10 @@ module.exports.deleteRole = async (req, res) => {
                 _id: id
             },
             {
-                deletedAt: Date.now(),
+                deletedBy: {
+                    "accountId": res.locals.currentUser.id,
+                    "deletedAt": Date.now()
+                },
                 deleted: true
             }
         );
@@ -101,10 +116,14 @@ module.exports.getUpdateRoleForm = async (req, res) => {
                 _id: id,
                 deleted: false
             });
-            res.render(`admin/pages/role/updateRole`, {
-                pageTitle: "Update role",
-                role: role
-            });
+            if (role) {
+                res.render(`admin/pages/role/updateRole`, {
+                    pageTitle: "Update role",
+                    role: role
+                });
+            } else {
+                res.redirect("/admin/dashboard");
+            }
         } catch (e) {
             res.redirect("back");
         }

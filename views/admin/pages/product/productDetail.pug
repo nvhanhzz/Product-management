@@ -1,4 +1,5 @@
 extends ../../layouts/default.pug
+include ../../mixins/time.pug
 
 block addCss 
     link(rel="stylesheet", href="/admin/css/productDetail.css")
@@ -40,6 +41,14 @@ block main
             div.margin.product-attribute
                 span Status:
                 span= ' ' + product.status
+                
+        div.margin.product-attribute
+            span Created by:
+            span= ' ' + product.creatorName
+        
+        div.margin.product-attribute
+            span Created at:
+            +dateTime(product.createdBy.createdAt)
 
         if currentUser.role.permission.includes("update-product")
             div.margin.product-attribute

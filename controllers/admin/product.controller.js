@@ -1,8 +1,10 @@
 const Product = require("../../models/product.model");
+const Account = require("../../models/account.model");
 const filterHelper = require("../../helper/filterStatus");
 const searchHelper = require("../../helper/search");
 const sortHelper = require("../../helper/sort");
 const paginationHelper = require("../../helper/pagination");
+const logSupportHelper = require("../../helper/logSupport");
 
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
@@ -47,6 +49,10 @@ module.exports.index = async (req, res) => {
         //endpagination
 
         const products = await Product.find(find).skip(pagination.skip).limit(pagination.limit).sort(sortObject);
+
+        for (const product of products) {
+            await logSupportHelper.createdBy(product);
+        }
 
         res.render(`admin/pages/product/index`, {
             pageTitle: "Product",
@@ -184,7 +190,10 @@ module.exports.deleteProduct = async (req, res) => {
                 _id: id
             },
             {
-                deletedAt: Date.now(),
+                deletedBy: {
+                    "accountId": res.locals.currentUser.id,
+                    "deletedAt": Date.now()
+                },
                 deleted: true
             }
         );
@@ -214,7 +223,6 @@ module.exports.viewFormCreateProduct = async (req, res) => {
 module.exports.createProduct = async (req, res) => {
     const permission = res.locals.currentUser.role.permission;
     if (permission.includes('create-product')) {
-        // console.log("1", req.body);
 
         const title = req.body.title;
         const description = req.body.description;
@@ -238,7 +246,10 @@ module.exports.createProduct = async (req, res) => {
             stock: stock,
             thumbnail: thumbnail,
             status: status,
-            position: position
+            position: position,
+            createdBy: {
+                accountId: res.locals.currentUser.id
+            }
         });
 
         try {
@@ -309,13 +320,15 @@ module.exports.productDetail = async (req, res) => {
     if (permission.includes('view-product')) {
         try {
             const productId = req.params.id;
-            const product = await Product.find({
+            const product = await Product.findOne({
                 _id: productId,
                 deleted: false
             });
+            await logSupportHelper.createdBy(product);
+
             res.render('admin/pages/product/productDetail', {
-                pageTitle: product[0].title,
-                product: product[0]
+                pageTitle: product.title,
+                product: product
             });
         } catch (e) {
             res.redirect("back");

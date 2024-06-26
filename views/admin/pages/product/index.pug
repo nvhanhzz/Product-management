@@ -5,6 +5,8 @@ include ../../mixins/sort.pug
 include ../../mixins/pagination.pug
 include ../../mixins/changeProductForm.pug
 include ../../mixins/notification.pug
+include ../../mixins/time.pug
+
 block main
     if currentUser.role.permission.includes("view-product")
         - if (messages.success)
@@ -42,6 +44,7 @@ block main
                             th Title 
                             th Price 
                             th Position
+                            th Create by
                             th Status 
                             th Action 
 
@@ -66,6 +69,9 @@ block main
                                 td #{item.price}$
                                 td 
                                     input(type="number" value=item.position class="position-product")
+                                td 
+                                    div #{item.creatorName}
+                                    +date(item.createdBy.createdAt)
                                 td 
                                     if currentUser.role.permission.includes("update-product")
                                         if(item.status === "active")

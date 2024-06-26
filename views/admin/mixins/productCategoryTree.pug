@@ -1,3 +1,5 @@
+include ./time.pug
+
 mixin productCategoryTree(productCategories, level, orderObj)
     - const prefix = Array(level + 1).join('-- ')
     each item, index in productCategories
@@ -16,6 +18,9 @@ mixin productCategoryTree(productCategories, level, orderObj)
             td=`${prefix} ${item.title}`
             td 
                 input(type="number" value=item.position class="position-product")
+            td 
+                div #{item.creatorName}
+                +date(item.createdBy.createdAt)
             td 
                 if currentUser.role.permission.includes("update-product-category")
                     if(item.status === "active")

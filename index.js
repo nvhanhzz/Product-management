@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const flash = require('express-flash');
 const session = require('express-session');
+const moment = require('moment');
 const path = require('path');
 
 const database = require("./config/database");
@@ -36,9 +37,10 @@ app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce
 
 // app local variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
+app.locals.moment = moment;
 
-routeAdmin(app);
 route(app);
+routeAdmin(app);
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);

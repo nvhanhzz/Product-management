@@ -11,10 +11,12 @@ const checkUserJwt = require("../../middleware/JWTAction");
 module.exports = (app) => {
     app.use((req, res, next) => {
         // console.log(req.path);
-        if (req.path.startsWith("/admin/auth")) {
-            return next();
+        if (req.path.startsWith("/admin")) {
+            if (req.path.startsWith("/admin/auth")) {
+                return next();
+            }
+            checkUserJwt(req, res, next);
         }
-        checkUserJwt(req, res, next);
     });
 
     const PATH_ADMIN = systemConfig.prefixAdmin;

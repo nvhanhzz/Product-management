@@ -13,9 +13,18 @@ const accountSchema = new mongoose.Schema(
             type: Boolean,
             default: false
         },
-        "deletedAt": Date
-    },
-    { timestamps: true }
+        "createdBy": {
+            "accountId": String,
+            "createdAt": {
+                type: Date,
+                default: Date.now
+            }
+        },
+        "deletedBy": {
+            "accountId": String,
+            "deletedAt": Date
+        }
+    }
 );
 
 const Account = mongoose.model("Account", accountSchema, "accounts");

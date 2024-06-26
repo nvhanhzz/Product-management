@@ -2,6 +2,7 @@ const Account = require("../../models/account.model");
 const Role = require("../../models/role.model");
 const PATH_ADMIN = require("../../config/system").prefixAdmin;
 const hashPassword = require("../../helper/hashPassword");
+const logSupportHelper = require("../../helper/logSupport");
 
 // [GET] /admin/accounts
 module.exports.index = async (req, res) => {
@@ -13,8 +14,8 @@ module.exports.index = async (req, res) => {
                 _id: item.roleId,
                 deleted: false
             });
-
             item.role = role ? role.title : null;
+            await logSupportHelper.createdBy(item);
         }
 
         res.render("admin/pages/account/index", {
@@ -44,6 +45,9 @@ module.exports.getCreate = async (req, res) => {
 module.exports.postCreate = async (req, res) => {
     const permission = res.locals.currentUser.role.permission;
     if (permission.includes('create-account')) {
+        req.body.createdBy = {
+            accountId: res.locals.currentUser.id
+        };
         if (req.file && req.file.path) {
             req.body.avatar = req.file.path;
         } else {
@@ -107,6 +111,10 @@ module.exports.deleteAccount = async (req, res) => {
                     deleted: false
                 },
                 {
+                    deletedBy: {
+                        "accountId": res.locals.currentUser.id,
+                        "deletedAt": Date.now()
+                    },
                     deleted: true
                 }
             );
@@ -135,8 +143,9 @@ module.exports.getDetail = async (req, res) => {
                 _id: account.roleId,
                 deleted: false
             });
-
             account.role = role ? role.title : null;
+
+            await logSupportHelper.createdBy(account);
 
             res.render("admin/pages/account/accountDetail", {
                 pageTitle: account.fullName,
