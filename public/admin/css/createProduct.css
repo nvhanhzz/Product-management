@@ -24,7 +24,6 @@
 
 /* Đặt form các margin và padding cho các phần tử trong form */
 form {
-    /* background: #fff; */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -85,4 +84,12 @@ textarea.form-control {
     width: 20%;
     height: auto;
     display: none;
+}
+
+.auth-button form {
+    padding: 0px
+}
+
+.auth-button a {
+    width: 100px;
 }

@@ -1,8 +1,8 @@
 const express = require("express");
-const router = express.Router();
+const route = express.Router();
 
 const controller = require("../../controllers/admin/dashboard.controller");
 
-router.get("/", controller.dashboard);
+route.get("/", controller.dashboard);
 
-module.exports = router;
+module.exports = route;

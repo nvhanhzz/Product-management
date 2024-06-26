@@ -1,0 +1,48 @@
+extends ../../layouts/default.pug
+include ../../mixins/time.pug
+
+block addCss 
+    link(rel="stylesheet", href="/admin/css/productDetail.css")
+
+block main
+    if currentUser.role.permission.includes("view-account")
+        .title
+            h2.margin= `Information of ${account.fullName}`
+
+        if account.avatar
+            div.margin.outer-thumbnail
+                img(src=account.avatar, alt=account.fullName)
+
+        div.margin.product-attribute
+            span Full name:
+            span= account.fullName
+
+        div.margin.product-attribute
+            span Email:
+            span= account.email
+        
+        div.margin.product-attribute
+            span Phone:
+            span= account.phone 
+
+        div.margin.product-attribute
+            span Role:
+            span= account.role
+        
+        div.margin.product-attribute
+            span Status:
+            span= ' ' + account.status
+
+        div.margin.product-attribute
+            span Created by:
+            span= ' ' + account.creatorName
+        
+        div.margin.product-attribute
+            span Created at:
+            +dateTime(account.createdBy.createdAt)
+
+        if currentUser.role.permission.includes("update-account")
+            div.margin.product-attribute
+                a(href=`${prefixAdmin}/my-profile/edit`, class="margin update-button") Update
+    else 
+        h1 No permission

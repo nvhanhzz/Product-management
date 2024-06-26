@@ -8,7 +8,6 @@ header.header
             .col-8
 
             .col-2.auth-button
-                form(class="logout-form" action=`${prefixAdmin}/my-profile` method="POST")
-                    button(type="submit" class="btn btn-primary" my-profile) My Profile
+                a(href=`${prefixAdmin}/my-profile` class="btn btn-primary" my-profile) My Profile
                 form(class="logout-form" action=`${prefixAdmin}/auth/logout` method="POST")
                     button(type="submit" class="logout-button btn btn-danger") Logout

@@ -6,6 +6,7 @@ const productCategoryRoutes = require("./product-category.route");
 const roleRoutes = require("./role.route");
 const accountRoutes = require("./account.route");
 const authRoutes = require("./auth.route");
+const myProfileRoutes = require("./myProfile.route");
 const checkUserJwt = require("../../middleware/JWTAction");
 
 module.exports = (app) => {
@@ -26,4 +27,5 @@ module.exports = (app) => {
     app.use(PATH_ADMIN + "/roles", roleRoutes);
     app.use(PATH_ADMIN + "/accounts", accountRoutes);
     app.use(PATH_ADMIN + "/auth", authRoutes);
+    app.use(PATH_ADMIN + "/my-profile", myProfileRoutes);
 }
