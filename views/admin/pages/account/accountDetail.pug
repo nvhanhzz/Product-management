@@ -6,7 +6,9 @@ block addCss
 
 block main
     if currentUser.role.permission.includes("view-account")
-        h2.margin= `Information of ${account.fullName}`
+        .title
+            h2.margin= `Information of ${account.fullName}`
+            a(href=`${prefixAdmin}/accounts/edit-history/${account.id}`, class="btn btn-secondary") Edit history
 
         if account.avatar
             div.margin.outer-thumbnail

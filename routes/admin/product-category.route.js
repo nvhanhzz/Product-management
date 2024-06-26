@@ -21,6 +21,8 @@ route.get("/update-product-category/:id", controller.viewFormUpdateCategory);
 
 route.patch("/update-product-category/:id", upload.single('thumbnail'), validate.validateProductCategoryForm, controller.updateCategory);
 
+route.get("/edit-history/:id", controller.getEditHistory);
+
 route.get("/:id", controller.viewDetail);
 
 module.exports = route;

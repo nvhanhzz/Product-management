@@ -19,6 +19,8 @@ route.get("/permissions", controller.getPermission);
 
 route.patch("/update-permission", controller.updatePermission);
 
+route.get("/edit-history/:id", controller.getEditHistory);
+
 route.get("/:id", controller.roleDetail);
 
 route.get("/", controller.index);

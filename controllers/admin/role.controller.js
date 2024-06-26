@@ -186,9 +186,11 @@ module.exports.getPermission = async (req, res) => {
     }
 }
 
-// [GET] /admin/roles/update-permission
+// [PATCH] /admin/roles/update-permission
 module.exports.updatePermission = async (req, res) => {
     const permission = res.locals.currentUser.role.permission;
+    const accountId = res.locals.currentUser._id; // Giả sử accountId được lưu ở đây
+
     if (permission.includes('permission')) {
         try {
             const permissions = JSON.parse(req.body.permissions);
@@ -197,13 +199,55 @@ module.exports.updatePermission = async (req, res) => {
                     _id: item.id,
                     deleted: false
                 }, {
-                    permission: item.listPermission
+                    $set: {
+                        permission: item.listPermission
+                    },
+                    $push: {
+                        updatedBy: {
+                            accountId: accountId,
+                            updatedAt: new Date()
+                        }
+                    }
                 });
             }
             req.flash("success", "Update permission success");
             res.redirect("back");
         } catch (error) {
             req.flash("fail", "Error in server");
+            res.redirect("back");
+        }
+    } else {
+        res.send("No permission");
+    }
+}
+
+// [GET] /admin/roles/edit-history/:id
+module.exports.getEditHistory = async (req, res) => {
+    const permission = res.locals.currentUser.role.permission;
+    if (permission.includes('view-role')) {
+        try {
+            const id = req.params.id;
+            const role = await Role.findOne({
+                _id: id,
+                deleted: false
+            });
+
+            if (role) {
+                for (const item of role.updatedBy) {
+                    await logSupportHelper.updatedBy(item);
+                }
+
+                res.render('admin/pages/editHistory/index', {
+                    pageTitle: role.title,
+                    item: role,
+                    permissionView: "role"
+                });
+            } else {
+                res.redirect(`${PATH_ADMIN}/dashboard`);
+            }
+
+        } catch (e) {
+            res.redirect(`${PATH_ADMIN}/dashboard`);
         }
     } else {
         res.send("No permission");

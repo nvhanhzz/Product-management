@@ -1,0 +1,29 @@
+extends ../../layouts/default.pug
+include ../../mixins/time.pug
+
+block main
+    - const permission = currentUser.role.permission
+    if (permission.includes("view-product") && permissionView === "product") || (permission.includes("view-product-category") && permissionView === "product-category") ||(permission.includes("view-role") && permissionView === "role") || (permission.includes("view-account") && permissionView === "account")
+        if item.title
+            h1 #{`Edit history of ${item.title}`}
+        if item.fullName
+            h1 #{`Edit history of account ${item.fullName}`}
+
+        .card.mb-3 
+            .card-body 
+                table.table.table-hober.table-sm
+                    thead 
+                        tr 
+                            th Order 
+                            th Updated by  
+                            th Updated at 
+
+                    tbody 
+                        each i, index in item.updatedBy.slice().reverse()
+                            tr
+                                td #{index + 1}
+                                td #{i.updatorName}
+                                td 
+                                    +dateTime(i.updatedAt)
+    else 
+        h1 No permission

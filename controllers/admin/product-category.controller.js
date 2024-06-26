@@ -434,3 +434,36 @@ module.exports.updateCategory = async (req, res) => {
         res.send("No permission");
     }
 };
+
+// [GET] /admin/product-category/edit-history/:id
+module.exports.getEditHistory = async (req, res) => {
+    const permission = res.locals.currentUser.role.permission;
+    if (permission.includes('view-product-category')) {
+        try {
+            const id = req.params.id;
+            const category = await ProductCategory.findOne({
+                _id: id,
+                deleted: false
+            });
+
+            if (category) {
+                for (const item of category.updatedBy) {
+                    await logSupportHelper.updatedBy(item);
+                }
+
+                res.render('admin/pages/editHistory/index', {
+                    pageTitle: category.title,
+                    item: category,
+                    permissionView: "product-category"
+                });
+            } else {
+                res.redirect(`${PATH_ADMIN}/dashboard`);
+            }
+
+        } catch (e) {
+            res.redirect(`${PATH_ADMIN}/dashboard`);
+        }
+    } else {
+        res.send("No permission");
+    }
+}

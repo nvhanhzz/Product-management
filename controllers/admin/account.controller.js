@@ -255,3 +255,36 @@ module.exports.patchUpdateAccount = async (req, res) => {
         res.send("No permission");
     }
 };
+
+// [GET] /admin/accounts/edit-history/:id
+module.exports.getEditHistory = async (req, res) => {
+    const permission = res.locals.currentUser.role.permission;
+    if (permission.includes('view-account')) {
+        try {
+            const id = req.params.id;
+            const account = await Account.findOne({
+                _id: id,
+                deleted: false
+            });
+
+            if (account) {
+                for (const item of account.updatedBy) {
+                    await logSupportHelper.updatedBy(item);
+                }
+
+                res.render('admin/pages/editHistory/index', {
+                    pageTitle: account.title,
+                    item: account,
+                    permissionView: "account"
+                });
+            } else {
+                res.redirect(`${PATH_ADMIN}/dashboard`);
+            }
+
+        } catch (e) {
+            res.redirect(`${PATH_ADMIN}/dashboard`);
+        }
+    } else {
+        res.send("No permission");
+    }
+}

@@ -17,6 +17,8 @@ router.get("/update-account/:id", controller.getUpdateAccount);
 
 router.patch("/update-account/:id", upload.single('avatar'), validate.validateUpdateAccountForm, controller.patchUpdateAccount);
 
+router.get("/edit-history/:id", controller.getEditHistory);
+
 router.get("/:id", controller.getDetail);
 
 router.get("/", controller.index);

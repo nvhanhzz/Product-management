@@ -384,3 +384,36 @@ module.exports.productDetail = async (req, res) => {
         res.send("No permission");
     }
 }
+
+// [GET] /admin/products/edit-history/:id
+module.exports.getEditHistory = async (req, res) => {
+    const permission = res.locals.currentUser.role.permission;
+    if (permission.includes('view-product')) {
+        try {
+            const productId = req.params.id;
+            const product = await Product.findOne({
+                _id: productId,
+                deleted: false
+            });
+
+            if (product) {
+                for (const item of product.updatedBy) {
+                    await logSupportHelper.updatedBy(item);
+                }
+
+                res.render('admin/pages/editHistory/index', {
+                    pageTitle: product.title,
+                    item: product,
+                    permissionView: "product"
+                });
+            } else {
+                res.redirect(`${PATH_ADMIN}/dashboard`);
+            }
+
+        } catch (e) {
+            res.redirect(`${PATH_ADMIN}/dashboard`);
+        }
+    } else {
+        res.send("No permission");
+    }
+}

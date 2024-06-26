@@ -16,3 +16,20 @@ module.exports.createdBy = async (item) => {
         item.creatorName = 'Error';
     }
 }
+
+module.exports.updatedBy = async (item) => {
+    try {
+        const account = await Account.findOne({
+            _id: item.accountId,
+            deleted: false
+        });
+
+        if (account && account.fullName) {
+            item.updatorName = account.fullName;
+        } else {
+            item.updatorName = 'Unknown';
+        }
+    } catch (error) {
+        item.updatorName = 'Error';
+    }
+}

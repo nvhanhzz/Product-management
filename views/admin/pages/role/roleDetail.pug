@@ -6,7 +6,9 @@ block addCss
 
 block main
     if currentUser.role.permission.includes("view-role")
-        h2.margin Role
+        .title
+                h2.margin= role.title 
+                a(href=`${prefixAdmin}/roles/edit-history/${role.id}`, class="btn btn-secondary") Edit history
         div.margin.product-attribute
             span Role:
             div= role.title
