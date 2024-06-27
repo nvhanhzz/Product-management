@@ -245,7 +245,9 @@ module.exports.viewFormCreateProduct = async (req, res) => {
     if (permission.includes('create-product')) {
         const positionDefault = await Product.countDocuments({}) + 1;
         const rootCategoryIds = await rootCategoryHelper.rootCategoryIds();
-        const listCategory = await ProductCategory.find();
+        const listCategory = await ProductCategory.find({
+            deleted: false
+        });
         const tree = treeHelper.tree(listCategory, rootCategoryIds);
         res.render(`admin/pages/product/createProduct`, {
             pageTitle: "Create product",
@@ -312,7 +314,9 @@ module.exports.viewFormUpdateProduct = async (req, res) => {
     if (permission.includes('update-product')) {
         try {
             const rootCategoryIds = await rootCategoryHelper.rootCategoryIds();
-            const listCategory = await ProductCategory.find();
+            const listCategory = await ProductCategory.find({
+                deleted: false
+            });
             const tree = treeHelper.tree(listCategory, rootCategoryIds);
             const productId = req.params.id;
             const product = await Product.findOne({
@@ -346,7 +350,7 @@ module.exports.updateProduct = async (req, res) => {
             if (req.file && req.file.path) {
                 req.body.thumbnail = req.file.path;
             }
-
+            // console.log("pre");
             const update = await Product.findByIdAndUpdate(
                 productId,
                 {
@@ -360,6 +364,7 @@ module.exports.updateProduct = async (req, res) => {
                 },
                 { new: true }
             );
+            // console.log("past");
 
             if (update) {
                 req.flash('success', `Update product ${req.body.title} successfully !`);

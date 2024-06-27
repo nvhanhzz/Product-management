@@ -1,3 +1,5 @@
+include ../mixins/categoryTree.pug
+
 header.header 
     .container 
         .row.align-items-center
@@ -8,8 +10,9 @@ header.header
                 
             .col-9 
                 .inner-menu 
-                    ul  
+                    ul.menu
                         li 
                             a(href="/") Home
-                        li 
+                        li.outer-product  
                             a(href="/products") Products
+                            +tree(categoryTree)

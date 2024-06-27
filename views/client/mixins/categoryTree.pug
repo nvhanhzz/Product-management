@@ -1,0 +1,7 @@
+mixin tree(categoryTree)
+    ul(class="sub-tree child")
+        each item in categoryTree
+            li
+                a(href=`/products/category/${item.slug}`) #{item.title}
+            if item.child.length > 0
+                +tree(item.child)

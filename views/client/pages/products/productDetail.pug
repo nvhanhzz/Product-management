@@ -11,11 +11,14 @@ block main
                     img(src=product.thumbnail, alt=product.title)
             
             .col-6.specifications
-                h2.margin.product-title= product.title 
-
-                if product.description
-                    .margin.product-attribute
-                        span.product-description!= product.description
+                span.margin.product-title= product.title 
+                if product.featured    
+                    span(class="badge badge-danger featured") Featured
+                
+                if product.category 
+                    div.category
+                        span Category: 
+                        a(href=`/products/category/${product.category.slug}`) #{product.category.title}
 
                 if product.price
                     .margin.product-attribute.price
@@ -32,3 +35,8 @@ block main
                 
                 button.add-to-cart Add to cart
                 button.buy-now Buy Now
+
+                if product.description
+                    .margin.product-attribute.description
+                        b Description:
+                        span.product-description!= product.description

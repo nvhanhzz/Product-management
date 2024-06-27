@@ -1,0 +1,6 @@
+include ./product.pug
+
+mixin gridLayout(products)
+    .row
+        each item in products
+            +product(item)

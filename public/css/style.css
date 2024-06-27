@@ -17,12 +17,13 @@ body {
 header.header {
     background-color: #e9ecee;
     /* padding: 20px; */
+    height: 100px;
 }
 
 /* Style for the row */
 .row.align-items-center {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
 }
 
 /* Style for the logo */
@@ -36,32 +37,32 @@ header.header {
 }
 
 /* Style for the menu */
-.inner-menu ul {
+.inner-menu .menu {
     list-style: none;
     display: flex;
     justify-content: flex-end;
     /* Căn các mục của danh sách về phía bên phải */
-    align-items: center;
+    /* align-items: center; */
     margin: 0;
     padding: 0;
 }
 
-.inner-menu ul li {
+.inner-menu .menu li {
     margin-left: 20px;
     font-size: 20px;
 }
 
-.inner-menu ul li:last-child {
+.inner-menu .menu li:last-child {
     margin-right: 0;
 }
 
 /* Style for the links */
-.inner-menu ul li a {
+.inner-menu .menu li a {
     text-decoration: none;
     color: #333;
 }
 
-.inner-menu ul li a:hover {
+.inner-menu .menu li a:hover {
     color: #6b6262;
 }
 
@@ -90,6 +91,41 @@ footer.footer p {
     /* Màu chữ */
 }
 
+/* Cấp 1 */
+ul {
+    list-style-type: disc;
+    /* Hoặc kiểu khác theo ý muốn */
+}
+
+/* Cấp 2 */
+ul ul {
+    list-style-type: circle;
+    /* Hoặc kiểu khác theo ý muốn */
+}
+
+/* Cấp 3 */
+ul ul ul {
+    list-style-type: square;
+    /* Hoặc kiểu khác theo ý muốn */
+}
+
+/* Cấp 4 (nếu có) */
+ul ul ul ul {
+    list-style-type: disc;
+    /* Hoặc kiểu khác theo ý muốn */
+}
+
+/* Style for the category when hover  */
+
+.outer-product {
+    position: absolute;
+    right: -120px;
+}
+
+.child {
+    display: none !important;
+}
+
 /* Style for the box-head */
 .box-head .inner-title {
     font-size: 25px;
@@ -107,9 +143,16 @@ footer.footer p {
     padding: 15px;
     border-radius: 5px;
     background-color: #fff;
+    position: relative;
+}
+
+.product-item .featured {
+    position: absolute;
+    right: 10px;
 }
 
 .product-item .inner-image {
+    margin-top: 15px;
     width: 100%;
     aspect-ratio: 4/3;
     overflow: hidden;

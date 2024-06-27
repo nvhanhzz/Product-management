@@ -1,7 +1,7 @@
 const url = new URL(window.location.href);
 const products = document.querySelectorAll(".product-item"); //list product;
 const pageButtons = document.querySelectorAll(".pagination-button"); // list pagination buttons
-
+const outerProduct = document.querySelector(".outer-product");
 
 // solve show product detail
 
@@ -20,6 +20,22 @@ for (let btn of pageButtons) {
         window.location.href = url.href;
     })
 }
+
+// solve css header
+outerProduct.addEventListener("mouseenter", () => {
+    console.log("1");
+    const subTree = outerProduct.querySelectorAll(".sub-tree");
+    subTree.forEach(item => {
+        item.classList.remove("child");
+    })
+});
+
+outerProduct.addEventListener("mouseleave", () => {
+    const subTree = outerProduct.querySelectorAll(".sub-tree");
+    subTree.forEach(item => {
+        item.classList.add("child");
+    })
+});
 
 
 // phần tăng giảm số lượng sản phẩm phía người dùng thì để khi nào làm cart xử lý cùng luôn

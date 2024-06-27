@@ -91,7 +91,9 @@ module.exports.viewFormCreateProductCategory = async (req, res) => {
     const permission = res.locals.currentUser.role.permission;
     if (permission.includes('create-product-category')) {
         const rootCategoryIds = await rootCategoryHelper.rootCategoryIds();
-        const listCategory = await ProductCategory.find();
+        const listCategory = await ProductCategory.find({
+            deleted: false
+        });
         const tree = treeHelper.tree(listCategory, rootCategoryIds);
         // console.log("tree, ", tree);
 
@@ -360,7 +362,9 @@ module.exports.viewFormUpdateCategory = async (req, res) => {
     if (permission.includes('update-product-category')) {
         try {
             const rootCategoryIds = await rootCategoryHelper.rootCategoryIds();
-            const listCategory = await ProductCategory.find();
+            const listCategory = await ProductCategory.find({
+                deleted: false
+            });
             const tree = treeHelper.tree(listCategory, rootCategoryIds);
             const id = req.params.id;
             const category = await ProductCategory.findOne({

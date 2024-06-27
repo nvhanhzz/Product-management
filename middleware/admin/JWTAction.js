@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
-const PATH_ADMIN = require("../config/system").prefixAdmin;
-const Account = require("../models/account.model");
-const Role = require("../models/role.model");
+const PATH_ADMIN = require("../../config/system").prefixAdmin;
+const Account = require("../../models/account.model");
+const Role = require("../../models/role.model");
 
 const verifyToken = (token) => {
     const key = process.env.jwt_signature;

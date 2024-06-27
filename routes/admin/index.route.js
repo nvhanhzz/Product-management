@@ -7,7 +7,7 @@ const roleRoutes = require("./role.route");
 const accountRoutes = require("./account.route");
 const authRoutes = require("./auth.route");
 const myProfileRoutes = require("./myProfile.route");
-const checkUserJwt = require("../../middleware/JWTAction");
+const checkUserJwt = require("../../middleware/admin/JWTAction");
 
 module.exports = (app) => {
     app.use((req, res, next) => {

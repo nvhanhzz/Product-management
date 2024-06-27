@@ -26,13 +26,20 @@
 }
 
 /* Product specifications styling */
-.specifications {
-    padding: 20px;
+.product-title {
+    font-size: 25px;
+    font-weight: 600;
+    margin-right: 20px;
+    margin-bottom: 20px;
 }
 
-.product-title {
-    font-size: 24px;
-    margin-bottom: 20px;
+.category {
+    margin: 20px 0px;
+    font-weight: 450;
+}
+
+.specifications {
+    padding: 20px;
 }
 
 .product-attribute {
@@ -115,4 +122,8 @@
 .add-to-cart:hover,
 .buy-now:hover {
     background-color: #0056b3;
+}
+
+.description {
+    margin-top: 20px;
 }

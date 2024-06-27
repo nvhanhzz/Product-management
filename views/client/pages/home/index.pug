@@ -1,5 +1,14 @@
 extends ../../layouts/default.pug
+include ../../mixins/productLayout.pug
 
 block main 
+    div(style="height: 20px")
     .container
-        h1 Home
+        h2 Featured product
+        div(style="height: 20px")
+        +gridLayout(featuredProduct)
+        div(style="height: 20px")
+
+        h2 New product
+        div(style="height: 20px")
+        +gridLayout(newestProduct)
