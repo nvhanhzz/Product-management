@@ -5,6 +5,9 @@ const searchHelper = require("../../helper/search");
 const sortHelper = require("../../helper/sort");
 const paginationHelper = require("../../helper/pagination");
 const logSupportHelper = require("../../helper/logSupport");
+const rootCategoryHelper = require("../../helper/getRootCategoryIds");
+const treeHelper = require("../../helper/categoryTree");
+const ProductCategory = require("../../models/product-category.model");
 const PATH_ADMIN = require("../../config/system").prefixAdmin;
 
 // [GET] /admin/products
@@ -53,6 +56,14 @@ module.exports.index = async (req, res) => {
 
         for (const product of products) {
             await logSupportHelper.createdBy(product);
+            const category = await ProductCategory.findOne({
+                _id: product.categoryId,
+                deleted: false
+            });
+
+            if (category) {
+                product.category = category.title;
+            }
         }
 
         res.render(`admin/pages/product/index`, {
@@ -233,9 +244,13 @@ module.exports.viewFormCreateProduct = async (req, res) => {
     const permission = res.locals.currentUser.role.permission;
     if (permission.includes('create-product')) {
         const positionDefault = await Product.countDocuments({}) + 1;
+        const rootCategoryIds = await rootCategoryHelper.rootCategoryIds();
+        const listCategory = await ProductCategory.find();
+        const tree = treeHelper.tree(listCategory, rootCategoryIds);
         res.render(`admin/pages/product/createProduct`, {
             pageTitle: "Create product",
-            positionDefault: positionDefault
+            positionDefault: positionDefault,
+            categoryTree: tree
         });
     } else {
         res.send("No permission");
@@ -246,12 +261,13 @@ module.exports.viewFormCreateProduct = async (req, res) => {
 module.exports.createProduct = async (req, res) => {
     const permission = res.locals.currentUser.role.permission;
     if (permission.includes('create-product')) {
-
         const title = req.body.title;
         const description = req.body.description;
         const price = parseFloat(req.body.price);
         const discountPercentage = parseFloat(req.body.discountPercentage);
         const stock = parseInt(req.body.stock);
+        const categoryId = req.body.categoryId;
+        const featured = req.body.featured;
         let thumbnail;
         if (req.file && req.file.path) {
             thumbnail = req.file.path;
@@ -272,7 +288,9 @@ module.exports.createProduct = async (req, res) => {
             position: position,
             createdBy: {
                 accountId: res.locals.currentUser.id
-            }
+            },
+            categoryId: categoryId,
+            featured: featured
         });
 
         try {
@@ -293,6 +311,9 @@ module.exports.viewFormUpdateProduct = async (req, res) => {
     const permission = res.locals.currentUser.role.permission;
     if (permission.includes('update-product')) {
         try {
+            const rootCategoryIds = await rootCategoryHelper.rootCategoryIds();
+            const listCategory = await ProductCategory.find();
+            const tree = treeHelper.tree(listCategory, rootCategoryIds);
             const productId = req.params.id;
             const product = await Product.findOne({
                 _id: productId,
@@ -302,7 +323,8 @@ module.exports.viewFormUpdateProduct = async (req, res) => {
             if (product) {
                 res.render(`admin/pages/product/updateProduct`, {
                     pageTitle: "Update product",
-                    product: product
+                    product: product,
+                    categoryTree: tree
                 });
             } else {
                 res.redirect(`${PATH_ADMIN}/dashboard`);
@@ -368,6 +390,15 @@ module.exports.productDetail = async (req, res) => {
 
             if (product) {
                 await logSupportHelper.createdBy(product);
+                if (product.categoryId) {
+                    const category = await ProductCategory.findOne({
+                        _id: product.categoryId,
+                        deleted: false
+                    });
+                    if (category) {
+                        product.category = category.title
+                    }
+                }
 
                 res.render('admin/pages/product/productDetail', {
                     pageTitle: product.title,

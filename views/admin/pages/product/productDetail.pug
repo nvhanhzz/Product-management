@@ -18,6 +18,16 @@ block main
             div.margin.product-attribute
                 span Description:
                 div!= product.description
+            
+        if product.category
+            div.margin.product-attribute
+                span Category:
+                span= product.category
+
+        if product.featured
+            div.margin.product-attribute
+                span Featured:
+                span= product.featured ? 'Featured' : 'No'
 
         if product.price
             div.margin.product-attribute

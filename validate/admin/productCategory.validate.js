@@ -6,6 +6,9 @@ module.exports.validateProductCategoryForm = (req, res, next) => {
         req.flash('fail', 'Please fill in the title field');
         res.redirect("back");
     }
+    if (!('status' in req.body) || (req.body.status !== 'active' && req.body.status !== 'inactive')) {
+        req.body.status = 'inactive';
+    }
     else {
         next();
     }

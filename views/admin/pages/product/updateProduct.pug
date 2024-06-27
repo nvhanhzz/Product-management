@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/notification.pug
+include ../../mixins/selectParentCategory.pug
 
 block addCss 
     link(rel="stylesheet", href="/admin/css/createProduct.css")
@@ -20,6 +21,19 @@ block main
             div.form-group
                 label(for="description") Description:
                 textarea#my-expressjs-tinymce-app.form-control(name="description", rows="4", placeholder="Enter the product description", value=product.description)=product.description
+            div.form-group
+                label(for="title") Category:
+                br
+                select.select-parent-category(name="categoryId")
+                    +selectParentCategory(categoryTree, 0, product.categoryId)
+            div.form-group
+                label Featured:
+                div
+                    input#featured(type="radio", name="featured", value="true", checked = product.featured === true)
+                    label(for="featured") Featured
+                div
+                    input#no-featured(type="radio", name="featured", value="false", checked = product.featured === false)
+                    label(for="no-featured") No
             div.form-group
                 label(for="price") Price:
                 input#price.form-control(type="number", name="price", step="0.01", placeholder="Enter the product price", value=product.price)

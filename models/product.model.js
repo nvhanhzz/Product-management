@@ -11,6 +11,8 @@ const productSchema = new mongoose.Schema(
         "discountPercentage": Number,
         "stock": Number,
         "thumbnail": String,
+        "categoryId": String,
+        "featured": Boolean,
         "status": String,
         "position": Number,
         "deleted": {
