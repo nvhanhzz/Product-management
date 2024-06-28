@@ -22,12 +22,12 @@ module.exports.index = async (req, res) => {
             if (product.checked) {
                 totalPrice += parseFloat(productInfor.totalPrice);
             }
-
-            cart.totalPrice = totalPrice.toFixed(2);
         } else {
             product.render = false;
         }
     }
+
+    cart.totalPrice = totalPrice.toFixed(2);
 
     res.render("client/pages/cart/index", {
         pageTitle: "Cart",
@@ -51,7 +51,7 @@ module.exports.addProduct = async (req, res) => {
         const productExists = cart.products.some(product => product.productId.toString() === productId);
 
         if (!productExists) {
-            cart.products.push({ productId: productId, quantity: quantity });
+            cart.products.push({ productId: productId, quantity: quantity, checked: true });
         } else {
             cart.products = cart.products.map(product => {
                 if (product.productId.toString() === productId) {
@@ -77,7 +77,7 @@ module.exports.patchChecked = async (req, res) => {
         const checked = req.body.checkitem ? true : false;
 
         const result = await Cart.updateOne(
-            { 'products.productId': productId },
+            { _id: res.locals.cart.id, 'products.productId': productId },
             { $set: { 'products.$.checked': checked } }
         )
 
@@ -94,7 +94,7 @@ module.exports.patchQuantity = async (req, res) => {
         const quantity = req.body.quantity;
 
         await Cart.updateOne(
-            { 'products.productId': productId },
+            { _id: res.locals.cart.id, 'products.productId': productId },
             { $set: { 'products.$.quantity': quantity } }
         );
 
@@ -102,5 +102,20 @@ module.exports.patchQuantity = async (req, res) => {
     } catch (e) {
         res.redirect("back");
     }
+}
 
+// [DELETE] /cart/deleteProduct/:productId
+module.exports.deleteProduct = async (req, res) => {
+    try {
+        const productId = req.params.productId;
+
+        await Cart.updateOne(
+            { _id: res.locals.cart.id },
+            { $pull: { products: { productId: productId } } }
+        );
+
+        res.redirect("back");
+    } catch (e) {
+        res.redirect("back");
+    }
 }

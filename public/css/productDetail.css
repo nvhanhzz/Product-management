@@ -94,6 +94,7 @@
     height: 32px;
     font-size: 20px;
     cursor: pointer;
+    text-align: center;
 }
 
 .quantity-input {
