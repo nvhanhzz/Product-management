@@ -1,5 +1,4 @@
 extends ../../layouts/default.pug
-include ../../mixins/notification.pug
 include ../../mixins/selectParentCategory.pug
 
 block addCss 
@@ -7,8 +6,6 @@ block addCss
 
 block main
     if currentUser.role.permission.includes("create-product-category")
-        - if (messages.fail)
-            +notf-fail()
 
         h2 Create product category
 

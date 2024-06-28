@@ -1,5 +1,4 @@
 extends ../../layouts/default.pug
-include ../../mixins/notification.pug
 include ../../mixins/selectParentCategory.pug
 
 block addCss 
@@ -7,10 +6,6 @@ block addCss
 
 block main
     if currentUser.role.permission.includes("update-product")
-        - if (messages.success)
-            +notf-success()
-        - if (messages.fail)
-            +notf-fail()
 
         h2 Update product
         

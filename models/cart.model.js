@@ -6,7 +6,8 @@ const cartSchema = new mongoose.Schema(
         products: [
             {
                 productId: mongoose.Schema.Types.ObjectId,
-                quantity: Number
+                quantity: Number,
+                checked: Boolean
             }
         ]
     }

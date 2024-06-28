@@ -9,7 +9,7 @@ const { cartMiddleware } = require('../../middleware/client/cart');
 module.exports = (app) => {
     app.use(categoryTree.categoryTree);
 
-    app.use('/cart', cartMiddleware);
+    app.use(cartMiddleware);
 
     app.use('/cart', cartRoutes);
     app.use('/products', productRoutes);

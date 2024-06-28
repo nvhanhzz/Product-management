@@ -18,6 +18,11 @@ header.header
                     ul.menu
                         li 
                             a(href="/") Home
+
                         li.outer-product  
                             a(href="/products") Products
                             +tree(categoryTree)
+                        
+                        li.cart 
+                            a(href="/cart") 
+                                i(class="fa-solid fa-cart-shopping") #{cart && cart.totalItem > 0 ? `(${cart.totalItem})` : ''}

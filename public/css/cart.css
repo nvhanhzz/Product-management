@@ -1,0 +1,5 @@
+.cartTr td,
+.cartTr th {
+    text-align: center;
+    vertical-align: middle;
+}

@@ -7,8 +7,6 @@ block addCss
 
 block main
     if currentUser.role.permission.includes("create-product")
-        - if (messages.fail)
-            +notf-fail()
 
         h2 Create product
 

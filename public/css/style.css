@@ -12,12 +12,22 @@ body {
     margin: 0;
 }
 
+.content-box {
+    margin-top: 70px;
+}
+
 
 /* Style for the header */
 header.header {
-    background-color: #e9ecee;
+    background-color: #fff2f2;
     /* padding: 20px; */
-    height: 100px;
+    height: 70px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    margin-bottom: 0px;
+    display: flex;
+    align-items: center;
 }
 
 /* Style for the row */
@@ -40,7 +50,7 @@ header.header {
 .inner-menu .menu {
     list-style: none;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     /* Căn các mục của danh sách về phía bên phải */
     /* align-items: center; */
     margin: 0;
@@ -59,7 +69,7 @@ header.header {
 /* Style for the links */
 .inner-menu .menu li a {
     text-decoration: none;
-    color: #333;
+    color: #4e37cf;
 }
 
 .inner-menu .menu li a:hover {
@@ -73,12 +83,13 @@ header.header {
 
 /* Style for the footer */
 footer.footer {
-    background-color: #e9ecee;
+    background-color: #212222;
     padding: 20px;
     text-align: center;
     position: relative;
     width: 100%;
     bottom: 0;
+    color: #f3eeee;
 }
 
 /* Style for the copyright text */
@@ -87,7 +98,7 @@ footer.footer p {
     /* Xóa margin mặc định */
     font-size: 14px;
     /* Kích thước chữ */
-    color: #888;
+    color: #f3eeee;
     /* Màu chữ */
 }
 
@@ -96,6 +107,7 @@ footer.footer p {
     height: 40px;
     width: 400px;
     padding-left: 20px;
+    border: 0.5px solid #ddd;
 }
 
 .btn-search {
@@ -130,11 +142,17 @@ ul ul ul ul {
 
 .outer-product {
     position: absolute;
-    right: -120px;
+    left: 95px;
+    z-index: 1000;
+    background-color: #fff2f2;
 }
 
 .child {
     display: none !important;
+}
+
+.cart {
+    z-index: 1001;
 }
 
 /* Style for the box-head */

@@ -5,12 +5,9 @@ include ../../mixins/searchForm.pug
 include ../../mixins/sortCategory.pug
 include ../../mixins/pagination.pug
 include ../../mixins/changeProductForm.pug
-include ../../mixins/notification.pug
 
 block main
     if currentUser.role.permission.includes("view-product-category")
-        - if (messages.success)
-            +notf-success()
         h1 List product categories
 
         //- .card.mb-3 

@@ -1,11 +1,8 @@
 extends ../../layouts/default.pug
-include ../../mixins/notification.pug
 include ../../mixins/time.pug
 
 block main
     if currentUser.role.permission.includes("view-account")
-        - if (messages.success)
-            +notf-success()
         h1 List account
 
         .card.mb-3 

@@ -6,8 +6,6 @@ block addCss
 
 block main
     if currentUser.role.permission.includes("permission")
-        - if (messages.success)
-            +notf-success()
         h1 Permissions
 
         .card.mb-3 

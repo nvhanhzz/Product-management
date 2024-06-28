@@ -9,8 +9,6 @@ include ../../mixins/time.pug
 
 block main
     if currentUser.role.permission.includes("view-product")
-        - if (messages.success)
-            +notf-success()
         h1 List products 
 
         .card.mb-3 

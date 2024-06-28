@@ -1,10 +1,5 @@
 extends ../../layouts/default.pug
-include ../../mixins/notification.pug
 
 block main
-    - if (messages.success)
-        +notf-success()
-    - if (messages.fail)
-        +notf-fail()
     h1 Dashboard
     //- div #{currentUser}
