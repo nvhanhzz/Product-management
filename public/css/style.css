@@ -92,6 +92,17 @@ footer.footer p {
 }
 
 /* Cấp 1 */
+.search-input {
+    height: 40px;
+    width: 400px;
+    padding-left: 20px;
+}
+
+.btn-search {
+    height: 40px;
+    margin-bottom: 5px;
+}
+
 ul {
     list-style-type: disc;
     /* Hoặc kiểu khác theo ý muốn */

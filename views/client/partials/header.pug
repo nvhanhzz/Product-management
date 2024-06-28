@@ -7,8 +7,13 @@ header.header
                 .inner-logo 
                     a(href="/")
                         img(src="/images/logo.svg", alt="Logo")
+
+            .col-6
+                form(action="/search" method="GET")
+                    input(type="text" name="keyword" class="search-input" placeholder="Enter keyword" value=keyword)
+                    button(type="submit" class="btn btn-primary btn-search") Search
                 
-            .col-9 
+            .col-3
                 .inner-menu 
                     ul.menu
                         li 
