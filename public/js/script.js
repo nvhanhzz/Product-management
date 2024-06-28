@@ -37,5 +37,23 @@ outerProduct.addEventListener("mouseleave", () => {
     })
 });
 
+// solve alert notification
+
+document.addEventListener('DOMContentLoaded', function () {
+    const alert = document.querySelector('.notfAlert');
+    if (alert) {
+        setTimeout(function () {
+            alert.style.display = 'none';
+        }, 3000);
+
+        const closeAlertBtn = document.querySelector('.close-alert-btn');
+        if (closeAlertBtn) {
+            closeAlertBtn.addEventListener('click', function () {
+                alert.style.display = 'none';
+            });
+        }
+    }
+});
+
 
 // phần tăng giảm số lượng sản phẩm phía người dùng thì để khi nào làm cart xử lý cùng luôn

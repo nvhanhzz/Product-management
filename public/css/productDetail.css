@@ -127,3 +127,7 @@
 .description {
     margin-top: 20px;
 }
+
+.cart-form {
+    display: inline;
+}
