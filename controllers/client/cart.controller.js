@@ -4,6 +4,7 @@ const Product = require("../../models/product.model");
 // [GET] /cart
 module.exports.index = async (req, res) => {
     const cart = res.locals.cart;
+    let totalPrice = 0;
 
     for (const product of cart.products) {
         const productInfor = await Product.findOne({
@@ -17,6 +18,12 @@ module.exports.index = async (req, res) => {
             productInfor.newPrice = (productInfor.price * (100 - productInfor.discountPercentage) / 100).toFixed(2);
             productInfor.totalPrice = (productInfor.newPrice * product.quantity).toFixed(2);
             product.productInfor = productInfor;
+
+            if (product.checked) {
+                totalPrice += parseFloat(productInfor.totalPrice);
+            }
+
+            cart.totalPrice = totalPrice.toFixed(2);
         } else {
             product.render = false;
         }
@@ -57,6 +64,23 @@ module.exports.addProduct = async (req, res) => {
         await cart.save();
 
         req.flash('success', 'Added !');
+        res.redirect("back");
+    } catch (e) {
+        res.redirect("back");
+    }
+}
+
+// [PATCH] /cart/changeProduct/checked/:productId
+module.exports.patchChecked = async (req, res) => {
+    try {
+        const productId = req.params.productId;
+        const checked = req.body.checkitem ? true : false;
+
+        const result = await Cart.updateOne(
+            { 'products.productId': productId },
+            { $set: { 'products.$.checked': checked } }
+        )
+
         res.redirect("back");
     } catch (e) {
         res.redirect("back");

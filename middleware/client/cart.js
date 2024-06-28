@@ -32,9 +32,9 @@ module.exports.cartMiddleware = async (req, res, next) => {
             res.locals.cart = cart;
         }
 
-        next(); // Gọi next() sau khi hoàn tất tất cả các thao tác
+        next();
     } catch (err) {
         console.error("Error in cartMiddleware:", err);
-        next(err); // Truyền lỗi tới middleware xử lý lỗi tiếp theo
+        next(err);
     }
 }

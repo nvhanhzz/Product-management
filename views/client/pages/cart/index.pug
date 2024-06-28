@@ -13,7 +13,6 @@ block main
             thead 
                 tr.cartTr 
                     th 
-                        input(type="checkbox" name="checkall")
                     th Order
                     th Image
                     th Name
@@ -27,7 +26,8 @@ block main
                     if item.render
                         tr.cartTr
                             td 
-                                input(type="checkbox" name="checkitem" val=item._id)
+                                form(action=`/cart/changeProduct/checked/${item.productId}?_method=PATCH` method="POST" changeProductChecked)
+                                    input(type="checkbox" name="checkitem" val=item._id checked=item.checked)
                             td #{index + 1}
                             td 
                                 img(
@@ -48,10 +48,8 @@ block main
                                     button(class="btn btn-danger") Delete
 
         div(style="display: flex; justify-content: flex-end; margin-bottom: 50px")
-            div
-                h2 #{`Total order price: `}
-                button(class="btn btn-success" style="margin-left: 200px;") PAY
-
-
+            div(style="position: relative;")
+                h2 #{`Total order price: $ ${cart.totalPrice}`}
+                button(class="btn btn-success" style="position: absolute; right: 0px;") PAY
 
     script(src="/js/cart.js")
