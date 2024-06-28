@@ -40,8 +40,8 @@ block main
                                 a(href=`/products/${item.productInfor.slug}`) #{item.productInfor.title}
                             td #{`$ ${item.productInfor.newPrice}`}
                             td 
-                                form(action='' method="POST")
-                                    input(type="number" value=item.quantity style="width: 50px; text-align: center;")
+                                form(action=`/cart/changeProduct/quantity/${item.productId}?_method=PATCH` method="POST")
+                                    input(type="number" name="quantity" value=item.quantity style="width: 50px; text-align: center;" quantity min=1 max=item.productInfor.stock)
                             td #{`$ ${item.productInfor.totalPrice}`}
                             td 
                                 form(action='' method="POST")

@@ -86,3 +86,21 @@ module.exports.patchChecked = async (req, res) => {
         res.redirect("back");
     }
 }
+
+// [PATCH] /changeProduct/quantity/:productId
+module.exports.patchQuantity = async (req, res) => {
+    try {
+        const productId = req.params.productId;
+        const quantity = req.body.quantity;
+
+        await Cart.updateOne(
+            { 'products.productId': productId },
+            { $set: { 'products.$.quantity': quantity } }
+        );
+
+        res.redirect("back");
+    } catch (e) {
+        res.redirect("back");
+    }
+
+}
