@@ -39,6 +39,18 @@ module.exports.index = async (req, res) => {
 module.exports.addProduct = async (req, res) => {
     try {
         const productId = req.params.productId;
+
+        const product = await Product.findOne({
+            _id: productId,
+            deleted: false,
+            status: "active"
+        });
+
+        if (!product) {
+            req.flash('fail', "Product invalid !");
+            return res.redirect('back');
+        }
+
         const quantity = parseInt(req.body.quantity);
 
         const cartId = req.cookies.cartId;
@@ -51,14 +63,29 @@ module.exports.addProduct = async (req, res) => {
         const productExists = cart.products.some(product => product.productId.toString() === productId);
 
         if (!productExists) {
+            if (quantity > product.stock) {
+                req.flash("fail", "Not enough products in stock !");
+                return res.redirect("back");
+            }
+
             cart.products.push({ productId: productId, quantity: quantity, checked: true });
         } else {
-            cart.products = cart.products.map(product => {
-                if (product.productId.toString() === productId) {
-                    product.quantity += quantity;
+            let check = true;
+
+            cart.products = cart.products.map(item => {
+                if (item.productId.toString() === productId) {
+                    if (item.quantity + quantity > product.stock) {
+                        check = false;
+                    }
+                    item.quantity += quantity;
                 }
-                return product;
+                return item;
             });
+
+            if (!check) {
+                req.flash("fail", "Not enough products in stock !");
+                return res.redirect("back");
+            }
         }
 
         await cart.save();
@@ -91,12 +118,30 @@ module.exports.patchChecked = async (req, res) => {
 module.exports.patchQuantity = async (req, res) => {
     try {
         const productId = req.params.productId;
-        const quantity = req.body.quantity;
+        const quantity = parseInt(req.body.quantity);
+
+        const product = await Product.findOne({
+            _id: productId,
+            deleted: false,
+            status: "active"
+        });
+
+        if (!product) {
+            req.flash("fail", "Action fail!");
+            return res.redirect("back");
+        }
+
+        if (quantity > product.stock) {
+            req.flash("fail", "Not enough products in stock!");
+            return res.redirect("back");
+        }
 
         await Cart.updateOne(
             { _id: res.locals.cart.id, 'products.productId': productId },
             { $set: { 'products.$.quantity': quantity } }
         );
+
+        const cart = await Cart.findById(res.locals.cart.id);
 
         res.redirect("back");
     } catch (e) {
