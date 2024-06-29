@@ -6,7 +6,7 @@ block addCss
 block main 
     div(style="height: 20px")
     .container
-        if cart.products.length === 0
+        if cart.numberChecked === 0 
             h2 Empty
         else
             h2 Checkout

@@ -163,7 +163,7 @@ ul ul ul ul {
 
 /* CSS cho luôn cao full màn */
 .content-box {
-    min-height: calc(100vh - 100px - 64px);
+    min-height: calc(100vh - 70px - 64px);
 }
 
 /* CSS tùy chỉnh cho phần sản phẩm */

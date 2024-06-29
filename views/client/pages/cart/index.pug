@@ -4,6 +4,7 @@ block addCss
     link(rel="stylesheet", href="/css/cart.css")
 
 block main 
+    -let count = 0
     div(style="height: 20px")
     .container
         if cart.products.length === 0
@@ -26,6 +27,8 @@ block main
 
                 tbody 
                     each item, index in cart.products 
+                        if item.checked 
+                            - ++count
                         if item.render
                             tr.cartTr
                                 td 
@@ -50,9 +53,10 @@ block main
                                     form(action=`/cart/deleteProduct/${item.productId}?_method=DELETE` method="POST")
                                         button(class="btn btn-danger" type="submit") Delete
 
-            div(style="display: flex; justify-content: flex-end; margin-bottom: 50px")
-                div(style="position: relative;")
-                    h2 #{`Total order price: $ ${cart.totalPrice}`}
-                    a(href="/checkout" class="btn btn-success" style="position: absolute; right: 0px;") PAY
+            if count > 0
+                div(style="display: flex; justify-content: flex-end; margin-bottom: 50px")
+                    div(style="position: relative;")
+                        h2 #{`Total order price: $ ${cart.totalPrice}`}
+                        a(href="/checkout" class="btn btn-success" style="position: absolute; right: 0px;") PAY
 
     script(src="/js/cart.js")

@@ -1,0 +1,68 @@
+extends ../../layouts/default.pug
+
+block addCss 
+    link(rel="stylesheet", href="/css/cart.css")
+
+block main 
+    div(style="height: 20px")
+    .container
+        h2 Order success
+        div(style="height: 20px")
+
+        .alert.alert-success(role='alert') Congratulations on successfully placing your order. We will process your order as soon as possible.
+        div(style="height: 20px")
+
+        h2 Client's information
+        
+        .row
+            .col-6.border
+                b Full name
+            .col-6.border #{order.clientInfor.fullName}
+
+        .row
+            .col-6.border
+                b Phone number
+            .col-6.border #{order.clientInfor.phone}
+        
+        .row
+            .col-6.border 
+                b Address
+            .col-6.border #{order.clientInfor.address}
+
+        div(style="height: 20px")
+
+        h2 Order's information
+
+        table(class="table table-bordered")
+            thead 
+                tr.cartTr 
+                    th Order
+                    th Image
+                    th Name
+                    th Price
+                    th Quantity
+                    th Total price
+
+            tbody 
+                -let ord = 0
+                each item in order.products 
+                    - ord += 1
+                    tr.cartTr
+                        td #{ord}
+                        td 
+                            img(
+                                src=item.productInfor.thumbnail
+                                alt=item.title
+                                width="100px"
+                                height="auto"
+                            )
+                        td #{item.productInfor.title}
+                        td #{`$ ${item.productInfor.newPrice}`}
+                        td #{item.quantity}
+                        td #{`$ ${item.productInfor.totalPrice}`}
+
+        div(style="display: flex; justify-content: flex-end; margin-bottom: 50px")
+            div(style="position: relative;")
+                h2 #{`Total order price: $ ${order.totalPrice}`}
+
+    script(src="/js/cart.js")
