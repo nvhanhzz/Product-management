@@ -1,0 +1,70 @@
+extends ../../layouts/default.pug
+
+block addCss 
+    link(rel="stylesheet", href="/css/cart.css")
+
+block main 
+    div(style="height: 20px")
+    .container
+        if cart.products.length === 0
+            h2 Empty
+        else
+            h2 Checkout
+            div(style="height: 20px")
+
+            table(class="table table-bordered")
+                thead 
+                    tr.cartTr 
+                        th Order
+                        th Image
+                        th Name
+                        th Price
+                        th Quantity
+                        th Total price
+
+                tbody 
+                    -let order = 0
+                    each item in cart.products 
+                        if item.render && item.checked
+                            - order += 1
+                            tr.cartTr
+                                td #{order}
+                                td 
+                                    img(
+                                        src=item.productInfor.thumbnail
+                                        alt=item.title
+                                        width="100px"
+                                        height="auto"
+                                    )
+                                td #{item.productInfor.title}
+                                td #{`$ ${item.productInfor.newPrice}`}
+                                td #{item.quantity}
+                                td #{`$ ${item.productInfor.totalPrice}`}
+
+            div(style="display: flex; justify-content: flex-end; margin-bottom: 50px")
+                div(style="position: relative;")
+                    h2 #{`Total order price: $ ${cart.totalPrice}`}
+                    
+            form(action="/checkout/order" method="POST")
+                .form-group.row
+                    .col-2
+                    label.col-2.col-form-label(for='fullName') Full name
+                    .col-sm-6
+                        input#fullName.form-control(type='text' name="fullName" placeholder="Enter your name" required)
+                .form-group.row
+                    .col-2
+                    label.col-sm-2.col-form-label(for='phoneNumber') Phone number
+                    .col-sm-6
+                        input#phoneNumber.form-control(type='text' name="phone" placeholder="Enter your phone number" required)
+                .form-group.row
+                    .col-2
+                    label.col-sm-2.col-form-label(for='address') Address
+                    .col-sm-6
+                        input#address.form-control(type='text' name="address" placeholder="Enter your address" required)
+                
+                .form-group.row
+                    .col-2
+                    .col-sm-8
+                        button.btn.btn-primary(type='submit' style="width: 100%; margin-bottom: 50px;") Place order
+
+    script(src="/js/cart.js")

@@ -12,6 +12,8 @@ router.patch('/changeProduct/quantity/:productId', validate.addProduct, controll
 
 router.delete('/deleteProduct/:productId', controller.deleteProduct);
 
+router.post('/buyNow/:productId/:quantity', controller.buyNow);
+
 router.get('/', controller.index);
 
 module.exports = router;

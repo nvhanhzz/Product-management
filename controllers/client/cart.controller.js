@@ -39,6 +39,9 @@ module.exports.index = async (req, res) => {
 module.exports.addProduct = async (req, res) => {
     try {
         const productId = req.params.productId;
+        const quantity = parseInt(req.body.quantity);
+        const cartId = req.cookies.cartId;
+        const cart = await Cart.findById(cartId);
 
         const product = await Product.findOne({
             _id: productId,
@@ -50,11 +53,6 @@ module.exports.addProduct = async (req, res) => {
             req.flash('fail', "Product invalid !");
             return res.redirect('back');
         }
-
-        const quantity = parseInt(req.body.quantity);
-
-        const cartId = req.cookies.cartId;
-        const cart = await Cart.findById(cartId);
 
         if (!cart) {
             return res.send("Not found card");
@@ -160,6 +158,67 @@ module.exports.deleteProduct = async (req, res) => {
         );
 
         res.redirect("back");
+    } catch (e) {
+        res.redirect("back");
+    }
+}
+
+// [POST] /buyNow/:productId/:quantity
+module.exports.buyNow = async (req, res) => {
+    try {
+        const productId = req.params.productId;
+        const quantity = parseInt(req.params.quantity);
+        const cartId = req.cookies.cartId;
+        const cart = await Cart.findById(cartId);
+
+        const product = await Product.findOne({
+            _id: productId,
+            deleted: false,
+            status: "active"
+        });
+
+        if (!product) {
+            req.flash('fail', "Product invalid !");
+            return res.redirect('back');
+        }
+
+        if (quantity > product.stock) {
+            req.flash("fail", "Not enough products in stock !");
+            return res.redirect("back");
+        }
+
+        if (!cart) {
+            return res.send("Not found card");
+        }
+
+        const productExists = cart.products.some(product => product.productId.toString() === productId);
+
+        if (!productExists) {
+            cart.products.push({ productId: productId, quantity: quantity, checked: true });
+        } else {
+            cart.products = cart.products.map(item => {
+                if (item.productId.toString() === productId) {
+                    item.quantity = quantity;
+                }
+                return item;
+            });
+        }
+        for (let i = 0; i < cart.products.length; i++) {
+            const product = cart.products[i];
+            if (product.productId.toString() === productId) {
+                product.checked = true;
+
+                const [selectedProduct] = cart.products.splice(i, 1);
+                cart.products.unshift(selectedProduct);
+            } else {
+                product.checked = false;
+            }
+        }
+
+        await cart.save();
+
+        req.flash('success', 'Added !');
+        res.redirect('/cart');
     } catch (e) {
         res.redirect("back");
     }

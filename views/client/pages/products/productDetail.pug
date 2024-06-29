@@ -30,13 +30,16 @@ block main
                     .order.margin
                         span.quantity-label Quantity
                         span.quantity-btn - 
-                        input.quantity-input(type="number", value=1, name="quantity", min=1, max=product.stock)
+                        input.quantity-input(type="number", value=1, name="quantity", min=1, max=product.stock quantity)
                         span.quantity-btn +
                         span.stock= ' Stock: ' + product.stock
                     button(type="submit").add-to-cart Add to cart
-                button.buy-now Buy Now
+                form(action=`/cart/buyNow/${product.id}` method="POST" class="cart-form")
+                    button(type="submit" buy-now).buy-now Buy now
 
                 if product.description
                     .margin.product-attribute.description
                         b Description:
                         span.product-description!= product.description
+
+    script(src="/js/productDetail.js")
