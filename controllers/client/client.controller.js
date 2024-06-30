@@ -5,6 +5,7 @@ const Cart = require("../../models/cart.model");
 const ForgotPassword = require("../../models/forgotPassword.model");
 const hashPassword = require("../../helper/hashPassword");
 const generateHelper = require("../../helper/generate");
+const senMailHelper = require("../../helper/senMail");
 
 // [GET] /client/register
 module.exports.getRegister = async (req, res) => {
@@ -164,7 +165,9 @@ module.exports.postForgotPassword = async (req, res) => {
     // End create otp
 
     // Send otp to client's email
-
+    const subject = `Mã OTP xác minh lấy lại mật khẩu`
+    const html = `Mã OTP là <b>${otp}</b>. Thời hạn sử dụng là 3 phút. Lưu ý không được để lộ mã này.`
+    senMailHelper.sendMail(email, subject, html);
     // End send otp to client's email
 
     res.redirect('/client/verify-otp');
