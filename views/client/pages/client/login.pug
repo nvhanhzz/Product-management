@@ -1,0 +1,23 @@
+extends ../../layouts/default.pug
+
+block main 
+    .container
+        div(style="height: 70px")
+        form(action="/client/login" method="POST")
+            h2(style="text-align: center") Login
+            .row
+                .col-3 
+                .col-6
+                    .form-group
+                        label(for='email') Email address
+                        input#email.form-control(type='email' name="email")
+            .row
+                .col-3 
+                .col-6
+                    .form-group
+                        label(for='password') Password
+                        input#password.form-control(type='password' name="password")
+            .row
+                .col-3 
+                .col-6
+                    button.btn.btn-primary(type='submit' style="width: 100%; margin-top: 20px;") Submit

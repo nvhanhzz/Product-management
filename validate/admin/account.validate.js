@@ -1,5 +1,3 @@
-const Account = require("../../models/account.model");
-
 module.exports.validateCreateAccountForm = async (req, res, next) => {
     if (!req.body.fullName) {
         req.flash('fail', 'Please fill in the full name field');
@@ -18,15 +16,7 @@ module.exports.validateCreateAccountForm = async (req, res, next) => {
         res.redirect("back");
     }
     else {
-        const account = await Account.findOne({
-            email: req.body.email
-        });
-        if (account) {
-            req.flash('fail', 'Email already exist');
-            res.redirect("back");
-        } else {
-            next();
-        }
+        next();
     }
 }
 
@@ -49,16 +39,6 @@ module.exports.validateUpdateAccountForm = async (req, res, next) => {
         res.redirect("back");
     }
     else {
-        const account = await Account.findOne({
-            _id: { $ne: req.params.id },
-            email: req.params.email
-        });
-
-        if (account) {
-            req.flash('fail', 'Email already exist');
-            res.redirect("back");
-        } else {
-            next();
-        }
+        next();
     }
 }

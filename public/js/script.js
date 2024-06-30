@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (alert) {
         setTimeout(function () {
             alert.style.display = 'none';
-        }, 3000);
+        }, 5000);
 
         const closeAlertBtn = document.querySelector('.close-alert-btn');
         if (closeAlertBtn) {

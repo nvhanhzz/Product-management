@@ -45,6 +45,14 @@ module.exports.getCreate = async (req, res) => {
 module.exports.postCreate = async (req, res) => {
     const permission = res.locals.currentUser.role.permission;
     if (permission.includes('create-account')) {
+        const accountExist = await Account.findOne({
+            email: req.body.email
+        });
+        if (accountExist) {
+            req.flash('fail', 'Email already exist');
+            return res.redirect("back");
+        }
+
         req.body.createdBy = {
             accountId: res.locals.currentUser.id
         };
@@ -213,6 +221,16 @@ module.exports.patchUpdateAccount = async (req, res) => {
     const permission = res.locals.currentUser.role.permission;
     if (permission.includes('update-account')) {
         try {
+            const accountExist = await Account.findOne({
+                _id: { $ne: req.params.id },
+                email: req.body.email
+            });
+
+            if (accountExist) {
+                req.flash('fail', 'Email already exist');
+                return res.redirect("back");
+            }
+
             const id = req.params.id;
             const accountId = res.locals.currentUser._id; // Assuming the current user's ID is stored in res.locals.currentUser._id
 

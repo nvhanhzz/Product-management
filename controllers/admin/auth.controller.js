@@ -49,7 +49,7 @@ module.exports.postLogin = async (req, res) => {
         });
 
         req.flash("success", `Login success, hello ${account.fullName}`);
-        res.redirect(`${PATH_ADMIN}/dashboard`)
+        res.redirect(`${PATH_ADMIN}/dashboard`);
 
     } catch (error) {
         console.log(error);

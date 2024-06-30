@@ -13,25 +13,27 @@ block main
         div(style="height: 20px")
 
         h2 Client's information
+        div(style="height: 10px")
         
         .row
+            .col-6.border Full name
             .col-6.border
-                b Full name
-            .col-6.border #{order.clientInfor.fullName}
+                b #{order.clientInfor.fullName}
 
         .row
-            .col-6.border
-                b Phone number
-            .col-6.border #{order.clientInfor.phone}
+            .col-6.border Phone number
+            .col-6.border 
+                b #{order.clientInfor.phone}
         
         .row
-            .col-6.border 
-                b Address
-            .col-6.border #{order.clientInfor.address}
+            .col-6.border Address
+            .col-6.border
+                b #{order.clientInfor.address}
 
         div(style="height: 20px")
 
         h2 Order's information
+        div(style="height: 10px")
 
         table(class="table table-bordered")
             thead 
