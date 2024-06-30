@@ -8,6 +8,7 @@ const clientRoutes = require('./client.route');
 const categoryTree = require('../../middleware/client/categoryTree');
 const { cartMiddleware } = require('../../middleware/client/cart');
 const JWTAction = require("../../middleware/client/JWTAction");
+const ensureAuthenticated = require("../../middleware/client/ensureAuthenticated");
 
 module.exports = (app) => {
     app.use(JWTAction);
@@ -17,9 +18,9 @@ module.exports = (app) => {
     app.use(cartMiddleware);
 
     app.use('/client', clientRoutes);
-    app.use('/cart', cartRoutes);
+    app.use('/cart', ensureAuthenticated.ensureAuthenticated, cartRoutes);
     app.use('/products', productRoutes);
     app.use('/search', searchRoutes);
-    app.use('/checkout', checkoutRoutes);
+    app.use('/checkout', ensureAuthenticated.ensureAuthenticated, checkoutRoutes);
     app.use('/', homeRoutes);
 }

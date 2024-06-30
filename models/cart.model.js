@@ -2,7 +2,7 @@ const { default: mongoose } = require("mongoose");
 
 const cartSchema = new mongoose.Schema(
     {
-        userId: mongoose.Schema.Types.ObjectId,
+        clientId: mongoose.Schema.Types.ObjectId,
         products: [
             {
                 productId: mongoose.Schema.Types.ObjectId,

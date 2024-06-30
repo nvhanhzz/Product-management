@@ -1,4 +1,5 @@
 const Client = require("../../models/client.model");
+const Cart = require("../../models/cart.model");
 const hashPassword = require("../../helper/hashPassword");
 const jwt = require('jsonwebtoken');
 
@@ -29,6 +30,16 @@ module.exports.postRegister = async (req, res) => {
     const client = new Client(req.body);
 
     await client.save();
+
+    // create cart of client
+
+    const cart = new Cart({
+        clientId: client._id,
+        products: []
+    });
+    await cart.save();
+
+    // end create cart of client
 
     const payload = { id: client.id }
     const clientToken = jwt.sign(payload, process.env.jwt_signature, { expiresIn: process.env.token_exp });

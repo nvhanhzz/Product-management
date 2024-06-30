@@ -40,8 +40,7 @@ module.exports.addProduct = async (req, res) => {
     try {
         const productId = req.params.productId;
         const quantity = parseInt(req.body.quantity);
-        const cartId = req.cookies.cartId;
-        const cart = await Cart.findById(cartId);
+        const cart = res.locals.cart;
 
         const product = await Product.findOne({
             _id: productId,
@@ -168,8 +167,7 @@ module.exports.buyNow = async (req, res) => {
     try {
         const productId = req.params.productId;
         const quantity = parseInt(req.params.quantity);
-        const cartId = req.cookies.cartId;
-        const cart = await Cart.findById(cartId);
+        const cart = res.locals.cart;
 
         const product = await Product.findOne({
             _id: productId,

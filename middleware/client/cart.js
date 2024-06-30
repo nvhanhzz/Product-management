@@ -3,18 +3,11 @@ const Product = require("../../models/product.model");
 
 module.exports.cartMiddleware = async (req, res, next) => {
     try {
-        const cookies = req.cookies;
-        if (!cookies.cartId) {
-            const cart = new Cart();
-            await cart.save();
-            res.cookie("cartId", cart.id, {
-                httpOnly: true,
-                maxAge: 1000 * 60 * 60 * 24 * 365
+        const client = res.locals.currentClient;
+        if (client) {
+            const cart = await Cart.findOne({
+                clientId: client._id
             });
-            res.locals.cart = cart;
-        } else {
-            const cartId = cookies.cartId;
-            const cart = await Cart.findById(cartId);
             cart.totalItem = 0;
 
             for (const item of cart.products) {
