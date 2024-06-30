@@ -183,7 +183,7 @@ module.exports.getVerifyOtp = async (req, res) => {
     });
 }
 
-// [[POST]] /client/verify-otp
+// [POST] /client/verify-otp
 module.exports.postVerifyOtp = async (req, res) => {
     const email = res.locals.verifyClient.email;
     const otp = req.body.otp;
@@ -230,7 +230,7 @@ module.exports.getResetPassword = async (req, res) => {
     });
 }
 
-// [POST] /client/reset-password
+// [PATCH] /client/reset-password
 module.exports.patchResetPassword = async (req, res) => {
     const password = req.body.password;
     const email = res.locals.verify.email;
@@ -272,7 +272,7 @@ module.exports.getInformation = async (req, res) => {
 // [GET] /client/update-infor
 module.exports.getUpdateInfor = async (req, res) => {
     if (!res.locals.currentClient) {
-        return res.redirect("back");
+        return res.redirect("/");
     }
 
     res.render("client/pages/client/updateInformation", {
@@ -303,4 +303,45 @@ module.exports.patchUpdateInfor = async (req, res) => {
 
     req.flash("success", "Update information success.");
     res.redirect("back");
+}
+
+// [GET] /client/change-password
+module.exports.getChangePassword = async (req, res) => {
+    if (!res.locals.currentClient) {
+        return res.redirect("/");
+    }
+
+    res.render("client/pages/client/changePassword", {
+        pageTitle: "Change password"
+    });
+}
+
+// [PATCH] /client/change-password
+module.exports.patchChangePassword = async (req, res) => {
+    if (!res.locals.currentClient) {
+        return res.redirect("/");
+    }
+
+    const password = req.body.password;
+    const oldPassword = req.body.oldPassword;
+    const client = await Client.findById(res.locals.currentClient._id);
+
+    const isMatch = await hashPassword.comparePassword(oldPassword, client.password);
+    if (!isMatch) {
+        req.flash("fail", "Password incorrect !");
+        res.redirect("back");
+        return;
+    }
+
+    if (password === oldPassword) {
+        req.flash("fail", "The new password must be different from the old password.");
+        res.redirect("back");
+        return;
+    }
+
+    client.password = await hashPassword.hashPassword(password);
+    await client.save();
+
+    req.flash("success", `Change password success.`);
+    res.redirect(`/`);
 }

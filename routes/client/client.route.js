@@ -34,4 +34,8 @@ router.get('/update-infor', controller.getUpdateInfor);
 
 router.patch('/update-infor', upload.single('avatar'), validate.validateUpdateInfor, controller.patchUpdateInfor);
 
+router.get('/change-password', controller.getChangePassword);
+
+router.patch('/change-password', validate.validateChangePassword, controller.patchChangePassword);
+
 module.exports = router;

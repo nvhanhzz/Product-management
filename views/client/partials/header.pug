@@ -35,6 +35,7 @@ header.header
                             .dropdown-menu
                                 if currentClient
                                     a.dropdown-item(href='/client/information') #{currentClient.fullName}
+                                    a.dropdown-item(href='/client/change-password') Change password
                                     form(action="/client/logout" method="POST")
                                         button(class="dropdown-item") Logout 
                                 else 
