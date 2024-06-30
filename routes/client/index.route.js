@@ -11,7 +11,7 @@ const JWTAction = require("../../middleware/client/JWTAction");
 const ensureAuthenticated = require("../../middleware/client/ensureAuthenticated");
 
 module.exports = (app) => {
-    app.use(JWTAction);
+    app.use(JWTAction.checkUserJwt);
 
     app.use(categoryTree.categoryTree);
 
