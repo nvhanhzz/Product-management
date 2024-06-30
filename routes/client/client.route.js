@@ -6,10 +6,12 @@ const validate = require("../../validate/client/client.validate");
 
 router.get('/register', controller.getRegister);
 
-router.post('/register', validate.validatePostClient, controller.postRegister);
+router.post('/register', validate.validatePostRegister, controller.postRegister);
 
 router.get('/login', controller.getLogin);
 
-router.post('/login', controller.postLogin);
+router.post('/login', validate.validatePostLogin, controller.postLogin);
+
+router.post('/logout', controller.postLogout);
 
 module.exports = router;

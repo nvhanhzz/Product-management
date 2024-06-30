@@ -140,9 +140,13 @@ ul ul ul ul {
 
 /* Style for the category when hover  */
 
+li a {
+    font-size: 17px;
+}
+
 .outer-product {
     position: absolute;
-    left: 95px;
+    left: 75px;
     z-index: 1000;
     background-color: #fff2f2;
 }

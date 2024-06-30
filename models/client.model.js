@@ -7,7 +7,10 @@ const clientSchema = new mongoose.Schema(
         "password": String,
         "avatar": String,
         "phone": String,
-        "status": String,
+        "status": {
+            type: String,
+            default: "active"
+        },
         "deleted": {
             type: Boolean,
             default: false

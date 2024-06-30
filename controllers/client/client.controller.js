@@ -4,6 +4,11 @@ const jwt = require('jsonwebtoken');
 
 // [GET] /client/register
 module.exports.getRegister = async (req, res) => {
+    const cookies = req.cookies;
+    if (cookies && cookies.clientToken) {
+        return res.redirect("/");
+    }
+
     res.render('client/pages/client/register', {
         pageTitle: "Register"
     })
@@ -30,15 +35,20 @@ module.exports.postRegister = async (req, res) => {
 
     res.cookie("clientToken", clientToken, {
         httpOnly: true,
-        maxAge: 1000 * 60 * 60
+        maxAge: 1000 * 60 * 60 * 24 * 30
     });
 
-    req.flash("success", `Register success, hello ${client.fullName}`);
+    req.flash("success", `Register success, hello ${client.fullName}.`);
     res.redirect(`/`);
 }
 
 // [GET] /client/login
 module.exports.getLogin = async (req, res) => {
+    const cookies = req.cookies;
+    if (cookies && cookies.clientToken) {
+        return res.redirect("/");
+    }
+
     res.render('client/pages/client/login', {
         pageTitle: "Login"
     })
@@ -46,5 +56,43 @@ module.exports.getLogin = async (req, res) => {
 
 // [POST] /client/login
 module.exports.postLogin = async (req, res) => {
-    res.send(req.body);
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const client = await Client.findOne({
+        email: email,
+        deleted: false,
+        status: "active"
+    });
+
+    if (!client) {
+        req.flash("fail", "Login fail !");
+        res.redirect("back");
+        return;
+    }
+
+    const isMatch = await hashPassword.comparePassword(password, client.password);
+    if (!isMatch) {
+        req.flash("fail", "Login fail !");
+        res.redirect("back");
+        return;
+    }
+
+    const payload = { id: client.id }
+    const clientToken = jwt.sign(payload, process.env.jwt_signature, { expiresIn: process.env.token_exp });
+
+    res.cookie("clientToken", clientToken, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 30
+    });
+
+    req.flash("success", `Login success, hello ${client.fullName}.`);
+    res.redirect(`/`);
+}
+
+// [POST] /client/logout
+module.exports.postLogout = async (req, res) => {
+    res.clearCookie("clientToken");
+    req.flash("success", "You have been successfully logged out.");
+    res.redirect(`/`);
 }

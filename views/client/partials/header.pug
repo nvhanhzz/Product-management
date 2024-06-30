@@ -22,7 +22,19 @@ header.header
                         li.outer-product  
                             a(href="/products") Products
                             +tree(categoryTree)
+
+                        li
                         
                         li.cart 
                             a(href="/cart") 
                                 i(class="fa-solid fa-cart-shopping") #{cart && cart.totalItem > 0 ? `(${cart.totalItem})` : ''}
+
+                        .btn-group
+                            button.btn.btn-primary.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='false')
+                                
+                            .dropdown-menu
+                                if currentClient
+                                    form(action="/client/logout" method="POST")
+                                        button(class="dropdown-item") Logout 
+                                else 
+                                    a.dropdown-item(href='/client/login') Login

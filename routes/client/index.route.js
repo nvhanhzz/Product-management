@@ -7,8 +7,11 @@ const clientRoutes = require('./client.route');
 
 const categoryTree = require('../../middleware/client/categoryTree');
 const { cartMiddleware } = require('../../middleware/client/cart');
+const JWTAction = require("../../middleware/client/JWTAction");
 
 module.exports = (app) => {
+    app.use(JWTAction);
+
     app.use(categoryTree.categoryTree);
 
     app.use(cartMiddleware);

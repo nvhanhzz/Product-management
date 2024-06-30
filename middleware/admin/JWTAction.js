@@ -22,12 +22,22 @@ const checkUserJwt = async (req, res, next) => {
         const token = cookies.token;
         const decoded = verifyToken(token);
         if (decoded) {
-            const user = await Account.findById(decoded.id).select("-password");
-            const role = await Role.findById(user.roleId);
-            user.role = role;
-            res.locals.currentUser = user;
-            // console.log(res.locals.currentUser);
-            return next();
+            const user = await Account.findOne({
+                _id: decoded.id,
+                deleted: false,
+                status: "active"
+            }).select("-password");
+
+            if (user) {
+                const role = await Role.findById(user.roleId);
+                user.role = role;
+                res.locals.currentUser = user;
+                // console.log(res.locals.currentUser);
+                return next();
+            } else {
+                res.clearCookie("token");
+                return res.redirect(`${PATH_ADMIN}/auth/login`);
+            }
         } else {
             res.clearCookie("token");
             return res.redirect(`${PATH_ADMIN}/auth/login`);

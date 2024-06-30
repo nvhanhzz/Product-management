@@ -1,24 +1,24 @@
 const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&]{6,}$/;
 
-module.exports.validatePostClient = async (req, res, next) => {
+module.exports.validatePostRegister = (req, res, next) => {
     if (!req.body.fullName) {
-        req.flash('fail', 'Please fill in the full name field');
+        req.flash('fail', 'Please fill in the full name field.');
         return res.redirect("back");
     }
     if (!req.body.phone) {
-        req.flash('fail', 'Please fill in the phone field');
+        req.flash('fail', 'Please fill in the phone field.');
         return res.redirect("back");
     }
     if (!req.body.email) {
-        req.flash('fail', 'Please fill in the email field');
+        req.flash('fail', 'Please fill in the email field.');
         return res.redirect("back");
     }
     if (!req.body.password) {
-        req.flash('fail', 'Please fill in the password field');
+        req.flash('fail', 'Please fill in the password field.');
         return res.redirect("back");
     }
     if (!req.body.confirmPassword) {
-        req.flash('fail', 'Please fill in the confirm password field');
+        req.flash('fail', 'Please fill in the confirm password field.');
         return res.redirect("back");
     }
     if (req.body.password !== req.body.confirmPassword) {
@@ -27,6 +27,19 @@ module.exports.validatePostClient = async (req, res, next) => {
     }
     if (!regex.test(req.body.password)) {
         req.flash('fail', 'Password must be at least 6 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character (@, $, !, %, *, ?, &, #).');
+        return res.redirect("back");
+    }
+
+    next();
+}
+
+module.exports.validatePostLogin = (req, res, next) => {
+    if (!req.body.email) {
+        req.flash('fail', 'Please fill in the email field.');
+        return res.redirect("back");
+    }
+    if (!req.body.password) {
+        req.flash('fail', 'Please fill in the password field.');
         return res.redirect("back");
     }
 
