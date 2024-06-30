@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const upload = require('../../config/UploadPhoto');
 
 const controller = require("../../controllers/client/client.controller");
 const validate = require("../../validate/client/client.validate");
@@ -26,5 +27,11 @@ router.post('/verify-otp', validate.validateVerifyOtp, JWTAction.checkTokenVerif
 router.get('/reset-password', JWTAction.checkTokenResetPassword, controller.getResetPassword);
 
 router.patch('/reset-password', validate.validateResetPassword, JWTAction.checkTokenResetPassword, controller.patchResetPassword);
+
+router.get('/information', controller.getInformation);
+
+router.get('/update-infor', controller.getUpdateInfor);
+
+router.patch('/update-infor', upload.single('avatar'), validate.validateUpdateInfor, controller.patchUpdateInfor);
 
 module.exports = router;

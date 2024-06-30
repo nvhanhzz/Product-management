@@ -84,3 +84,20 @@ module.exports.validateResetPassword = (req, res, next) => {
 
     next();
 }
+
+module.exports.validateUpdateInfor = (req, res, next) => {
+    if (!req.body.fullName) {
+        req.flash('fail', 'Please fill in the full name field.');
+        return res.redirect("back");
+    }
+    if (!req.body.phone) {
+        req.flash('fail', 'Please fill in the phone field.');
+        return res.redirect("back");
+    }
+    if (!req.body.email) {
+        req.flash('fail', 'Please fill in the email field.');
+        return res.redirect("back");
+    }
+
+    next();
+}

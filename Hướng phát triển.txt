@@ -1,1 +1,2 @@
 1, cart: cho phép thêm sản phẩm vào giỏ hàng khi không đăng nhập, lưu tạm vào cookie. Khi đăng nhập vào rồi thì gộp vào cart của user
+2, làm phần Quản lý đơn hang bên admin, thêm phần phân quyền cho mục Quản lý đơn hàng

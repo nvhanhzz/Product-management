@@ -2,6 +2,19 @@ const url = new URL(window.location.href);
 const products = document.querySelectorAll(".product-item"); //list product;
 const pageButtons = document.querySelectorAll(".pagination-button"); // list pagination buttons
 const outerProduct = document.querySelector(".outer-product");
+const imgInputs = document.querySelectorAll(".imp-inp");
+const blah = document.querySelector("#blah");
+
+// solve image upload preview
+imgInputs.forEach(item => {
+    item.addEventListener("change", (e) => {
+        const [file] = e.target.files;
+        if (file) {
+            blah.src = URL.createObjectURL(file);
+            blah.style.display = "block";
+        }
+    })
+});
 
 // solve show product detail
 

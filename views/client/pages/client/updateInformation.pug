@@ -1,0 +1,34 @@
+extends ../../layouts/default.pug
+
+block main 
+    .container
+        form(action="/client/update-infor?_method=PATCH" method="POST" enctype="multipart/form-data")
+            div(style="height: 50px")
+            .row 
+                .col-2 
+                .col-10 
+                    img(id="blah" src=currentClient.avatar ? currentClient.avatar : "https://th.bing.com/th/id/OIP.NncIgJuAPc-2QzmcDe6tdAHaEy?rs=1&pid=ImgDetMain" alt=currentClient.fullName style="width: 300px; height: auto;")
+                    input#avatar.form-control.imp-inp(type="file", accept="image/*", name="avatar" style="border: none")
+            
+            div(style="height: 20px")
+            .row 
+                .col-2
+                .col-2 Full name:
+                .col-3
+                    input(type="text" class="form-control" value=currentClient.fullName name="fullName")
+            .row 
+                .col-2
+                .col-2 Email:
+                .col-3
+                    input(type="email" class="form-control" value=currentClient.email name="email")
+            .row 
+                .col-2
+                .col-2 Phone number:
+                .col-3
+                    input(type="text" class="form-control" value=currentClient.phone name="phone")
+            div(style="height: 20px")
+            .row 
+                .col-2 
+                .col-10 
+                    button(type="submit" class="btn btn-primary") Submit
+            div(style="height: 20px")

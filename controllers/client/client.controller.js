@@ -257,3 +257,50 @@ module.exports.patchResetPassword = async (req, res) => {
     req.flash("success", `Reset password success, hello ${client.fullName}.`);
     res.redirect(`/`);
 }
+
+// [GET] /client/information
+module.exports.getInformation = async (req, res) => {
+    if (!res.locals.currentClient) {
+        return res.redirect("back");
+    }
+
+    res.render("client/pages/client/information", {
+        pageTitle: res.locals.currentClient.fullName
+    });
+}
+
+// [GET] /client/update-infor
+module.exports.getUpdateInfor = async (req, res) => {
+    if (!res.locals.currentClient) {
+        return res.redirect("back");
+    }
+
+    res.render("client/pages/client/updateInformation", {
+        pageTitle: "Update information"
+    });
+}
+
+// [PATCH] /client/update-infor
+module.exports.patchUpdateInfor = async (req, res) => {
+    if (!res.locals.currentClient) {
+        return res.redirect("back");
+    }
+
+    if (req.file && req.file.path) {
+        console.log("file", req.file.path)
+        req.body.avatar = req.file.path;
+    }
+
+    const result = await Client.updateOne(
+        { _id: res.locals.currentClient._id },
+        req.body
+    );
+
+    if (!result) {
+        req.flash("fail", "Update fail.");
+        return res.redirect("back");
+    }
+
+    req.flash("success", "Update information success.");
+    res.redirect("back");
+}
