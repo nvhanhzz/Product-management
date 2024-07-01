@@ -9,9 +9,12 @@ const categoryTree = require('../../middleware/client/categoryTree');
 const { cartMiddleware } = require('../../middleware/client/cart');
 const JWTAction = require("../../middleware/client/JWTAction");
 const ensureAuthenticated = require("../../middleware/client/ensureAuthenticated");
+const generalSetting = require("../../middleware/client/setting");
 
 module.exports = (app) => {
     app.use(JWTAction.checkUserJwt);
+
+    app.use(generalSetting.settingMiddleware);
 
     app.use(categoryTree.categoryTree);
 

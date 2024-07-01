@@ -94,7 +94,7 @@ module.exports.postLogin = async (req, res) => {
     }
 
     const payload = { id: client.id }
-    const clientToken = jwt.sign(payload, process.env.jwt_signature, { expiresIn: process.env.token_exp });
+    const clientToken = jwt.sign(payload, process.env.jwt_signature, { expiresIn: process.env.token_client_exp });
 
     res.cookie("clientToken", clientToken, {
         httpOnly: true,
@@ -144,7 +144,7 @@ module.exports.postForgotPassword = async (req, res) => {
 
     // Create token verify
     const payload = { id: client.id }
-    const verifyToken = jwt.sign(payload, process.env.jwt_signature, { expiresIn: process.env.token_exp });
+    const verifyToken = jwt.sign(payload, process.env.jwt_signature, { expiresIn: process.env.token_verify_exp });
 
     res.cookie("verifyToken", verifyToken, {
         httpOnly: true,
@@ -212,7 +212,7 @@ module.exports.postVerifyOtp = async (req, res) => {
 
     // Create token reset password
     const payload = { id: verify.id }
-    const resetPasswordToken = jwt.sign(payload, process.env.jwt_signature, { expiresIn: process.env.token_exp });
+    const resetPasswordToken = jwt.sign(payload, process.env.jwt_signature, { expiresIn: process.env.token_verify_exp });
 
     res.cookie("resetPasswordToken", resetPasswordToken, {
         httpOnly: true,
@@ -247,7 +247,7 @@ module.exports.patchResetPassword = async (req, res) => {
     res.clearCookie("resetPasswordToken");
 
     const payload = { id: client.id }
-    const clientToken = jwt.sign(payload, process.env.jwt_signature, { expiresIn: process.env.token_exp });
+    const clientToken = jwt.sign(payload, process.env.jwt_signature, { expiresIn: process.env.token_client_exp });
 
     res.cookie("clientToken", clientToken, {
         httpOnly: true,

@@ -1,2 +1,5 @@
 footer.footer 
-    | Copyright 2024 nvh
+    if generalSetting && generalSetting.copyright
+        span #{generalSetting.copyright}
+    else 
+        span Copyright

@@ -125,6 +125,14 @@ block main
                                 td 
                                     input(type="checkbox" name="delete-account" value=index check-box-permission checked= item.permission.includes("delete-account"))
         
+                        tr 
+                            th General setting
+                        tr 
+                            td Update 
+                            each item, index in roles 
+                                td 
+                                    input(type="checkbox" name="update-general-setting" value=index check-box-permission checked= item.permission.includes("update-general-setting"))
+
         form(action=`${prefixAdmin}/roles/update-permission?_method=PATCH` 
         class="update-permission-form d_none"
         method="POST")

@@ -6,7 +6,10 @@ header.header
             .col-3 
                 .inner-logo 
                     a(href="/")
-                        img(src="/images/logo.svg", alt="Logo")
+                        if generalSetting && generalSetting.logo
+                            img(src=generalSetting.logo, alt="Logo")
+                        else 
+                            span LOGO
 
             .col-6
                 form(action="/search" method="GET")

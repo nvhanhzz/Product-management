@@ -16,3 +16,6 @@ ul
     if currentUser.role.permission.includes("view-account")
         li 
             a(href=`${prefixAdmin}/accounts`) Accounts
+    if currentUser.role.permission.includes("update-general-setting")
+        li 
+            a(href=`${prefixAdmin}/setting/general-setting`) General setting

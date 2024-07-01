@@ -1,4 +1,5 @@
 const systemConfig = require("../../config/system");
+const checkUserJwt = require("../../middleware/admin/JWTAction");
 
 const dashboardRoutes = require("./dashboard.route");
 const productRoutes = require("./product.route");
@@ -7,7 +8,8 @@ const roleRoutes = require("./role.route");
 const accountRoutes = require("./account.route");
 const authRoutes = require("./auth.route");
 const myProfileRoutes = require("./myProfile.route");
-const checkUserJwt = require("../../middleware/admin/JWTAction");
+const settingRoutes = require("./setting.route");
+
 
 module.exports = (app) => {
     app.use((req, res, next) => {
@@ -28,4 +30,5 @@ module.exports = (app) => {
     app.use(PATH_ADMIN + "/accounts", accountRoutes);
     app.use(PATH_ADMIN + "/auth", authRoutes);
     app.use(PATH_ADMIN + "/my-profile", myProfileRoutes);
+    app.use(PATH_ADMIN + "/setting", settingRoutes);
 }
