@@ -103,7 +103,7 @@ body {
 }
 
 .main {
-    margin-left: calc(100vw / 6);
+    margin-left: calc(100vw / 6 + 10px);
 }
 
 .item td {

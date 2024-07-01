@@ -2,4 +2,72 @@ extends ../../layouts/default.pug
 
 block main
     h1 Dashboard
-    //- div #{currentUser}
+    .card.mb-4
+        .card-header Account information
+        .card-body 
+            div Full name: 
+                b #{currentAccount.fullName}
+            div Email: 
+                b #{currentAccount.email}
+            div Phone number: 
+                b #{currentAccount.phone}
+            div Role: 
+                b #{currentAccount.role}
+    
+    .row 
+        if currentUser.role.permission.includes("view-product-category")
+            .col-6
+                .card.mb-4
+                    .card-header Product category
+                    .card-body 
+                        div Quantity: 
+                            b #{productCategory.quantity}
+                        div Active: 
+                            b #{productCategory.active}
+                        div Inactive: 
+                            b #{productCategory.inactive}
+
+        if currentUser.role.permission.includes("view-product")
+            .col-6
+                .card.mb-4
+                    .card-header Product
+                    .card-body 
+                        div Quantity: 
+                            b #{product.quantity}
+                        div Active: 
+                            b #{product.active}
+                        div Inactive: 
+                            b #{product.inactive}
+        
+        if currentUser.role.permission.includes("view-account")
+            .col-6
+                .card.mb-4
+                    .card-header Admin account
+                    .card-body 
+                        div Quantity: 
+                            b #{adminAccount.quantity}
+                        div Active: 
+                            b #{adminAccount.active}
+                        div Inactive: 
+                            b #{adminAccount.inactive}
+
+        //- sau phát triển thêm sẽ sửa phần phân quyền quản lý tài khoản người dùng
+        if currentUser.role.permission.includes("view-account")
+            .col-6
+                .card.mb-4
+                    .card-header Client account
+                    .card-body 
+                        div Quantity: 
+                            b #{clientAccount.quantity}
+                        div Active: 
+                            b #{clientAccount.active}
+                        div Inactive: 
+                            b #{clientAccount.inactive}
+
+        if currentUser.role.permission.includes("view-role")
+            .col-6
+                .card.mb-4
+                    .card-header Role
+                    .card-body 
+                        div Quantity: 
+                            b #{role.quantity}

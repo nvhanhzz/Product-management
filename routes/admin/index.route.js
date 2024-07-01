@@ -13,13 +13,13 @@ const settingRoutes = require("./setting.route");
 
 module.exports = (app) => {
     app.use((req, res, next) => {
-        // console.log(req.path);
         if (req.path.startsWith("/admin")) {
             if (req.path.startsWith("/admin/auth")) {
                 return next();
             }
-            checkUserJwt(req, res, next);
+            return checkUserJwt(req, res, next);
         }
+        return next();
     });
 
     const PATH_ADMIN = systemConfig.prefixAdmin;
