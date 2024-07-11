@@ -9,7 +9,6 @@ const moment = require('moment');
 const path = require('path');
 
 const database = require("./config/database");
-
 const systemConfig = require("./config/system");
 
 const routeAdmin = require('./routes/admin/index.route');
@@ -24,14 +23,14 @@ app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser('abcxyz'));
 app.use(session({ cookie: { maxAge: 60000 } }));
-app.use(flash());;
+app.use(flash());
 
 const port = process.env.PORT;
 
-app.set("views", "./views");
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
@@ -41,6 +40,7 @@ app.locals.moment = moment;
 
 route(app);
 routeAdmin(app);
+
 app.get("*", (req, res) => {
     res.render("client/pages/errors/404", {
         pageTitle: "404 Not Found"

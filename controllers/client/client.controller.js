@@ -161,7 +161,7 @@ module.exports.postForgotPassword = async (req, res) => {
         attemptsLeft: attemptsLeft
     });
 
-    forgotPassword.save();
+    await forgotPassword.save();
     // End create otp
 
     // Send otp to client's email

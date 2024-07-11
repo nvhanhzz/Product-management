@@ -1,0 +1,293 @@
+[33mcommit d14ba8cca0fb733661e3f52445e2bdd0b3ad5082[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Thu Jul 4 20:45:52 2024 +0700
+
+    chat image
+
+[33mcommit d464da42bb907f141731a73a8fdea154308425d0[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Thu Jul 4 01:16:53 2024 +0700
+
+    typing
+
+[33mcommit 606afeddccbd1f0f103acac2c22984c3c6ecbd1a[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Wed Jul 3 21:18:57 2024 +0700
+
+    add emoji in chat
+
+[33mcommit 5af3c9ca9b576640ccd2115d08c33fbde1f7b90d[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Wed Jul 3 13:32:26 2024 +0700
+
+    add socket io to chat real time
+
+[33mcommit 33029031e7a7ca3aee160263b687219583aa613b[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Wed Jul 3 00:29:37 2024 +0700
+
+    add socketIO, chat display
+
+[33mcommit 431ed8324305a3e62eb579e7ac37aa585e519c69[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Mon Jul 1 15:32:36 2024 +0700
+
+    dashboard admin page, 404 not found page
+
+[33mcommit f3efe295f7f2b016ff52aadd4d190e965ae4f39a[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Mon Jul 1 13:40:48 2024 +0700
+
+    add general setting in admin page
+
+[33mcommit 7deb1374c93cc8618d084cf0ee46273785080b9e[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Mon Jul 1 01:33:00 2024 +0700
+
+    add chang password
+
+[33mcommit 6d8d3fc4a0cbca84b9e03ca8f6f73bea7c651975[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Mon Jul 1 01:13:28 2024 +0700
+
+    view, update profile in client page
+
+[33mcommit 4192a0a0062eb748ef74ea9554c9f4063499dac0[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Sun Jun 30 18:46:53 2024 +0700
+
+    add send email to get otp
+
+[33mcommit 15a7270bc092b3210c6be7a457b237e1aedb3652[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Sun Jun 30 18:00:04 2024 +0700
+
+    forgot password
+
+[33mcommit 9d95dbed57812b4b31f514ad186a7ba20eb01c52[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Sun Jun 30 12:21:38 2024 +0700
+
+    fix card, remove cardId in cookie
+
+[33mcommit af50cbe4b255fb7aeb5431a27a1261b5d67bd04f[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Sun Jun 30 10:36:44 2024 +0700
+
+    add login, logout
+
+[33mcommit c637997adeca2b13214a4b79cf2ad7e9286ec4af[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Sun Jun 30 09:33:51 2024 +0700
+
+    add client register
+
+[33mcommit 4092d417d92bb5a01111489c5dfa8e04e1f0ba3f[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Sat Jun 29 16:06:58 2024 +0700
+
+    create page order success
+
+[33mcommit 669a6399bc2044c771e9902a6106d89d4d1c76fa[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Sat Jun 29 13:09:14 2024 +0700
+
+    order page: display, save data to db
+
+[33mcommit c82881bde3c5e4dbe9d4318cf758cae00dfc1fc2[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Sat Jun 29 10:07:46 2024 +0700
+
+    create collection, model orders
+
+[33mcommit 18e76048efc54370ee7768c0a4677c1cbb349462[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Sat Jun 29 09:16:13 2024 +0700
+
+    fix quantity > product.stock
+
+[33mcommit 30e860ad84e9096763c7823a9cd696fa160fbcf8[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Fri Jun 28 23:54:22 2024 +0700
+
+    change quantity of product, delete product in cart page
+
+[33mcommit c76a6d6e30541ee8d09c0b912edb727adc2f7239[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Fri Jun 28 22:43:18 2024 +0700
+
+    change quantity of product in cart
+
+[33mcommit 0a4c116b64006d285da0949dc3c66b4a53e11b24[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Fri Jun 28 22:18:53 2024 +0700
+
+    add check input for product of cart
+
+[33mcommit af84cdedf356e3dcf2241f7e02fea416ef2dcbea[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Fri Jun 28 20:49:57 2024 +0700
+
+    create cart page
+
+[33mcommit 7103f2cf0bde5d171ba5e3107674ed838061080a[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Fri Jun 28 14:06:29 2024 +0700
+
+    add product to cart
+
+[33mcommit e83e648ec164e714df957b171a15a67e661fd838[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Fri Jun 28 10:43:36 2024 +0700
+
+    search page client
+
+[33mcommit b8f5ab447f8c881bac79b03631b327e242cc9433[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Fri Jun 28 00:14:40 2024 +0700
+
+    detail in client page
+
+[33mcommit 0b84f9af1a7e0fbe58ff4b5141fca95ec0209b07[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Thu Jun 27 14:58:47 2024 +0700
+
+    add category in product, fix validate
+
+[33mcommit 17adf86ff5d4e470449a6dc05888a4385738f98a[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Thu Jun 27 02:15:28 2024 +0700
+
+    profile at admin
+
+[33mcommit 89f9d3279496eb9f39f153d40f3900a37bbe9c14[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Thu Jun 27 00:22:48 2024 +0700
+
+    add log update front end
+
+[33mcommit 7ab7fc303837dcfae52eb95a25ac6b916ce3651c[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Wed Jun 26 19:32:03 2024 +0700
+
+    add update log
+
+[33mcommit b9279ad9f663f613002353600329cd7279a61ab5[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Wed Jun 26 16:38:58 2024 +0700
+
+    fix nonsense link
+
+[33mcommit c7d5806841904bd5c453b4423420eaccf09c8e4c[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Wed Jun 26 16:17:14 2024 +0700
+
+    add log create, delete
+
+[33mcommit ace8282861c7861e2036127d8081ba816eb5a487[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Tue Jun 25 20:47:27 2024 +0700
+
+    authorization back-end
+
+[33mcommit d93050c610a831628608deca411abacff8b27260[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Tue Jun 25 18:01:40 2024 +0700
+
+    authorization front-end
+
+[33mcommit eec33db99cf369a4001db1aed92caf3d331d5583[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Tue Jun 25 12:30:54 2024 +0700
+
+    add login, logout, middleware for route private
+
+[33mcommit 56330f2b9aafaa3040058c0d703a1469f389ff7b[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Tue Jun 25 02:08:25 2024 +0700
+
+    completed account crud
+
+[33mcommit 65cd2aafa147c9840402e86a84c43372d5146b16[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Mon Jun 24 23:18:30 2024 +0700
+
+    create account
+
+[33mcommit 3465748780d6780561d3c676b9c27275f6fdd46b[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Mon Jun 24 14:19:45 2024 +0700
+
+    permission
+
+[33mcommit ec6248aea06cc30687705fe7f993e182ec45faaa[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Mon Jun 24 01:32:37 2024 +0700
+
+    add role collections, view role, crud role
+
+[33mcommit f4bb93723cf848021bac6dac1fc8f18e7157ce3c[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Sun Jun 23 18:18:07 2024 +0700
+
+    fix category tree
+
+[33mcommit de9a1ac5a7bc8c318ce8b05a777998d5511cd3a2[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Sun Jun 23 17:20:50 2024 +0700
+
+    detail category + update category
+
+[33mcommit 316e088ac6c4ef3ff7205e4c3b24ad8bc565b761[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Sun Jun 23 10:18:47 2024 +0700
+
+    recure category
+
+[33mcommit bc23607a4e2150e5f2d267d90341e426a0c49f75[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Fri Jun 21 13:10:10 2024 +0700
+
+    add tiny mce
+
+[33mcommit 1370f041a7c355467ad4d0a2290ef442313d2acd[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Fri Jun 21 12:07:48 2024 +0700
+
+    add product category
+
+[33mcommit 508f06a6f6ca7075d891431acbb20151af355715[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Wed Jun 19 23:16:59 2024 +0700
+
+    sort product in admin page
+
+[33mcommit 65ba97758811abcdaf3d19554ddda6b498efdb74[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Wed Jun 19 18:02:32 2024 +0700
+
+    convert to cloudinary storage
+
+[33mcommit baa6f14f73eb0ca4e387e14d030dca16c9fb6f64[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Wed Jun 19 16:05:49 2024 +0700
+
+    complete product detail admin, client, connect mongodb atlat
+
+[33mcommit 936bb05176407c0155655dad03b9b4a1784becb1[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Wed Jun 19 00:31:28 2024 +0700
+
+    update product
+
+[33mcommit 71ac3cad8e72f3596b78b0e2baab01adefa53e7a[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Tue Jun 18 21:17:48 2024 +0700
+
+    validate form create product
+
+[33mcommit 70d3fc326bee5e10ff54c95b7996471e373a4053[m
+Author: Hanh NV~ <nvhanh263@gmail.com>
+Date:   Fri Jun 14 18:48:46 2024 +0700
+
+    uploa
